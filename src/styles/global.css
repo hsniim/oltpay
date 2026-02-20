@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #0ea5e9;     /* sky-500 — warna utama biru cerah */
+  --color-accent:  #10b981;     /* emerald-500 — warna aksen hijau */
+  --color-dark:    #0f172a;     /* slate-950 — teks gelap */
+}
+
+/* Opsional: atur base style supaya lebih rapi */
+@layer base {
+  body {
+    @apply bg-white text-slate-900 antialiased;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+  }
+}
