@@ -1,0 +1,66 @@
+---
+const { title, desc, image, waText = "" } = Astro.props;
+
+// Ganti dengan nomor WA bisnis kamu (format internasional tanpa + atau spasi)
+const PHONE = "6285712345678";
+
+// Pesan default kalau waText kosong
+const defaultMessage = `Halo HumiPay! Saya tertarik dengan layanan ${title}.`;
+const message = waText ? waText : defaultMessage;
+
+const waUrl = `https://wa.me/${PHONE}?text=${encodeURIComponent(message)}`;
+---
+
+<div
+  class="group bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100"
+>
+  <!-- Gambar -->
+  <div class="relative aspect-[4/3] overflow-hidden">
+    <img
+      src={image}
+      alt={title}
+      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+      loading="lazy"
+      width="600"
+      height="450"
+    />
+    <!-- Overlay gradient subtle -->
+    <div
+      class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+    >
+    </div>
+  </div>
+
+  <!-- Konten -->
+  <div class="p-5 md:p-6">
+    <h3
+      class="text-lg md:text-xl font-semibold text-gray-900 mb-2 line-clamp-2"
+    >
+      {title}
+    </h3>
+
+    <p
+      class="text-gray-600 text-sm md:text-base leading-relaxed mb-5 line-clamp-3"
+    >
+      {desc}
+    </p>
+
+    <!-- Tombol WA -->
+    <a
+      href={waUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center justify-center gap-2 w-full bg-emerald-500 hover:bg-emerald-600 text-white font-medium py-3.5 rounded-xl transition-all active:scale-95 shadow-sm hover:shadow-md"
+    >
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+        <path
+          d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.198-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.485-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"
+        ></path>
+        <path
+          d="M12 2C6.48 2 2 6.59 2 12.25c0 2.55.94 4.88 2.5 6.66L3 22l3.14-1.24C7.8 21.6 9.84 22 12 22c5.52 0 10-4.59 10-10.25C22 6.59 17.52 2 12 2z"
+        ></path>
+      </svg>
+      Pesan via WhatsApp
+    </a>
+  </div>
+</div>

@@ -1,23 +1,759 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/Navbar.astro";
 ---
 
-<BaseLayout>
-  <div class="min-h-screen flex items-center justify-center bg-gray-50">
-    <div class="text-center p-8">
-      <h1 class="text-5xl font-bold text-primary mb-4">
-        Selamat datang di HumiPay
-      </h1>
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Oltpay – Bayar Semua Tagihan Jadi Lebih Mudah & Cepat</title>
 
-      <p class="text-xl text-slate-600 mb-8">
-        PPOB terpercaya – Pulsa, Token PLN, PDAM, BPJS & banyak lagi
-      </p>
+    <style>
+      :root {
+        --navbar-height: 80px;
+        --font-display: "Plus Jakarta Sans", sans-serif;
+        --color-bg: #ffffff;
+        --color-text: #0a0a0a;
+        --color-muted: #6b6b6b;
+        --color-border: #e8e8e8;
+        --page-bg: #f2f2ed;
+        --content-max: 1300px;
+        --content-px: 2.5rem;
+      }
 
-      <div
-        class="inline-block bg-accent text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-emerald-600 transition"
-      >
-        Mulai Pesan via WhatsApp
-      </div>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: var(--font-display);
+        background: var(--page-bg);
+        color: var(--color-text);
+        min-height: 100vh;
+      }
+
+      /* ══ PAGE LAYOUT ══ */
+      .page-wrapper {
+        padding-top: var(--navbar-height);
+      }
+      main {
+        max-width: var(--content-max);
+        margin: 0 auto;
+        padding: 32px var(--content-px) 80px;
+      }
+
+      /* ══ HERO BANNER ══ */
+      .hero {
+        border-radius: 20px;
+        overflow: hidden;
+        background: linear-gradient(
+          135deg,
+          #9b1fd4 0%,
+          #e91e8c 55%,
+          #ff4db8 100%
+        );
+        line-height: 0;
+      }
+      /*
+      CARA MENGGANTI BANNER:
+      Hapus <div class="hero-banner-ph"> dan ganti dengan:
+      <img class="hero-banner-img" src="/images/banner.png" alt="Banner Oltpay" />
+    */
+      .hero-banner-ph {
+        width: 100%;
+        display: block;
+        line-height: 0;
+      }
+      .hero-banner-img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      .hero-banner-ph img {
+        width: 100%;
+        height: auto;
+        display: block;
+        object-fit: contain;
+      }
+
+      /* ══ SERVICE SECTION ══ */
+      .services-section {
+        margin-top: 20px;
+        background: #fff;
+        border-radius: 20px;
+        overflow: hidden;
+      }
+
+      .tab-bar {
+        display: flex;
+        border-bottom: 1px solid var(--color-border);
+        padding: 0 28px;
+      }
+      .tab-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-family: var(--font-display);
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--color-muted);
+        padding: 20px 20px 16px;
+        position: relative;
+        transition: color 0.2s;
+      }
+      .tab-btn.active {
+        color: var(--color-text);
+      }
+      .tab-btn.active::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--color-text);
+        border-radius: 2px 2px 0 0;
+      }
+      .tab-btn:hover:not(.active) {
+        color: var(--color-text);
+      }
+
+      /* Fixed-height wrapper — prevents page height jump on tab switch */
+      .tab-panels-wrap {
+        padding: 28px 28px 32px;
+      }
+
+      .tab-panel {
+        display: none;
+      }
+      .tab-panel.active {
+        display: block;
+      }
+
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 4px;
+      }
+      @media (max-width: 900px) {
+        .services-grid {
+          grid-template-columns: repeat(5, 1fr);
+        }
+      }
+      @media (max-width: 540px) {
+        .services-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+
+      .service-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 8px;
+        border-radius: 14px;
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          transform 0.15s;
+        text-align: center;
+      }
+      .service-item:hover {
+        background: var(--page-bg);
+        transform: translateY(-2px);
+      }
+      .service-icon {
+        width: 52px;
+        height: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .service-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      .service-icon svg {
+        width: 30px;
+        height: 30px;
+        color: var(--color-text);
+      }
+      .service-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--color-text);
+        line-height: 1.3;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ══ NAVBAR (via component) ══ -->
+    <Navbar />
+
+    <!-- ══ PAGE CONTENT ══ -->
+    <div class="page-wrapper">
+      <main>
+        <!-- HERO BANNER -->
+        <section class="hero">
+          <img
+            class="hero-banner-img"
+            src="/images/desktop_banner1_compressed.webp"
+            alt="Banner Oltpay"
+          />
+        </section>
+
+        <!-- SERVICE TABS -->
+        <section class="services-section">
+          <div class="tab-bar">
+            <button class="tab-btn active" data-tab="isi">Isi</button>
+            <button class="tab-btn" data-tab="tagihan">Tagihan</button>
+            <button class="tab-btn" data-tab="game">Game</button>
+          </div>
+
+          <div class="tab-panels-wrap">
+            <!-- TAB ISI -->
+            <div class="tab-panel active" id="tab-isi">
+              <div class="services-grid">
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/pulsa.svg" alt="Pulsa"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><rect x="5" y="2" width="14" height="20" rx="2"
+                      ></rect><line x1="12" y1="18" x2="12.01" y2="18"
+                      ></line></svg
+                    >
+                  </div><span class="service-label">Pulsa</span>
+                </div>
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/paket-data.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><circle cx="12" cy="12" r="10"></circle><line
+                        x1="2"
+                        y1="12"
+                        x2="22"
+                        y2="12"></line><path
+                        d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                      ></path></svg
+                    >
+                  </div><span class="service-label">Paket Data</span>
+                </div>
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/gopay.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><path d="M20 12V22H4V12"></path><path d="M22 7H2v5h20V7z"
+                      ></path><path d="M12 22V7"></path><path
+                        d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"
+                      ></path><path
+                        d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"
+                      ></path></svg
+                    >
+                  </div><span class="service-label">GoPay</span>
+                </div>
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/shopeepay.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><circle cx="8" cy="21" r="1"></circle><circle
+                        cx="19"
+                        cy="21"
+                        r="1"></circle><path
+                        d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
+                      ></path></svg
+                    >
+                  </div><span class="service-label">ShopeePay</span>
+                </div>
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/dana.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><circle cx="8" cy="8" r="6"></circle><path
+                        d="M18.09 10.37A6 6 0 1 1 10.34 18"></path><path
+                        d="M7 6h1v4"></path><path
+                        d="m16.71 13.88.7.71-2.82 2.82"></path></svg
+                    >
+                  </div><span class="service-label">DANA</span>
+                </div>
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/ovo.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"></path><path
+                        d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path><path
+                        d="M18 12a2 2 0 0 0 0 4h4v-4z"></path></svg
+                    >
+                  </div><span class="service-label">OVO</span>
+                </div>
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/linkaja.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><path
+                        d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+                      ></path><path
+                        d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+                      ></path></svg
+                    >
+                  </div><span class="service-label">LinkAja!</span>
+                </div>
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/gojek.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><path d="M19 17H5v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2z"
+                      ></path><circle cx="7.5" cy="17.5" r="1.5"
+                      ></circle><circle cx="16.5" cy="17.5" r="1.5"
+                      ></circle><path d="M5 17H3v-3l2-4h10l2 4v3h-2"
+                      ></path></svg
+                    >
+                  </div><span class="service-label">Gojek Driver</span>
+                </div>
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/grab.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><circle cx="5.5" cy="17.5" r="2.5"></circle><circle
+                        cx="18.5"
+                        cy="17.5"
+                        r="2.5"></circle><path d="M15 6h-2l-3 6H5l-2 2v3h2.5"
+                      ></path><path d="M15 6l3 6h1.5v3H21l-3-9z"></path><path
+                        d="M8 17.5h7"></path></svg
+                    >
+                  </div><span class="service-label">Grab Driver</span>
+                </div>
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/maxim.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><rect x="1" y="8" width="22" height="10" rx="2"
+                      ></rect><path d="M5 8V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2"
+                      ></path><circle cx="7" cy="18" r="2"></circle><circle
+                        cx="17"
+                        cy="18"
+                        r="2"></circle></svg
+                    >
+                  </div><span class="service-label">Maxim Driver</span>
+                </div>
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/token-pln.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"
+                      ></polygon></svg
+                    >
+                  </div><span class="service-label">Token Listrik PLN</span>
+                </div>
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/telepon.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><path
+                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.6 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6.1 6.1l1.16-1.16a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2.03z"
+                      ></path></svg
+                    >
+                  </div><span class="service-label">Telepon</span>
+                </div>
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/sms.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><path
+                        d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                      ></path></svg
+                    >
+                  </div><span class="service-label">SMS</span>
+                </div>
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/google-play.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><polygon points="5 3 19 12 5 21 5 3"></polygon></svg
+                    >
+                  </div><span class="service-label">Google Play</span>
+                </div>
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/wifi-id.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path
+                        d="M1.42 9a16 16 0 0 1 21.16 0"></path><path
+                        d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line
+                        x1="12"
+                        y1="20"
+                        x2="12.01"
+                        y2="20"></line></svg
+                    >
+                  </div><span class="service-label">Wi-Fi ID</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB TAGIHAN -->
+            <div class="tab-panel" id="tab-tagihan">
+              <div class="services-grid">
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/listrik.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"
+                      ></polygon></svg
+                    >
+                  </div><span class="service-label">Listrik PLN Pasca</span>
+                </div>
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/pdam.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"
+                      ></path></svg
+                    >
+                  </div><span class="service-label">PDAM</span>
+                </div>
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/bpjs.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><path
+                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                      ></path></svg
+                    >
+                  </div><span class="service-label">BPJS Kesehatan</span>
+                </div>
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/internet.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><circle cx="12" cy="12" r="10"></circle><line
+                        x1="2"
+                        y1="12"
+                        x2="22"
+                        y2="12"></line><path
+                        d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                      ></path></svg
+                    >
+                  </div><span class="service-label">Internet/ISP</span>
+                </div>
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/tv.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><rect x="2" y="7" width="20" height="15" rx="2"
+                      ></rect><polyline points="17 2 12 7 7 2"></polyline></svg
+                    >
+                  </div><span class="service-label">TV Berbayar</span>
+                </div>
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/asuransi.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+                      ></path></svg
+                    >
+                  </div><span class="service-label">Asuransi</span>
+                </div>
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/pulsa-pasca.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><circle cx="12" cy="12" r="10"></circle><polyline
+                        points="12 6 12 12 16 14"></polyline></svg
+                    >
+                  </div><span class="service-label">Pulsa Pasca</span>
+                </div>
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/halo.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><path
+                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.6 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6.1 6.1l1.16-1.16a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2.03z"
+                      ></path></svg
+                    >
+                  </div><span class="service-label">HALO</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB GAME -->
+            <div class="tab-panel" id="tab-game">
+              <div class="services-grid">
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/mlbb.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                      ></polygon></svg
+                    >
+                  </div><span class="service-label">Mobile Legends</span>
+                </div>
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/freefire.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><path
+                        d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"
+                      ></path></svg
+                    >
+                  </div><span class="service-label">Free Fire</span>
+                </div>
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/pubg.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><circle cx="12" cy="12" r="10"></circle><circle
+                        cx="12"
+                        cy="12"
+                        r="3"></circle><line x1="12" y1="2" x2="12" y2="5"
+                      ></line><line x1="12" y1="19" x2="12" y2="22"></line><line
+                        x1="2"
+                        y1="12"
+                        x2="5"
+                        y2="12"></line><line x1="19" y1="12" x2="22" y2="12"
+                      ></line></svg
+                    >
+                  </div><span class="service-label">PUBG Mobile</span>
+                </div>
+                <div class="service-item">
+                  <div class="service-icon">
+                    <!-- <img src="/icons/garena.svg"> -->
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      ><line x1="6" y1="12" x2="10" y2="12"></line><line
+                        x1="8"
+                        y1="10"
+                        x2="8"
+                        y2="14"></line><circle
+                        cx="15"
+                        cy="13"
+                        r="1"
+                        fill="currentColor"
+                        stroke="none"></circle><circle
+                        cx="17"
+                        cy="11"
+                        r="1"
+                        fill="currentColor"
+                        stroke="none"></circle><path
+                        d="M17 6H7a5 5 0 0 0-5 5v2a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5v-2a5 5 0 0 0-5-5z"
+                      ></path></svg
+                    >
+                  </div><span class="service-label">Garena</span>
+                </div>
+              </div>
+            </div>
+          </div><!-- end tab-panels-wrap -->
+        </section>
+      </main>
     </div>
-  </div>
-</BaseLayout>
+
+    <script>
+      // ══ TAB SWITCHING — no height jump ══
+      (function () {
+        const tabBtns = document.querySelectorAll(".tab-btn");
+        const tabPanels = document.querySelectorAll(".tab-panel");
+        const wrap = document.querySelector(".tab-panels-wrap");
+
+        // Find the tallest panel across all tabs and lock height to it
+        function lockToTallest() {
+          // Temporarily show all panels to measure
+          tabPanels.forEach((p) => {
+            p.style.display = "block";
+            p.style.visibility = "hidden";
+          });
+          let maxH = 0;
+          tabPanels.forEach((p) => {
+            if (p.offsetHeight > maxH) maxH = p.offsetHeight;
+          });
+          // Restore
+          tabPanels.forEach((p) => {
+            p.style.display = "";
+            p.style.visibility = "";
+          });
+          wrap.style.minHeight = maxH + "px";
+        }
+
+        window.addEventListener("load", lockToTallest);
+        window.addEventListener("resize", lockToTallest);
+
+        tabBtns.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            tabBtns.forEach((b) => b.classList.remove("active"));
+            tabPanels.forEach((p) => p.classList.remove("active"));
+            btn.classList.add("active");
+            document
+              .getElementById("tab-" + btn.dataset.tab)
+              .classList.add("active");
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
