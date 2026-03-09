@@ -15,25 +15,25 @@ export const pulsaProviders = [
     name: 'xl',
     title: 'XL',
     prefixes: ['0817', '0818', '0819', '0859', '0877', '0878'],
-    nominals: [5000, 10000, 15000, 25000, 50000, 100000],
+    nominals: [5000, 10000, 15000, 25000, 50000, 100000]
   },
   {
     name: 'tri',
     title: 'Tri',
     prefixes: ['0895', '0896', '0897', '0898', '0899'],
-    nominals: [5000, 10000, 15000, 20000, 25000, 30000, 50000, 60000, 70000, 80000, 90000, 100000],
+    nominals: [5000, 10000, 15000, 20000, 25000, 30000, 50000, 60000, 70000, 80000, 90000, 100000]
   },
   {
     name: 'smartfren',
     title: 'Smartfren',
     prefixes: ['0881', '0882', '0883', '0884', '0885', '0886', '0887', '0888'],
-    nominals: [5000, 10000, 20000, 25000, 30000, 50000, 60000, 75000, , 100000],
+    nominals: [5000, 10000, 20000, 25000, 30000, 50000, 60000, 75000, , 100000]
   },
   {
     name: 'axis',
     title: 'Axis',
     prefixes: ['0831', '0832', '0833', '0838'],
-    nominals: [5000, 10000, 15000, 25000, 30000, 50000, 100000],
+    nominals: [5000, 10000, 15000, 25000, 30000, 50000, 100000]
   },
 ];
 
@@ -47,111 +47,107 @@ export const paketDataProviders = [
         name: 'tel-data',
         title: 'Telkomsel Data (Flash)',
         packages: [
-          { code: 'SDF100', name: '100MB', desc: 'FLASH 100MB 7Hr', price: 4950 },
-          { code: 'SDF250', name: '250MB', desc: 'FLASH 250MB 7Hr', price: 6975 },
-          { code: 'SDF500', name: '500MB', desc: 'FLASH 500MB 15Hr', price: 8975 },
-          { code: 'SDF1',   name: '1GB',   desc: 'FLASH 1GB 28Hr', price: 11975 },
-          { code: 'SDF2',   name: '2GB',   desc: 'FLASH 2GB 28Hr', price: 22975 },
-          { code: 'SDF3',   name: '3GB',   desc: 'FLASH 3GB 28Hr', price: 25950 },
-          { code: 'SDF4',   name: '4GB',   desc: 'FLASH 4GB 28Hr', price: 35975 },
-          { code: 'SDF5',   name: '5GB',   desc: 'FLASH 5GB 28Hr', price: 37975 },
-          { code: 'SDF6',   name: '6GB',   desc: 'FLASH 6GB 28Hr', price: 39975 },
-          { code: 'SDF7',   name: '7GB',   desc: 'FLASH 7GB 28Hr', price: 43975 },
-          { code: 'SDF8',   name: '8GB',   desc: 'FLASH 8GB 28Hr', price: 45975 },
-          { code: 'SDF9',   name: '9GB',   desc: 'FLASH 9GB 28Hr', price: 53975 },
-          { code: 'SDF10',  name: '10GB',  desc: 'FLASH 10GB 28Hr', price: 55975 },
-          { code: 'SDF11',  name: '11GB',  desc: 'FLASH 11GB 28Hr', price: 56975 },
-          { code: 'SDF12',  name: '12GB',  desc: 'FLASH 12GB 28Hr', price: 57975 },
-          { code: 'SDF13',  name: '13GB',  desc: 'FLASH 13GB 30Hr', price: 59975 },
-          { code: 'SDF15',  name: '15GB',  desc: 'FLASH 15GB 28Hr', price: 63975 },
-          { code: 'SDF23',  name: '23GB',  desc: 'FLASH 23GB 28Hr', price: 83975 },
-          { code: 'SDF25',  name: '25GB',  desc: 'FLASH 25GB 28Hr', price: 99975 },
-          { code: 'SDF30',  name: '30GB',  desc: 'FLASH 30GB 28Hr', price: 100975 },
-          { code: 'SDF35',  name: '35GB',  desc: 'FLASH 35GB 28Hr', price: 134975 },
+          { code: 'SDF100', name: '100MB', desc: 'FLASH 100MB 7Hr', price: 6300 },
+          { code: 'SDF250', name: '250MB', desc: 'FLASH 250MB 7Hr', price: 8300 },
+          { code: 'SDF500', name: '500MB', desc: 'FLASH 500MB 15Hr', price: 10300 },
+          { code: 'SDF1',   name: '1GB',   desc: 'FLASH 1GB 28Hr', price: 13300 },
+          { code: 'SDF2',   name: '2GB',   desc: 'FLASH 2GB 28Hr', price: 24300 },
+          { code: 'SDF3',   name: '3GB',   desc: 'FLASH 3GB 28Hr', price: 27300 },
+          { code: 'SDF4',   name: '4GB',   desc: 'FLASH 4GB 28Hr', price: 37300 },
+          { code: 'SDF5',   name: '5GB',   desc: 'FLASH 5GB 28Hr', price: 39300 },
+          { code: 'SDF6',   name: '6GB',   desc: 'FLASH 6GB 28Hr', price: 41300 },
+          { code: 'SDF7',   name: '7GB',   desc: 'FLASH 7GB 28Hr', price: 45300 },
+          { code: 'SDF8',   name: '8GB',   desc: 'FLASH 8GB 28Hr', price: 47300 },
+          { code: 'SDF9',   name: '9GB',   desc: 'FLASH 9GB 28Hr', price: 55300 },
+          { code: 'SDF10',  name: '10GB',  desc: 'FLASH 10GB 28Hr', price: 57300 },
+          { code: 'SDF11',  name: '11GB',  desc: 'FLASH 11GB 28Hr', price: 58300 },
+          { code: 'SDF12',  name: '12GB',  desc: 'FLASH 12GB 28Hr', price: 59300 },
+          { code: 'SDF13',  name: '13GB',  desc: 'FLASH 13GB 30Hr', price: 61300 },
+          { code: 'SDF15',  name: '15GB',  desc: 'FLASH 15GB 28Hr', price: 65300 },
+          { code: 'SDF23',  name: '23GB',  desc: 'FLASH 23GB 28Hr', price: 85300 },
+          { code: 'SDF25',  name: '25GB',  desc: 'FLASH 25GB 28Hr', price: 101300 },
+          { code: 'SDF30',  name: '30GB',  desc: 'FLASH 30GB 28Hr', price: 102300 }
         ]
       },
       {
         name: 'tel-bulk',
         title: 'Telkomsel Data Bulk',
         packages: [
-          { code: 'SDB3',   name: '4GB',   desc: 'BULK 3GB + 1GB OMG 30hr', price: 44500 },
-          { code: 'SDB5',   name: '7GB',   desc: 'BULK 5GB + 2GB OMG 30hr', price: 68900 },
-          { code: 'SDB8',   name: '10GB',  desc: 'BULK 8GB + 2GB OMG 30hr', price: 91900 },
-          { code: 'SDB12',  name: '14GB',  desc: 'BULK 12GB + 2GB OMG 30hr', price: 101900 },
-          { code: 'SDB25',  name: '27GB',  desc: 'BULK 25GB + 2GB OMG 30hr', price: 164900 },
-          { code: 'SDB50',  name: '52GB',  desc: 'BULK 50GB + 2GB OMG 30hr', price: 211900 },
+          { code: 'SDB3',   name: '4GB',   desc: 'BULK 3GB + 1GB OMG 30hr', price: 46000 },
+          { code: 'SDB5',   name: '7GB',   desc: 'BULK 5GB + 2GB OMG 30hr', price: 70300 },
+          { code: 'SDB8',   name: '10GB',  desc: 'BULK 8GB + 2GB OMG 30hr', price: 93300 },
+          { code: 'SDB12',  name: '14GB',  desc: 'BULK 12GB + 2GB OMG 30hr', price: 103300 },
+          { code: 'SDB25',  name: '27GB',  desc: 'BULK 25GB + 2GB OMG 30hr', price: 166300 },
+          { code: 'SDB50',  name: '52GB',  desc: 'BULK 50GB + 2GB OMG 30hr', price: 213300 }
         ]
       },
       {
         name: 'tel-bulk-alternatif',
         title: 'Bulk Alternatif',
         packages: [
-          { code: 'SDB3A',  name: '4GB',   desc: 'BULK 3GB + 1GB OMG 30hr [Alt]', price: 55900 },
-          { code: 'SDB5A',  name: '7GB',   desc: 'BULK 5GB + 2GB OMG 30hr [Alt]', price: 87900 },
-          { code: 'SDB8A',  name: '10GB',  desc: 'BULK 8GB + 2GB OMG 30hr [Alt]', price: 106900 },
-          { code: 'SDB12A', name: '14GB',  desc: 'BULK 12GB + 2GB OMG 30hr [Alt]', price: 115900 },
-          { code: 'SDB25A', name: '27GB',  desc: 'BULK 25GB + 2GB OMG 30hr [Alt]', price: 195900 },
-          { code: 'SDB50A', name: '52GB',  desc: 'BULK 50GB + 2GB OMG 30hr [Alt]', price: 236900 },
+          { code: 'SDB3A',  name: '4GB',   desc: 'BULK 3GB + 1GB OMG 30hr [Alt]', price: 57000 },
+          { code: 'SDB5A',  name: '7GB',   desc: 'BULK 5GB + 2GB OMG 30hr [Alt]', price: 89300 },
+          { code: 'SDB8A',  name: '10GB',  desc: 'BULK 8GB + 2GB OMG 30hr [Alt]', price: 108300 },
+          { code: 'SDB12A', name: '14GB',  desc: 'BULK 12GB + 2GB OMG 30hr [Alt]', price: 117300 },
+          { code: 'SDB25A', name: '27GB',  desc: 'BULK 25GB + 2GB OMG 30hr [Alt]', price: 197300 },
+          { code: 'SDB50A', name: '52GB',  desc: 'BULK 50GB + 2GB OMG 30hr [Alt]', price: 238300 }
         ]
       },
       {
         name: 'tel-bulk-promo',
         title: 'Bulk Promo',
         packages: [
-          { code: 'SDB3P',  name: '4GB',   desc: 'BULK 3GB + 1GB OMG 30hr [Promo]', price: 39575 },
-          { code: 'SDB5P',  name: '7GB',   desc: 'BULK 5GB + 2GB OMG 30hr [Promo]', price: 64900 },
-          { code: 'SDB8P',  name: '10GB',  desc: 'BULK 8GB + 2GB OMG 30hr [Promo]', price: 85975 },
-          { code: 'SDB12P', name: '14GB',  desc: 'BULK 12GB + 2GB OMG 30hr [Promo]', price: 99955 },
+          { code: 'SDB3P',  name: '4GB',   desc: 'BULK 3GB + 1GB OMG 30hr [Promo]', price: 41000 },
+          { code: 'SDB5P',  name: '7GB',   desc: 'BULK 5GB + 2GB OMG 30hr [Promo]', price: 66300 },
+          { code: 'SDB8P',  name: '10GB',  desc: 'BULK 8GB + 2GB OMG 30hr [Promo]', price: 87300 },
+          { code: 'SDB12P', name: '14GB',  desc: 'BULK 12GB + 2GB OMG 30hr [Promo]', price: 102300 }
         ]
       },
       {
         name: 'tel-gigamax',
         title: 'Telkomsel Gigamax',
         packages: [
-          { code: 'SDG1',   name: '1GB',   desc: '1GB Maxstream 3Hr', price: 8190 },
-          { code: 'SDG5',   name: '5GB',   desc: '5GB Maxstream 3Hr', price: 14880 },
-          { code: 'SDG6',   name: '6GB',   desc: '6GB Maxstream 7Hr', price: 15850 },
-          { code: 'SDG4',   name: '4GB',   desc: '4GB Maxstream 30Hr', price: 21560 },
-          { code: 'SDG10',  name: '10GB',  desc: '10GB Maxstream 30Hr', price: 32000 },
-          { code: 'SDG30',  name: '30GB',  desc: '30GB Maxstream 30Hr', price: 63350 },
-          { code: 'SDG50',  name: '50GB',  desc: '50GB Maxstream 30Hr', price: 92025 },
+          { code: 'SDG1',   name: '1GB',   desc: '1GB Maxstream 3Hr', price: 10000 },
+          { code: 'SDG5',   name: '5GB',   desc: '5GB Maxstream 3Hr', price: 16300 },
+          { code: 'SDG6',   name: '6GB',   desc: '6GB Maxstream 7Hr', price: 17300 },
+          { code: 'SDG4',   name: '4GB',   desc: '4GB Maxstream 30Hr', price: 23000 },
+          { code: 'SDG10',  name: '10GB',  desc: '10GB Maxstream 30Hr', price: 34000 },
+          { code: 'SDG30',  name: '30GB',  desc: '30GB Maxstream 30Hr', price: 65000 },
+          { code: 'SDG50',  name: '50GB',  desc: '50GB Maxstream 30Hr', price: 94000 }
         ]
       },
       {
         name: 'tel-reguler',
         title: 'Telkomsel Reguler',
         packages: [
-          { code: 'STG5',   name: '20MB-50MB',   desc: 'REG 20MB-50MB 7hr', price: 6975 },
-          { code: 'STG10',  name: '60MB-110MB',  desc: 'REG 60MB-110MB 7hr', price: 10395 },
-          { code: 'STG20',  name: '250MB-400MB', desc: 'REG 250MB-400MB 7hr', price: 12975 },
-          { code: 'STG25',  name: '400MB-500MB', desc: 'REG 400MB-500MB 30hr', price: 17975 },
-          { code: 'STG50',  name: '1GB-1.5GB',   desc: 'REG 1GB-1.5GB 30hr', price: 35500 },
-          { code: 'STG100', name: '5GB',         desc: 'KUOTA 5GB FULL ALL 30hr', price: 96250 },
+          { code: 'STG5',   name: '20MB-50MB',   desc: 'REG 20MB-50MB 7hr', price: 8300 },
+          { code: 'STG10',  name: '60MB-110MB',  desc: 'REG 60MB-110MB 7hr', price: 12000 },
+          { code: 'STG20',  name: '250MB-400MB', desc: 'REG 250MB-400MB 7hr', price: 14300 },
+          { code: 'STG25',  name: '400MB-500MB', desc: 'REG 400MB-500MB 30hr', price: 19300 },
+          { code: 'STG50',  name: '1GB-1.5GB',   desc: 'REG 1GB-1.5GB 30hr', price: 37000 },
+          { code: 'STG100', name: '5GB',         desc: 'KUOTA 5GB FULL ALL 30hr', price: 98000 }
         ]
       },
       {
         name: 'tel-byu',
         title: 'Telkomsel By.U',
         packages: [
-          { code: 'SBDF1',   name: '1GB',   desc: 'BY.U FLASH 1GB 30Hr', price: 23975 },
-          { code: 'SBDF2',   name: '2GB',   desc: 'BY.U FLASH 2GB 14-30Hr', price: 26975 },
-          { code: 'SBDF3',   name: '3GB',   desc: 'BY.U FLASH 3GB 14-30Hr', price: 28775 },
-          { code: 'SBDF4',   name: '4GB',   desc: 'BY.U FLASH 4GB 30Hr', price: 29975 },
-          { code: 'SBDF5',   name: '5GB',   desc: 'BY.U FLASH 5GB 14-30Hr', price: 30975 },
-          { code: 'SBDF6',   name: '6GB',   desc: 'BY.U FLASH 6GB 30Hr', price: 31975 },
-          { code: 'SBDF7',   name: '7GB',   desc: 'BY.U FLASH 7GB 30Hr', price: 32975 },
-          { code: 'SBDF8',   name: '8GB',   desc: 'BY.U FLASH 8GB 30Hr', price: 35450 },
-          { code: 'SBDF9',   name: '9GB',   desc: 'BY.U FLASH 9GB 30Hr', price: 35975 },
-          { code: 'SBDF10',  name: '10GB',  desc: 'BY.U FLASH 10GB 30Hr', price: 38975 },
-          { code: 'SBDF12',  name: '12GB',  desc: 'BY.U FLASH 12GB 30Hr', price: 46570 },
-          { code: 'SBDF14',  name: '14GB',  desc: 'BY.U FLASH 14GB 30Hr', price: 46975 },
-          { code: 'SBDF20',  name: '20GB',  desc: 'BY.U FLASH 20GB 30Hr', price: 75975 },
-          { code: 'SBDF23',  name: '23GB',  desc: 'BY.U FLASH 23GB 30Hr', price: 80975 },
-          { code: 'SBDF42',  name: '42GB',  desc: 'BY.U FLASH 42GB 30Hr', price: 100110 },
-          { code: 'SBDF50',  name: '50GB',  desc: 'BY.U FLASH 50GB 30Hr', price: 109975 },
-          { code: 'SBDF65',  name: '65GB',  desc: 'BY.U FLASH 65GB 30Hr', price: 119975 },
-          { code: 'SBDF75',  name: '75GB',  desc: 'BY.U FLASH 75GB 30Hr', price: 156975 },
-          { code: 'SBDF100', name: '100GB', desc: 'BY.U FLASH 100GB 30Hr', price: 176975 },
+          { code: 'SBDF1',   name: '1GB',   desc: 'BY.U FLASH 1GB 30Hr', price: 25300 },
+          { code: 'SBDF2',   name: '2GB',   desc: 'BY.U FLASH 2GB 14-30Hr', price: 28300 },
+          { code: 'SBDF3',   name: '3GB',   desc: 'BY.U FLASH 3GB 14-30Hr', price: 30300 },
+          { code: 'SBDF4',   name: '4GB',   desc: 'BY.U FLASH 4GB 30Hr', price: 31300 },
+          { code: 'SBDF5',   name: '5GB',   desc: 'BY.U FLASH 5GB 14-30Hr', price: 32300 },
+          { code: 'SBDF6',   name: '6GB',   desc: 'BY.U FLASH 6GB 30Hr', price: 33300 },
+          { code: 'SBDF7',   name: '7GB',   desc: 'BY.U FLASH 7GB 30Hr', price: 34300 },
+          { code: 'SBDF8',   name: '8GB',   desc: 'BY.U FLASH 8GB 30Hr', price: 37000 },
+          { code: 'SBDF9',   name: '9GB',   desc: 'BY.U FLASH 9GB 30Hr', price: 37300 },
+          { code: 'SBDF10',  name: '10GB',  desc: 'BY.U FLASH 10GB 30Hr', price: 40300 },
+          { code: 'SBDF12',  name: '12GB',  desc: 'BY.U FLASH 12GB 30Hr', price: 48000 },
+          { code: 'SBDF14',  name: '14GB',  desc: 'BY.U FLASH 14GB 30Hr', price: 48300 },
+          { code: 'SBDF20',  name: '20GB',  desc: 'BY.U FLASH 20GB 30Hr', price: 77000 },
+          { code: 'SBDF23',  name: '23GB',  desc: 'BY.U FLASH 23GB 30Hr', price: 82300 },
+          { code: 'SBDF42',  name: '42GB',  desc: 'BY.U FLASH 42GB 30Hr', price: 102000 },
+          { code: 'SBDF50',  name: '50GB',  desc: 'BY.U FLASH 50GB 30Hr', price: 111300 }
         ]
       }
     ]
@@ -159,91 +155,88 @@ export const paketDataProviders = [
   {
     name: 'tri',
     title: 'Tri',
-    prefixes: ['0895', '0896', '0897', '0898', '0899'],
+    prefixes: ['0895', '0896', '0897', '0898', '0899']
     subCategories: [
       {
         name: 'tri-data',
         title: 'Tri Data',
         packages: [
-          { code: 'TD5',  name: '5GB',  desc: 'KUOTA 5 GB 30hr', price: 31975 },
-          { code: 'TD10', name: '10GB', desc: 'KUOTA 10 GB 30hr', price: 58500 },
+          { code: 'TD5',  name: '5GB',  desc: 'KUOTA 5 GB 30hr', price: 33300 },
+          { code: 'TD10', name: '10GB', desc: 'KUOTA 10 GB 30hr', price: 60000 }
         ]
       },
       {
         name: 'tri-aon',
         title: 'Tri Data AON',
         packages: [
-          { code: 'TDA2',  name: '2.5GB', desc: 'TRI AON 2.5GB', price: 23800 },
-          { code: 'TDA35', name: '3.5GB', desc: 'TRI AON 3.5GB', price: 25950 },
-          { code: 'TDA3',  name: '3GB',   desc: 'TRI AON 3GB',   price: 25500 },
-          { code: 'TDA4',  name: '4GB',   desc: 'TRI AON 4GB',   price: 28975 },
-          { code: 'TDA5',  name: '5GB',   desc: 'TRI AON 5GB',   price: 30975 },
-          { code: 'TDA6',  name: '6GB',   desc: 'TRI AON 6GB',   price: 32975 },
-          { code: 'TDA7',  name: '7GB',   desc: 'TRI AON 7GB',   price: 46350 },
-          { code: 'TDA8',  name: '8GB',   desc: 'TRI AON 8GB',   price: 49975 },
-          { code: 'TDA9',  name: '9GB',   desc: 'TRI AON 9GB',   price: 52750 },
-          { code: 'TDA10', name: '10GB',  desc: 'TRI AON 10GB',  price: 58250 },
-          { code: 'TDA12', name: '12GB',  desc: 'TRI AON 12GB',  price: 58410 },
-          { code: 'TDA14', name: '14GB',  desc: 'TRI AON 14GB',  price: 65850 },
-          { code: 'TDA40', name: '40GB',  desc: 'TRI AON 40GB',  price: 110750 },
-          { code: 'TDA80', name: '80GB',  desc: 'TRI AON 80GB',  price: 236675 },
+          { code: 'TDA2',  name: '2.5GB', desc: 'TRI AON 2.5GB', price: 25200 },
+          { code: 'TDA35', name: '3.5GB', desc: 'TRI AON 3.5GB', price: 27300 },
+          { code: 'TDA3',  name: '3GB',   desc: 'TRI AON 3GB',   price: 27000 },
+          { code: 'TDA4',  name: '4GB',   desc: 'TRI AON 4GB',   price: 30300 },
+          { code: 'TDA5',  name: '5GB',   desc: 'TRI AON 5GB',   price: 32300 },
+          { code: 'TDA6',  name: '6GB',   desc: 'TRI AON 6GB',   price: 34300 },
+          { code: 'TDA7',  name: '7GB',   desc: 'TRI AON 7GB',   price: 48000 },
+          { code: 'TDA8',  name: '8GB',   desc: 'TRI AON 8GB',   price: 51300 },
+          { code: 'TDA9',  name: '9GB',   desc: 'TRI AON 9GB',   price: 54200 },
+          { code: 'TDA10', name: '10GB',  desc: 'TRI AON 10GB',  price: 60000 },
+          { code: 'TDA12', name: '12GB',  desc: 'TRI AON 12GB',  price: 60200 },
+          { code: 'TDA14', name: '14GB',  desc: 'TRI AON 14GB',  price: 67200 },
+          { code: 'TDA40', name: '40GB',  desc: 'TRI AON 40GB',  price: 112200 }
         ]
       },
       {
         name: 'tri-bm',
         title: 'Tri Data BM',
         packages: [
-          { code: 'TBM3', name: '3GB', desc: 'BM 3GB 7Hr', price: 18370 },
+          { code: 'TBM3', name: '3GB', desc: 'BM 3GB 7Hr', price: 18370 }
         ]
       },
       {
         name: 'tri-bulk',
         title: 'Tri Data Bulk',
         packages: [
-          { code: 'TDB1',  name: '200MB', desc: 'TRI DATA BULK 200MB, 30HR (Gangguan)', price: 1475 },
-          { code: 'TDB3',  name: '500MB', desc: 'TRI DATA BULK 500MB, 30HR', price: 4050 },
-          { code: 'TDB5',  name: '1GB',   desc: 'TRI DATA BULK 1GB, 14HR', price: 6575 },
-          { code: 'TDB8',  name: '1.5GB', desc: 'TRI DATA BULK 1.5GB, 14HR', price: 8975 },
-          { code: 'TDB2',  name: '2GB',   desc: 'TRI DATA BULK 2GB 7HR', price: 11830 },
-          { code: 'TDB15', name: '2.5GB', desc: 'TRI DATA BULK 2.5GB, 14HR', price: 14975 },
-          { code: 'TDB13', name: '3GB',   desc: 'TRI DATA BULK 3GB, 30HR', price: 21575 },
-          { code: 'TDB25', name: '4GB',   desc: 'TRI DATA BULK 4GB, 14HR', price: 24875 },
-          { code: 'TDB14', name: '4GB',   desc: 'TRI DATA BULK 4GB, 30HR', price: 26575 },
-          { code: 'TDB28', name: '5GB',   desc: 'TRI DATA BULK 5GB, 30HR', price: 31975 },
-          { code: 'TDB50', name: '10GB',  desc: 'TRI DATA BULK 10GB, 30HR', price: 55975 },
+          { code: 'TDB1',  name: '200MB', desc: 'TRI DATA BULK 200MB, 30HR (Gangguan)', price: 3000 },
+          { code: 'TDB3',  name: '500MB', desc: 'TRI DATA BULK 500MB, 30HR', price: 6000 },
+          { code: 'TDB5',  name: '1GB',   desc: 'TRI DATA BULK 1GB, 14HR', price: 8000 },
+          { code: 'TDB8',  name: '1.5GB', desc: 'TRI DATA BULK 1.5GB, 14HR', price: 10300 },
+          { code: 'TDB2',  name: '2GB',   desc: 'TRI DATA BULK 2GB 7HR', price: 13300 },
+          { code: 'TDB15', name: '2.5GB', desc: 'TRI DATA BULK 2.5GB, 14HR', price: 16300 },
+          { code: 'TDB13', name: '3GB',   desc: 'TRI DATA BULK 3GB, 30HR', price: 23000 },
+          { code: 'TDB25', name: '4GB',   desc: 'TRI DATA BULK 4GB, 14HR', price: 26200 },
+          { code: 'TDB14', name: '4GB',   desc: 'TRI DATA BULK 4GB, 30HR', price: 28000 },
+          { code: 'TDB28', name: '5GB',   desc: 'TRI DATA BULK 5GB, 30HR', price: 33300 },
+          { code: 'TDB50', name: '10GB',  desc: 'TRI DATA BULK 10GB, 30HR', price: 57300 }
         ]
       },
       {
         name: 'tri-getmore',
         title: 'Tri Data Getmore',
         packages: [
-          { code: 'TGM2', name: '2GB', desc: 'GETMORE 2GB + 2GB Youtube 30Hr', price: 20250 },
-          { code: 'TGM3', name: '4GB', desc: 'GETMORE 4GB + 4GB Youtube 30Hr', price: 33000 },
-          { code: 'TGM5', name: '5GB', desc: 'GETMORE 5GB + 5GB Youtube 30Hr', price: 37950 },
+          { code: 'TGM2', name: '2GB', desc: 'GETMORE 2GB + 2GB Youtube 30Hr', price: 22000 },
+          { code: 'TGM3', name: '4GB', desc: 'GETMORE 4GB + 4GB Youtube 30Hr', price: 35000 },
+          { code: 'TGM5', name: '5GB', desc: 'GETMORE 5GB + 5GB Youtube 30Hr', price: 39300 }
         ]
       },
       {
         name: 'tri-happy',
         title: 'Tri Data Happy',
         packages: [
-          { code: 'TDP3',   name: '3GB',   desc: 'TRI HAPPY 3GB 14HR', price: 21765 },
-          { code: 'TDP7',   name: '7GB',   desc: 'TRI HAPPY 7GB 28HR', price: 32320 },
-          { code: 'TDP6',   name: '6GB',   desc: 'TRI HAPPY 6GB 28HR (Gangguan)', price: 32595 },
-          { code: 'TDP9',   name: '9GB',   desc: 'TRI HAPPY 9GB 28HR', price: 35100 },
-          { code: 'TDP10',  name: '10GB',  desc: 'TRI HAPPY 10GB 28HR', price: 35575 },
-          { code: 'TDP11',  name: '11GB',  desc: 'TRI HAPPY 11GB 28HR', price: 41975 },
-          { code: 'TDP12',  name: '12GB',  desc: 'TRI HAPPY 12GB 28HR (Gangguan)', price: 46150 },
-          { code: 'TDP14',  name: '14GB',  desc: 'TRI HAPPY 14GB 28HR', price: 46825 },
-          { code: 'TDP15',  name: '15GB',  desc: 'TRI HAPPY 15GB 28HR', price: 47825 },
-          { code: 'TDP18',  name: '18GB',  desc: 'TRI HAPPY 18GB 28HR', price: 49850 },
-          { code: 'TDP20',  name: '20GB',  desc: 'TRI HAPPY 20GB 28HR', price: 55924 },
-          { code: 'TDP25',  name: '25GB',  desc: 'TRI HAPPY 25GB 28HR', price: 64250 },
-          { code: 'TDP30',  name: '30GB',  desc: 'TRI HAPPY 30GB 28HR', price: 70420 },
-          { code: 'TDP42',  name: '42GB',  desc: 'TRI HAPPY 42GB 28HR', price: 74540 },
-          { code: 'TDP55',  name: '55GB',  desc: 'TRI HAPPY 55GB 28HR', price: 91978 },
-          { code: 'TDP100', name: '100GB', desc: 'TRI HAPPY 100GB 28HR', price: 117400 },
-          { code: 'TDP75',  name: '75GB',  desc: 'TRI HAPPY 75GB 60HR', price: 139000 },
-          { code: 'TDP130', name: '130GB', desc: 'TRI HAPPY 130GB 28HR', price: 141520 },
+          { code: 'TDP3',   name: '3GB',   desc: 'TRI HAPPY 3GB 14HR', price: 23200 },
+          { code: 'TDP7',   name: '7GB',   desc: 'TRI HAPPY 7GB 28HR', price: 34200 },
+          { code: 'TDP6',   name: '6GB',   desc: 'TRI HAPPY 6GB 28HR (Gangguan)', price: 34000 },
+          { code: 'TDP9',   name: '9GB',   desc: 'TRI HAPPY 9GB 28HR', price: 37000 },
+          { code: 'TDP10',  name: '10GB',  desc: 'TRI HAPPY 10GB 28HR', price: 37200 },
+          { code: 'TDP11',  name: '11GB',  desc: 'TRI HAPPY 11GB 28HR', price: 43300 },
+          { code: 'TDP12',  name: '12GB',  desc: 'TRI HAPPY 12GB 28HR (Gangguan)', price: 48000 },
+          { code: 'TDP14',  name: '14GB',  desc: 'TRI HAPPY 14GB 28HR', price: 48300 },
+          { code: 'TDP15',  name: '15GB',  desc: 'TRI HAPPY 15GB 28HR', price: 49300 },
+          { code: 'TDP18',  name: '18GB',  desc: 'TRI HAPPY 18GB 28HR', price: 51300 },
+          { code: 'TDP20',  name: '20GB',  desc: 'TRI HAPPY 20GB 28HR', price: 57300 },
+          { code: 'TDP25',  name: '25GB',  desc: 'TRI HAPPY 25GB 28HR', price: 66000 },
+          { code: 'TDP30',  name: '30GB',  desc: 'TRI HAPPY 30GB 28HR', price: 72000 },
+          { code: 'TDP42',  name: '42GB',  desc: 'TRI HAPPY 42GB 28HR', price: 76000 },
+          { code: 'TDP55',  name: '55GB',  desc: 'TRI HAPPY 55GB 28HR', price: 93300 },
+          { code: 'TDP100', name: '100GB', desc: 'TRI HAPPY 100GB 28HR', price: 119000 }
         ]
       },
       {
