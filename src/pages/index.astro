@@ -37,6 +37,11 @@ import Navbar from "../components/Navbar.astro";
         min-height: 100vh;
       }
 
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
       /* ══ PAGE LAYOUT ══ */
       .page-wrapper {
         padding-top: var(--navbar-height);
@@ -221,22 +226,25 @@ import Navbar from "../components/Navbar.astro";
             <!-- TAB ISI -->
             <div class="tab-panel active" id="tab-isi">
               <div class="services-grid">
-                <div class="service-item">
-                  <div class="service-icon">
-                    <!-- <img src="/icons/pulsa.svg" alt="Pulsa"> -->
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.8"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      ><rect x="5" y="2" width="14" height="20" rx="2"
-                      ></rect><line x1="12" y1="18" x2="12.01" y2="18"
-                      ></line></svg
-                    >
-                  </div><span class="service-label">Pulsa</span>
-                </div>
+                <a href="/products/topup/pulsa">
+                  <div class="service-item">
+                    <div class="service-icon">
+                      <!-- <img src="/icons/pulsa.svg" alt="Pulsa"> -->
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        ><rect x="5" y="2" width="14" height="20" rx="2"
+                        ></rect><line x1="12" y1="18" x2="12.01" y2="18"
+                        ></line></svg
+                      >
+                    </div><span class="service-label">Pulsa</span>
+                  </div>
+                </a>
+
                 <div class="service-item">
                   <div class="service-icon">
                     <!-- <img src="/icons/paket-data.svg"> -->

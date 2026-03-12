@@ -2,7 +2,7 @@
 
 export const pulsaProviders = [
   {
-    name: 'telkomsel',
+    name: 'telkomsel-pulsa',
     title: 'Telkomsel',
     prefixes: ['0811', '0812', '0813', '0821', '0822', '0823', '0851', '0852', '0853'],
     packages: [
@@ -29,7 +29,7 @@ export const pulsaProviders = [
     ]
   },
   {
-    name: 'indosat',
+    name: 'indosat-pulsa',
     title: 'Indosat',
     prefixes: ['0814', '0815', '0816', '0855', '0856', '0857', '0858'],
     packages: [
@@ -54,11 +54,11 @@ export const pulsaProviders = [
       { code: 'I70',   name: '70.000',  desc: 'Pulsa Reguler Indosat',      price: 71050 },
       { code: 'I80',   name: '80.000',  desc: 'Pulsa Reguler Indosat',      price: 81400 },
       { code: 'I90',   name: '90.000',  desc: 'Pulsa Reguler Indosat',      price: 91300 },
-      { code: 'I100',  name: '100.000', desc: 'Pulsa Reguler Indosat',      price: 100750 },
+      { code: 'I100',  name: '100.000', desc: 'Pulsa Reguler Indosat',      price: 100750 }
     ]
   },
   {
-    name: 'xl',
+    name: 'xl-pulsa',
     title: 'XL',
     prefixes: ['0817', '0818', '0819', '0859', '0877', '0878'],
     packages: [
@@ -72,7 +72,7 @@ export const pulsaProviders = [
     ]
   },
   {
-    name: 'tri',
+    name: 'tri-pulsa',
     title: 'Tri',
     prefixes: ['0895', '0896', '0897', '0898', '0899'],
     packages: [
@@ -89,15 +89,11 @@ export const pulsaProviders = [
       { code: 'T75',   name: '75.000',  desc: 'Pulsa Reguler Tri', price: 75100 },
       { code: 'T80',   name: '80.000',  desc: 'Pulsa Reguler Tri', price: 79800 },
       { code: 'T90',   name: '90.000',  desc: 'Pulsa Reguler Tri', price: 90300 },
-      { code: 'T100',  name: '100.000', desc: 'Pulsa Reguler Tri', price: 98300 },
-      { code: 'T150',  name: '150.000', desc: 'Pulsa Reguler Tri', price: 147750 },
-      { code: 'T200',  name: '200.000', desc: 'Pulsa Reguler Tri', price: 198400 },
-      { code: 'T300',  name: '300.000', desc: 'Pulsa Reguler Tri', price: 300000 },
-      { code: 'T500',  name: '500.000', desc: 'Pulsa Reguler Tri', price: 494500 },
+      { code: 'T100',  name: '100.000', desc: 'Pulsa Reguler Tri', price: 98300 }
     ]
   },
   {
-    name: 'axis',
+    name: 'axis-pulsa',
     title: 'Axis',
     prefixes: ['0831', '0832', '0833', '0838'],
     packages: [
@@ -111,7 +107,7 @@ export const pulsaProviders = [
     ]
   },
   {
-    name: 'smartfren',
+    name: 'smartfren-pulsa',
     title: 'Smartfren',
     prefixes: ['0881', '0882', '0883', '0884', '0885', '0886', '0887', '0888', '0889'],
     packages: [
@@ -124,16 +120,14 @@ export const pulsaProviders = [
       { code: 'SM50',   name: '50.000',  desc: 'Pulsa Reguler Smartfren', price: 51600 },
       { code: 'SM60',   name: '60.000',  desc: 'Pulsa Reguler Smartfren', price: 61800 },
       { code: 'SM75',   name: '75.000',  desc: 'Pulsa Reguler Smartfren', price: 77000 },
-      { code: 'SM100',  name: '100.000', desc: 'Pulsa Reguler Smartfren', price: 102000 },
-      { code: 'SM150',  name: '150.000', desc: 'Pulsa Reguler Smartfren', price: 152800 },
-      { code: 'SM300',  name: '300.000', desc: 'Pulsa Reguler Smartfren', price: 304000 },
+      { code: 'SM100',  name: '100.000', desc: 'Pulsa Reguler Smartfren', price: 102000 }
     ]
   },
 ];
 
 export const paketDataProviders = [
   {
-    name: 'telkomsel',
+    name: 'telkomsel-data',
     title: 'Telkomsel',
     prefixes: ['0811', '0812', '0813', '0821', '0822', '0823', '0851', '0852', '0853'],
     subCategories: [
@@ -247,7 +241,7 @@ export const paketDataProviders = [
     ]
   },
   {
-    name: 'tri',
+    name: 'tri-data',
     title: 'Tri',
     prefixes: ['0895', '0896', '0897', '0898', '0899'],
     subCategories: [
@@ -375,7 +369,7 @@ export const paketDataProviders = [
     ]
   },
   {
-    name: 'indosat',
+    name: 'indosat-data',
     title: 'Indosat Ooredoo',
     prefixes: ['0814', '0815', '0816', '0855', '0856', '0857', '0858'],
     subCategories: [
@@ -424,9 +418,7 @@ export const paketDataProviders = [
           { code: 'IDN1',   name: '1GB+4.5GB', desc: '1GB + 4.5GB Apps 28Hr', price: 34975 },
           { code: 'IDN2',   name: '2GB',       desc: '2GB + 8GB Apps 28Hr', price: 58750 },
           { code: 'IDN3',   name: '3GB+17GB',  desc: '3GB + 17GB Apps, Youtube + SMS Sesama 28Hr', price: 81750 },
-          { code: 'IDN7',   name: '7GB',       desc: '7GB + 28GB Apps, Youtube + SMS Sesama 28Hr', price: 103750 },
-          { code: 'IDN10',  name: '10GB+35GB', desc: '10GB + 35GB Apps, Youtube + SMS&Telp Sesama 28Hr', price: 115100 },
-          { code: 'IDN99',  name: '90GB',      desc: 'Freedom Kuota 90GB + SMS&Telp 28Hr', price: 153200 }
+          { code: 'IDN7',   name: '7GB',       desc: '7GB + 28GB Apps, Youtube + SMS Sesama 28Hr', price: 103750 }
         ]
       },
       {
@@ -452,11 +444,7 @@ export const paketDataProviders = [
           { code: 'IDF30',  name: '30GB',  desc: 'Freedom 30GB 28Hr', price: 89650 },
           { code: 'IDF28',  name: '28GB',  desc: 'Freedom 28GB 28Hr', price: 85600 },
           { code: 'IDF42',  name: '42GB',  desc: 'Freedom 42GB 28Hr', price: 97650 },
-          { code: 'IDF45',  name: '45GB',  desc: 'Freedom 45GB 28Hr', price: 101700 },
-          { code: 'IDF50',  name: '50GB',  desc: 'Freedom 50GB 28Hr', price: 111750 },
-          { code: 'IDF70',  name: '70GB',  desc: 'Freedom 70GB 28Hr', price: 137950 },
-          { code: 'IDF100', name: '100GB', desc: 'Freedom 100GB 28Hr', price: 144000 },
-          { code: 'IDF150', name: '150GB', desc: 'Freedom 150GB 28Hr', price: 148000 }
+          { code: 'IDF45',  name: '45GB',  desc: 'Freedom 45GB 28Hr', price: 101700 }
         ]
       },
       {
@@ -484,7 +472,7 @@ export const paketDataProviders = [
     ]
   },
   {
-    name: 'xl',
+    name: 'xl-data',
     title: 'XL Axiata',
     prefixes: ['0817', '0818', '0819', '0859', '0877', '0878'],
     subCategories: [
@@ -519,9 +507,7 @@ export const paketDataProviders = [
           { code: 'XCF26', name: '6GB-12GB', desc: '6GB+UpTo 12GB Lokal + 5Mnt Tlp, 28Hr (FLEX M+)', price: 57450 },
           { code: 'XCF3',  name: '9GB-18GB', desc: '9GB+UpTo 18GB Lokal + 5Mnt Tlp, 28Hr (FLEX L)', price: 66450 },
           { code: 'XCF11', name: '11GB-23GB', desc: '11GB+UpTo 23GB Lokal + 5Mnt Tlp, 28Hr (FLEX L+)', price: 78000 },
-          { code: 'XCF4',  name: '15GB-30GB', desc: '15GB+UpTo 30GB Lokal + 5Mnt Tlp, 28Hr (FLEX XL)', price: 94800 },
-          { code: 'XCF5',  name: '30GB-60GB', desc: '30GB+UpTo 60GB Lokal + 5Mnt Tlp, 28Hr (FLEX XXL)', price: 136750 },
-          { code: 'XCF6',  name: '60GB-120GB', desc: '60GB+UpTo 120GB Lokal + 5Mnt Tlp, 28Hr (FLEX XXXL)', price: 162150 },
+          { code: 'XCF4',  name: '15GB-30GB', desc: '15GB+UpTo 30GB Lokal + 5Mnt Tlp, 28Hr (FLEX XL)', price: 94800 }
         ]
       },
       {
@@ -529,10 +515,7 @@ export const paketDataProviders = [
         title: 'XL Combo Xtra',
         packages: [
           { code: 'XCX5',  name: '15GB',  desc: 'COMBO XTRA 5GB+10GB ytb + 20mnt Telp. 28Hr', price: 61425 },
-          { code: 'XCX10', name: '30GB',  desc: 'COMBO XTRA 10GB+20GB ytb + 30mnt Telp. 28Hr', price: 90200 },
-          { code: 'XCX15', name: '45GB',  desc: 'COMBO XTRA 15GB+30GB ytb + 40mnt Telp. 28Hr', price: 126900 },
-          { code: 'XCX20', name: '60GB',  desc: 'COMBO XTRA 20GB+40GB ytb + 60mnt Telp. 28Hr', price: 173200 },
-          { code: 'XCX35', name: '105GB', desc: 'COMBO XTRA 35GB+70GB ytb + 90mnt Telp. 28Hr', price: 229200 },
+          { code: 'XCX10', name: '30GB',  desc: 'COMBO XTRA 10GB+20GB ytb + 30mnt Telp. 28Hr', price: 90200 }
         ]
       },
       {
@@ -550,14 +533,13 @@ export const paketDataProviders = [
           { code: 'XH54',  name: '3GB',   desc: 'HotRod 3GB 30hr', price: 26700 },
           { code: 'XH90',  name: '6GB',   desc: 'HotRod 6GB 30hr', price: 49900 },
           { code: 'XH117', name: '8GB',   desc: 'HotRod 8GB 30hr', price: 64350 },
-          { code: 'XH162', name: '12GB',  desc: 'HotRod 12GB 30hr', price: 95000 },
-          { code: 'XH198', name: '16GB',  desc: 'HotRod 16GB 30hr', price: 197150 },
+          { code: 'XH162', name: '12GB',  desc: 'HotRod 12GB 30hr', price: 95000 }
         ]
       }
     ]
   },
   {
-    name: 'axis',
+    name: 'axis-data',
     title: 'Axis',
     prefixes: ['0831', '0832', '0833', '0838'],
     subCategories: [
@@ -588,9 +570,7 @@ export const paketDataProviders = [
           { code: 'AXB3',   name: '3GB',   desc: 'BRONET 3GB 30Hr', price: 42300 },
           { code: 'AXB5',   name: '5GB',   desc: 'BRONET 5GB 30Hr', price: 62450 },
           { code: 'AXB8',   name: '8GB',   desc: 'BRONET 8GB 30Hr', price: 84600 },
-          { code: 'AXB10',  name: '10GB',  desc: 'BRONET 10GB 30Hr', price: 96700 },
-          { code: 'AXB12',  name: '12GB',  desc: 'BRONET 12GB 30Hr', price: 110800 },
-          { code: 'AXB16',  name: '16GB',  desc: 'BRONET 16GB 30Hr', price: 139000 },
+          { code: 'AXB10',  name: '10GB',  desc: 'BRONET 10GB 30Hr', price: 96700 }
         ]
       },
       {
@@ -600,8 +580,7 @@ export const paketDataProviders = [
           { code: 'AXO16',  name: '16GB',  desc: 'OWSEM 2GB+2GB Games/Music+12GB Malam, 30Hr', price: 45300 },
           { code: 'AXO24',  name: '24GB',  desc: 'OWSEM 3GB+3GB Games/Music+18GB Malam, 30Hr', price: 56400 },
           { code: 'AXO40',  name: '40GB',  desc: 'OWSEM 5GB+5GB Games/Music+30GB Malam, 30Hr', price: 82600 },
-          { code: 'AXO64',  name: '64GB',  desc: 'OWSEM 8GB+8GB Games/Music+48GB Malam, 30Hr', price: 105750 },
-          { code: 'AXO120', name: '120GB', desc: 'OWSEM 15GB+15GB Games/Music+90GB Malam, 30Hr', price: 149100 },
+          { code: 'AXO64',  name: '64GB',  desc: 'OWSEM 8GB+8GB Games/Music+48GB Malam, 30Hr', price: 105750 }
         ]
       },
       {
@@ -616,7 +595,7 @@ export const paketDataProviders = [
     ]
   },
   {
-    name: 'smartfren',
+    name: 'smartfren-data',
     title: 'Smartfren',
     prefixes: ['0881', '0882', '0883', '0884', '0885', '0886', '0887', '0888', '0889'],
     subCategories: [
@@ -633,10 +612,7 @@ export const paketDataProviders = [
           { code: 'SMN20',  name: '20GB',   desc: 'NONSTOP 20GB 28Hr', price: 58980 },
           { code: 'SMN35',  name: '35GB',   desc: 'NONSTOP 35GB 30Hr', price: 80550 },
           { code: 'SMN30',  name: '30GB',   desc: 'NONSTOP 30GB + Unlimited APK 30Hr (Gangguan)', price: 79550 },
-          { code: 'SMN45',  name: '45GB',   desc: 'NONSTOP 45GB + Unlimited APK 28Hr', price: 117150 },
-          { code: 'SMN75',  name: '75GB',   desc: 'NONSTOP 75GB 30Hr', price: 139800 },
-          { code: 'SMN60',  name: '60GB',   desc: 'NONSTOP 60GB + Unlimited APK 28Hr', price: 140650 },
-          { code: 'SMN100', name: '100GB',  desc: 'NONSTOP 100GB + Unlimited Apk 30Hr', price: 159900 }
+          { code: 'SMN45',  name: '45GB',   desc: 'NONSTOP 45GB + Unlimited APK 28Hr', price: 117150 }
         ]
       },
       {
@@ -650,10 +626,7 @@ export const paketDataProviders = [
           { code: 'SMU3',   name: 'Unlimited', desc: 'UNLIMITED 4G 14HR (FUP 1GB/HR)', price: 49650 },
           { code: 'SMU4',   name: 'Unlimited', desc: 'UNLIMITED 4G 28HR (FUP 500MB/HR)', price: 74550 },
           { code: 'SMU5',   name: 'Unlimited', desc: 'UNLIMITED 4G 28HR (FUP 1GB/HR)', price: 75550 },
-          { code: 'SMU6',   name: 'Unlimited', desc: 'UNLIMITED 4G 28HR (FUP 2GB/HR)', price: 92250 },
-          { code: 'SMU7',   name: 'Unlimited', desc: 'UNLIMITED 4G 28HR (FUP 3GB/HR)', price: 125550 },
-          { code: 'SMU8',   name: 'Unlimited', desc: 'UNLIMITED 4G 28HR (FUP 4GB/HR)', price: 173850 },
-          { code: 'SMU9',   name: 'Unlimited', desc: 'UNLIMITED 4G 28HR (FUP 5GB/HR)', price: 176600 }
+          { code: 'SMU6',   name: 'Unlimited', desc: 'UNLIMITED 4G 28HR (FUP 2GB/HR)', price: 92250 }
         ]
       },
       {
@@ -668,8 +641,7 @@ export const paketDataProviders = [
           { code: 'SMV25',  name: '8GB',  desc: 'VOLUME 3GB + 5GB Malam + 3GB Chat 30Hr', price: 35650 },
           { code: 'SMV31',  name: '16GB', desc: 'VOLUME 6GB + 10GB Malam + 6GB Chat 30Hr', price: 37720 },
           { code: 'SMV33',  name: '30GB', desc: 'VOLUME 10GB + 20GB Malam 30Hr', price: 70450 },
-          { code: 'SMV35',  name: '60GB', desc: 'VOLUME 20GB + 40GB Malam + Telp. 30Hr', price: 110350 },
-          { code: 'SMV36',  name: '90GB', desc: 'VOLUME 30GB + 60GB Malam 30Hr', price: 136750 }
+          { code: 'SMV35',  name: '60GB', desc: 'VOLUME 20GB + 40GB Malam + Telp. 30Hr', price: 110350 }
         ]
       }
     ]
@@ -682,126 +654,422 @@ export const products = {
       brand: 'gopay',
       title: 'GoPay',
       inputLabel: 'Nomor HP Tujuan',
-      inputType: 'text',
-      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h18M12 3v18"/></svg>', // Replace with Lucide if added
-      nominals: [10000, 15000, 20000, 25000, 30000, 40000, 45000, 50000, 55000, 60000, 65000, 70000, 75000, 80000, 85000, 90000, 95000, 100000],
+      inputType: 'tel',
+      icon: '<svg ... />', // Gunakan icon yang sudah ada
+      packages: [
+        { code: 'GJ10',  name: '10.000',  desc: 'Saldo GoPay', price: 11750 },
+        { code: 'GJ15',  name: '15.000',  desc: 'Saldo GoPay', price: 16750 },
+        { code: 'GJ20',  name: '20.000',  desc: 'Saldo GoPay', price: 21800 },
+        { code: 'GJ25',  name: '25.000',  desc: 'Saldo GoPay', price: 26850 },
+        { code: 'GJ30',  name: '30.000',  desc: 'Saldo GoPay', price: 31850 },
+        { code: 'GJ35',  name: '35.000',  desc: 'Saldo GoPay', price: 36900 },
+        { code: 'GJ40',  name: '40.000',  desc: 'Saldo GoPay', price: 41950 },
+        { code: 'GJ45',  name: '45.000',  desc: 'Saldo GoPay', price: 47000 },
+        { code: 'GJ50',  name: '50.000',  desc: 'Saldo GoPay', price: 52000 },
+        { code: 'GJ55',  name: '55.000',  desc: 'Saldo GoPay', price: 57150 },
+        { code: 'GJ60',  name: '60.000',  desc: 'Saldo GoPay', price: 62200 },
+        { code: 'GJ65',  name: '65.000',  desc: 'Saldo GoPay', price: 67250 },
+        { code: 'GJ70',  name: '70.000',  desc: 'Saldo GoPay', price: 72250 },
+        { code: 'GJ75',  name: '75.000',  desc: 'Saldo GoPay', price: 77300 },
+        { code: 'GJ80',  name: '80.000',  desc: 'Saldo GoPay', price: 82350 },
+        { code: 'GJ85',  name: '85.000',  desc: 'Saldo GoPay', price: 87400 },
+        { code: 'GJ90',  name: '90.000',  desc: 'Saldo GoPay', price: 92400 },
+        { code: 'GJ95',  name: '95.000',  desc: 'Saldo GoPay', price: 97450 },
+        { code: 'GJ100', name: '100.000', desc: 'Saldo GoPay', price: 102700 }
+      ]
     },
     {
       brand: 'spay',
       title: 'ShopeePay',
       inputLabel: 'Nomor HP Tujuan',
-      inputType: 'text',
-      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h18M12 3v18"/></svg>', // Replace with Lucide if added
-      nominals: [15000, 20000, 25000, 30000, 40000, 45000, 50000, 55000, 60000, 65000, 70000, 75000, 80000, 85000, 90000, 95000, 100000],
+      inputType: 'tel',
+      icon: '<svg ... />', // Gunakan icon ShopeePay milikmu
+      packages: [
+        { code: 'SHP15',  name: '15.000',  desc: 'Saldo ShopeePay', price: 15700 },
+        { code: 'SHP20',  name: '20.000',  desc: 'Saldo ShopeePay', price: 20700 },
+        { code: 'SHP25',  name: '25.000',  desc: 'Saldo ShopeePay', price: 25750 },
+        { code: 'SHP30',  name: '30.000',  desc: 'Saldo ShopeePay', price: 30800 },
+        { code: 'SHP35',  name: '35.000',  desc: 'Saldo ShopeePay', price: 35850 },
+        { code: 'SHP40',  name: '40.000',  desc: 'Saldo ShopeePay', price: 40850 },
+        { code: 'SHP45',  name: '45.000',  desc: 'Saldo ShopeePay', price: 45900 },
+        { code: 'SHP50',  name: '50.000',  desc: 'Saldo ShopeePay', price: 50950 },
+        { code: 'SHP55',  name: '55.000',  desc: 'Saldo ShopeePay', price: 56000 },
+        { code: 'SHP60',  name: '60.000',  desc: 'Saldo ShopeePay', price: 61000 },
+        { code: 'SHP65',  name: '65.000',  desc: 'Saldo ShopeePay', price: 66050 },
+        { code: 'SHP70',  name: '70.000',  desc: 'Saldo ShopeePay', price: 71100 },
+        { code: 'SHP75',  name: '75.000',  desc: 'Saldo ShopeePay', price: 76100 },
+        { code: 'SHP80',  name: '80.000',  desc: 'Saldo ShopeePay', price: 81150 },
+        { code: 'SHP85',  name: '85.000',  desc: 'Saldo ShopeePay', price: 86200 },
+        { code: 'SHP90',  name: '90.000',  desc: 'Saldo ShopeePay', price: 91200 },
+        { code: 'SHP95',  name: '95.000',  desc: 'Saldo ShopeePay', price: 96300 },
+        { code: 'SHP100', name: '100.000', desc: 'Saldo ShopeePay', price: 101300 },
+      ]
     },
     {
       brand: 'ovo',
       title: 'OVO',
       inputLabel: 'Nomor HP / ID OVO',
-      inputType: 'text',
-      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h18M12 3v18"/></svg>',
-      nominals: [20000, 25000, 30000, 40000, 50000, 60000, 70000, 75000, 80000, 90000, 100000],
+      inputType: 'tel',
+      icon: '<svg ... />', // Gunakan icon OVO milikmu
+      packages: [
+        { code: 'VO20',  name: '20.000',  desc: 'Saldo OVO', price: 21150 },
+        { code: 'VO25',  name: '25.000',  desc: 'Saldo OVO', price: 26175 },
+        { code: 'VO30',  name: '30.000',  desc: 'Saldo OVO', price: 31225 },
+        { code: 'VO40',  name: '40.000',  desc: 'Saldo OVO', price: 41300 },
+        { code: 'VO50',  name: '50.000',  desc: 'Saldo OVO', price: 51375 },
+        { code: 'VO60',  name: '60.000',  desc: 'Saldo OVO', price: 61450 },
+        { code: 'VO70',  name: '70.000',  desc: 'Saldo OVO', price: 71500 },
+        { code: 'VO75',  name: '75.000',  desc: 'Saldo OVO', price: 76550 },
+        { code: 'VO80',  name: '80.000',  desc: 'Saldo OVO', price: 81575 },
+        { code: 'VO90',  name: '90.000',  desc: 'Saldo OVO', price: 91650 },
+        { code: 'VO100', name: '100.000', desc: 'Saldo OVO', price: 101750 },
+      ]
     },
     {
       brand: 'dana',
       title: 'DANA',
-      inputLabel: 'Nomor HP / ID DANA',
-      inputType: 'text',
-      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h18M12 3v18"/></svg>',
-      nominals: [5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000, 50000, 55000, 60000, 65000, 70000, 75000, 80000, 85000, 90000, 95000, 100000],
-    },
-    {
-      brand: 'linkaja',
-      title: 'LinkAja!',
       inputLabel: 'Nomor HP Tujuan',
-      inputType: 'text',
-      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h18M12 3v18"/></svg>',
-      nominals: [10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000, 50000, 55000, 60000, 75000, 80000, 85000, 90000, 95000, 100000],
+      inputType: 'tel',
+      icon: '<svg ... />', // Gunakan icon DANA milikmu
+      packages: [
+        { code: 'DNA5',   name: '5.000',   desc: 'Saldo DANA', price: 6150 },
+        { code: 'DNA6',   name: '6.000',   desc: 'Saldo DANA', price: 7200 },
+        { code: 'DNA7',   name: '7.000',   desc: 'Saldo DANA', price: 8250 },
+        { code: 'DNA8',   name: '8.000',   desc: 'Saldo DANA', price: 9250 },
+        { code: 'DNA9',   name: '9.000',   desc: 'Saldo DANA', price: 10250 },
+        { code: 'DNA10',  name: '10.000',  desc: 'Saldo DANA', price: 11200 },
+        { code: 'DNA11',  name: '11.000',  desc: 'Saldo DANA', price: 12250 },
+        { code: 'DNA12',  name: '12.000',  desc: 'Saldo DANA', price: 13300 },
+        { code: 'DNA13',  name: '13.000',  desc: 'Saldo DANA', price: 14350 },
+        { code: 'DNA14',  name: '14.000',  desc: 'Saldo DANA', price: 15350 },
+        { code: 'DNA15',  name: '15.000',  desc: 'Saldo DANA', price: 16250 },
+        { code: 'DNA16',  name: '16.000',  desc: 'Saldo DANA', price: 17350 },
+        { code: 'DNA17',  name: '17.000',  desc: 'Saldo DANA', price: 18350 },
+        { code: 'DNA18',  name: '18.000',  desc: 'Saldo DANA', price: 19400 },
+        { code: 'DNA19',  name: '19.000',  desc: 'Saldo DANA', price: 20400 },
+        { code: 'DNA20',  name: '20.000',  desc: 'Saldo DANA', price: 21350 },
+        { code: 'DNA25',  name: '25.000',  desc: 'Saldo DANA', price: 26400 },
+        { code: 'DNA30',  name: '30.000',  desc: 'Saldo DANA', price: 31450 },
+        { code: 'DNA35',  name: '35.000',  desc: 'Saldo DANA', price: 36500 },
+        { code: 'DNA40',  name: '40.000',  desc: 'Saldo DANA', price: 41550 },
+        { code: 'DNA45',  name: '45.000',  desc: 'Saldo DANA', price: 46600 },
+        { code: 'DNA50',  name: '50.000',  desc: 'Saldo DANA', price: 51650 },
+        { code: 'DNA60',  name: '60.000',  desc: 'Saldo DANA', price: 61750 },
+        { code: 'DNA70',  name: '70.000',  desc: 'Saldo DANA', price: 71850 },
+        { code: 'DNA75',  name: '75.000',  desc: 'Saldo DANA', price: 76900 },
+        { code: 'DNA80',  name: '80.000',  desc: 'Saldo DANA', price: 81950 },
+        { code: 'DNA90',  name: '90.000',  desc: 'Saldo DANA', price: 92050 },
+        { code: 'DNA100', name: '100.000', desc: 'Saldo DANA', price: 102150 }
+      ]
     },
+    // Contoh untuk driver & lainnya (sesuaikan nominal yang benar-benar didukung)
     {
       brand: 'gojekdriv',
       title: 'Gojek Driver',
-      inputLabel: 'Nomor HP Tujuan',
-      inputType: 'text',
-      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h18M12 3v18"/></svg>',
-      nominals: [10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000, 50000, 55000, 60000, 65000, 70000, 75000, 80000, 85000, 90000, 95000, 100000],
-    },
-    {
-      brand: 'grabdriv',
-      title: 'Grab Driver',
-      inputLabel: 'Nomor HP Tujuan',
-      inputType: 'text',
-      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h18M12 3v18"/></svg>',
-      nominals: [100000],
-    },
-    {
-      brand: 'maximdriv',
-      title: 'Maxim Driver',
-      inputLabel: 'ID Driver (Bukan Nomor HP)',
-      inputType: 'text',
-      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h18M12 3v18"/></svg>',
-      nominals: [5000, 10000, 15000, 20000, 30000, 40000, 50000, 100000],
+      inputLabel: 'Nomor HP Driver',
+      inputType: 'tel',
+      icon: '<svg ... />', // Gunakan icon Gojek Driver
+      packages: [
+        { code: 'GJD10',  name: '10.000',  desc: 'Topup Saldo Driver Gojek', price: 11800 },
+        { code: 'GJD15',  name: '15.000',  desc: 'Topup Saldo Driver Gojek', price: 16850 },
+        { code: 'GJD20',  name: '20.000',  desc: 'Topup Saldo Driver Gojek', price: 21850 },
+        { code: 'GJD25',  name: '25.000',  desc: 'Topup Saldo Driver Gojek', price: 26900 },
+        { code: 'GJD30',  name: '30.000',  desc: 'Topup Saldo Driver Gojek', price: 31950 },
+        { code: 'GJD35',  name: '35.000',  desc: 'Topup Saldo Driver Gojek', price: 37000 },
+        { code: 'GJD40',  name: '40.000',  desc: 'Topup Saldo Driver Gojek', price: 42000 },
+        { code: 'GJD45',  name: '45.000',  desc: 'Topup Saldo Driver Gojek', price: 47050 },
+        { code: 'GJD50',  name: '50.000',  desc: 'Topup Saldo Driver Gojek', price: 52050 },
+        { code: 'GJD55',  name: '55.000',  desc: 'Topup Saldo Driver Gojek', price: 57150 },
+        { code: 'GJD60',  name: '60.000',  desc: 'Topup Saldo Driver Gojek', price: 62200 },
+        { code: 'GJD65',  name: '65.000',  desc: 'Topup Saldo Driver Gojek', price: 67200 },
+        { code: 'GJD70',  name: '70.000',  desc: 'Topup Saldo Driver Gojek', price: 72250 },
+        { code: 'GJD75',  name: '75.000',  desc: 'Topup Saldo Driver Gojek', price: 77200 },
+        { code: 'GJD80',  name: '80.000',  desc: 'Topup Saldo Driver Gojek', price: 82300 },
+        { code: 'GJD85',  name: '85.000',  desc: 'Topup Saldo Driver Gojek', price: 87350 },
+        { code: 'GJD90',  name: '90.000',  desc: 'Topup Saldo Driver Gojek', price: 92400 },
+        { code: 'GJD95',  name: '95.000',  desc: 'Topup Saldo Driver Gojek', price: 97400 },
+        { code: 'GJD100', name: '100.000', desc: 'Topup Saldo Driver Gojek', price: 102450 },
+      ]
     },
     {
       brand: 'plntoken',
       title: 'Token Listrik PLN',
-      inputLabel: 'Nomor Meter PLN',
-      inputType: 'text',
-      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h18M12 3v18"/></svg>',
-      nominals: [5000, 10000, 15000, 20000, 50000, 100000],
-    },
-    {
-      brand: 'gplay',
-      title: 'Google Play',
-      inputLabel: 'Nomor HP Tujuan',
-      inputType: 'text',
-      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h18M12 3v18"/></svg>',
-      nominals: [20000, 50000, 100000],
+      inputLabel: 'ID Pelanggan / Nomor Meter',
+      inputType: 'tel',
+      icon: '<svg ... />', // Gunakan icon PLN
+      packages: [
+        { code: 'PLN5',    name: '5.000',     desc: 'Token PLN 5.000 (Lambat)',  price: 8100 },
+        { code: 'PLN10',   name: '10.000',    desc: 'Token PLN 10.000 (Lambat)', price: 12950 },
+        { code: 'PLN15',   name: '15.000',    desc: 'Token PLN 15.000 (Lambat)', price: 18000 },
+        { code: 'PLN20',   name: '20.000',    desc: 'Token PLN 20.000',          price: 23150 },
+        { code: 'PLN50',   name: '50.000',    desc: 'Token PLN 50.000',          price: 53350 },
+        { code: 'PLN100',  name: '100.000',   desc: 'Token PLN 100.000',         price: 103750 }
+      ]
     },
     {
       brand: 'wifi',
       title: 'Wi-Fi ID',
-      inputLabel: 'Nomor HP Tujuan',
+      inputLabel: 'Username / Nomor HP',
       inputType: 'text',
-      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h18M12 3v18"/></svg>',
-      nominals: [1, 7, 30],
+      icon: '<svg ... />', // Gunakan icon WiFi
+      packages: [
+        { code: 'WIFI1',  name: '1 Hari',  desc: 'Voucher Wi-Fi ID 1 Hari',  price: 6250 },
+        { code: 'WIFI7',  name: '7 Hari',  desc: 'Voucher Wi-Fi ID 7 Hari',  price: 18000 },
+        { code: 'WIFI30', name: '30 Hari', desc: 'Voucher Wi-Fi ID 30 Hari', price: 38000 },
+      ]
     },
-    // Add more e-wallets
   ],
-  game: [
+
+  games: [
     {
       brand: 'ml',
       title: 'Mobile Legends',
-      inputLabel: 'User ID',
+      inputLabel: 'ID Game',
       inputType: 'text',
-      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>',
-      nominals: [5, 12, 14, 15, 19, 28, 33, 36, 42, 44, 56, 59, 67, 74, 75, 85, 86, 167, 169, 170, 172, 185, 220, 222, 257, 344, 345, 370], // Diamonds
+      icon: '<svg ... />', // Tetap sesuai aslinya
+      packages: [
+        { code: 'ML5',   name: '5 Diamonds',   desc: '5 Diamonds MLBB',   price: 2750   },
+        { code: 'ML12',  name: '12 Diamonds',  desc: '12 Diamonds MLBB',  price: 4810   },
+        { code: 'ML14',  name: '14 Diamonds',  desc: '14 Diamonds MLBB',  price: 5460   },
+        { code: 'ML15',  name: '15 Diamonds',  desc: '15 Diamonds MLBB',  price: 6080   },
+        { code: 'ML19',  name: '19 Diamonds',  desc: '19 Diamonds MLBB',  price: 6720   },
+        { code: 'ML28',  name: '28 Diamonds',  desc: '28 Diamonds MLBB',  price: 9120   },
+        { code: 'ML33',  name: '33 Diamonds',  desc: '33 Diamonds MLBB',  price: 10860  },
+        { code: 'ML36',  name: '36 Diamonds',  desc: '36 Diamonds MLBB',  price: 11300  },
+        { code: 'ML42',  name: '42 Diamonds',  desc: '42 Diamonds MLBB',  price: 13020  },
+        { code: 'ML44',  name: '44 Diamonds',  desc: '44 Diamonds MLBB',  price: 13170  },
+        { code: 'ML56',  name: '56 Diamonds',  desc: '56 Diamonds MLBB',  price: 16730  },
+        { code: 'ML59',  name: '59 Diamonds',  desc: '59 Diamonds MLBB',  price: 17000  },
+        { code: 'ML67',  name: '67 Diamonds',  desc: '67 Diamonds MLBB',  price: 20370  },
+        { code: 'ML74',  name: '74 Diamonds',  desc: '74 Diamonds MLBB',  price: 21000  },
+        { code: 'ML75',  name: '75 Diamonds',  desc: '75 Diamonds MLBB',  price: 23000  },
+        { code: 'ML85',  name: '85 Diamonds',  desc: '85 Diamonds MLBB',  price: 24000  },
+        { code: 'ML86',  name: '86 Diamonds',  desc: '86 Diamonds MLBB',  price: 24350  },
+        { code: 'ML170', name: '170 Diamonds', desc: '170 Diamonds MLBB', price: 46100  },
+        { code: 'ML172', name: '172 Diamonds', desc: '172 Diamonds MLBB', price: 46350  },
+        { code: 'ML167', name: '167 Diamonds', desc: '167 Diamonds MLBB', price: 46860  },
+        { code: 'ML169', name: '169 Diamonds', desc: '169 Diamonds MLBB', price: 47060  },
+        { code: 'ML185', name: '185 Diamonds', desc: '185 Diamonds MLBB', price: 50080  },
+        { code: 'ML222', name: '222 Diamonds', desc: '222 Diamonds MLBB', price: 59430  },
+        { code: 'ML220', name: '220 Diamonds', desc: '220 Diamonds MLBB', price: 61230  },
+        { code: 'ML257', name: '257 Diamonds', desc: '257 Diamonds MLBB', price: 68300  },
+        { code: 'ML282', name: '282 Diamonds', desc: '282 Diamonds MLBB', price: 77350  },
+        { code: 'ML296', name: '296 Diamonds', desc: '296 Diamonds MLBB', price: 78300  },
+        { code: 'ML344', name: '344 Diamonds', desc: '344 Diamonds MLBB', price: 92250  },
+        { code: 'ML345', name: '345 Diamonds', desc: '345 Diamonds MLBB', price: 94550  },
+        { code: 'ML370', name: '370 Diamonds', desc: '370 Diamonds MLBB', price: 98150  },
+        { code: 'ML429', name: '429 Diamonds', desc: '429 Diamonds MLBB', price: 112550 },
+      ]
     },
     {
       brand: 'ff',
       title: 'Free Fire',
-      inputLabel: 'User ID',
+      inputLabel: 'ID Game',
       inputType: 'text',
-      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>',
-      nominals: [5, 12, 20, 30, 50, 70, 75, 100, 140, 200, 355, 500, 720], // Diamonds
+      packages: [
+        { code: 'FF5',   name: '5 Diamonds',   desc: '5 Diamonds FF',   price: 2140   },
+        { code: 'FF12',  name: '12 Diamonds',  desc: '12 Diamonds FF',  price: 3110   },
+        { code: 'FF20',  name: '20 Diamonds',  desc: '20 Diamonds FF',  price: 4680   },
+        { code: 'FF30',  name: '30 Diamonds',  desc: '30 Diamonds FF',  price: 6400   },
+        { code: 'FF50',  name: '50 Diamonds',  desc: '50 Diamonds FF',  price: 8080   },
+        { code: 'FF70',  name: '70 Diamonds',  desc: '70 Diamonds FF',  price: 10870  },
+        { code: 'FF75',  name: '75 Diamonds',  desc: '75 Diamonds FF',  price: 11300  },
+        { code: 'FF140', name: '140 Diamonds', desc: '140 Diamonds FF', price: 19290  },
+        { code: 'FF355', name: '355 Diamonds', desc: '355 Diamonds FF', price: 45620  },
+        { code: 'FF720', name: '720 Diamonds', desc: '720 Diamonds FF', price: 90830  },
+      ]
     },
     {
       brand: 'pubgm',
       title: 'PUBG Mobile',
-      inputLabel: 'User ID',
+      inputLabel: 'ID Game',
       inputType: 'text',
-      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>',
-      nominals: [35, 40, 70, 100, 120, 150, 200, 210, 400], // UC
+      packages: [
+        { code: 'PU35',  name: '35 UC',  desc: '35 UC PUBG Mobile',  price: 9010   },
+        { code: 'PU150', name: '150 UC', desc: '150 UC PUBG Mobile', price: 9130   },
+        { code: 'PU70',  name: '70 UC',  desc: '70 UC PUBG Mobile',  price: 15355  },
+        { code: 'PU50',  name: '40 UC',  desc: '40 UC PUBG Mobile',  price: 16815  },
+        { code: 'PU125', name: '120 UC', desc: '120 UC PUBG Mobile', price: 44960  },
+        { code: 'PU210', name: '210 UC', desc: '210 UC PUBG Mobile', price: 52165  },
+        { code: 'PU250', name: '200 UC', desc: '200 UC PUBG Mobile', price: 76535  },
+      ]
     },
     {
       brand: 'garena',
-      title: 'Garena',
+      title: 'Garena Shells',
       inputLabel: 'Nomor HP Tujuan',
       inputType: 'text',
-      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>',
-      nominals: [33, 66, 165, 330], // Shell
+      packages: [
+        { code: 'GR10',  name: '33 Shells',   desc: 'Voucher 33 Shell / 1000 Cash',  price: 10730  },
+        { code: 'GR20',  name: '66 Shells',   desc: 'Voucher 66 Shell / 2000 Cash',  price: 19920  },
+        { code: 'GR50',  name: '165 Shells',  desc: 'Voucher 165 Shell / 5000 Cash', price: 47490  },
+        { code: 'GR100', name: '330 Shells',  desc: 'Voucher 330 Shell / 10000 Cash',price: 93810  },
+      ]
     }
-    // Add more games
   ],
-  // Add more categories if needed
 };
+
+export const telephoneProviders = [
+  {
+    name: 'telkomsel-paktel',
+    title: 'Telkomsel',
+    prefixes: ['0811', '0812', '0813', '0821', '0822', '0823', '0851', '0852', '0853'],
+    subCategories: [
+      {
+        name: 'tel-telpon',
+        title: 'Telkomsel Telepon',
+        packages: [
+          { code: 'ST1',   name: '5 Menit',    desc: '5 Menit Sesama Telkomsel (1 Hr)', price: 2900 },
+          { code: 'ST5',   name: '100 Menit',   desc: '5-15 Menit ALL + 80 Menit Sesama (1 Hr)', price: 6200 },
+          { code: 'ST2',   name: '25 Menit',    desc: '25 Menit Sesama Telkomsel (1 Hr)', price: 6000 },
+          { code: 'ST8',   name: '200 Menit',   desc: '15 Menit ALL + 185 Menit Sesama (1 Hr)', price: 9300 },
+          { code: 'ST10',  name: '200 Menit',   desc: '10-30 Menit ALL + 170 Menit Sesama (3 Hr)', price: 11625 },
+          { code: 'ST20',  name: '400 Menit',   desc: '20-50 Menit ALL + 350 Menit Sesama (7 Hr)', price: 21700 },
+          { code: 'ST26',  name: '600 Menit',   desc: '50 Menit ALL + 550 Menit Sesama (7 Hr)', price: 25225 },
+          { code: 'ST25',  name: '400Mnt+200Sms', desc: '20-50 Menit ALL + 350 Menit Sesama + 200 SMS (7 Hr)', price: 28250 },
+          { code: 'ST50',  name: '1.100 Menit', desc: '50-100 Menit ALL + 640-1000 Menit Sesama (30 Hr)', price: 51200 },
+          { code: 'ST70',  name: '2.100 Menit', desc: '100 Menit ALL + 2000 Menit Sesama (30 Hr)', price: 86650 },
+          { code: 'ST100', name: '2.500 Menit', desc: '200-250 Menit ALL + 2250 Menit Sesama (30 Hr)', price: 91700 },
+          { code: 'ST120', name: '6.500 Menit', desc: '250 Menit ALL + 6250 Menit Sesama (30 Hr)', price: 101750 }
+        ]
+      },
+      {
+        name: 'tel-telpon-alt',
+        title: 'Telkomsel Telepon Alternatif',
+        packages: [
+          { code: 'ST5A',  name: '100 Menit',   desc: '5-15 Menit ALL + 80 Menit Sesama (1 Hr) [Alt]', price: 7050 },
+          { code: 'ST10A', name: '200 Menit',   desc: '10-30 Menit ALL + 170 Menit Sesama (3 Hr) [Alt]', price: 12650 },
+          { code: 'ST20A', name: '400 Menit',   desc: '20-50 Menit ALL + 350 Menit Sesama (7 Hr) [Alt]', price: 23700 },
+          { code: 'ST50A', name: '1.100 Menit', desc: '50-100 Menit ALL + 640-1000 Menit Sesama (30 Hr) [Alt]', price: 58450 },
+          { code: 'ST70A', name: '2.100 Menit', desc: '100 Menit ALL + 2000 Menit Sesama (30 Hr) [Alt]', price: 78900 }
+        ]
+      }
+    ]
+  },
+  {
+    name: 'tri-paktel',
+    title: 'Tri',
+    prefixes: ['0895', '0896', '0897', '0898', '0899'],
+    subCategories: [
+      {
+        name: 'tri-telepon',
+        title: 'Tri Telepon',
+        packages: [
+          { code: 'TT1',  name: '100 Menit', desc: 'Telepon 100menit 1Hr Sesama Tri & IM3', price: 2150 },
+          { code: 'TT2',  name: '700 Menit', desc: 'Telepon 700menit 7Hr Sesama Tri & IM3', price: 3960 },
+          { code: 'TT5',  name: '20 Menit',  desc: 'Telepon 20menit 7Hr All Operator', price: 6375 },
+          { code: 'TT3',  name: '3000 Menit', desc: 'Telepon 3000menit 30Hr Sesama Tri & IM3', price: 6810 },
+          { code: 'TT15', name: '60 Menit',  desc: 'Telepon 60menit 30Hr All Operator', price: 16810 },
+          { code: 'TT30', name: '150 Menit', desc: 'Telepon 150menit 30Hr All Operator', price: 31950 }
+        ]
+      },
+    ]
+  },
+  {
+    name: 'indosat-paktel',
+    title: 'Indosat Ooredoo',
+    prefixes: ['0814', '0815', '0816', '0855', '0856', '0857', '0858'],
+    subCategories: [
+      {
+        name: 'indosat-telepon',
+        title: 'Indosat Telepon',
+        packages: [
+          { code: 'IT1',  name: '1000 Menit', desc: 'Telepon Sesama Isat 1000 menit, 1Hr', price: 4925 },
+          { code: 'IT3',  name: 'Unlimited',  desc: 'Telepon Sesama ISAT Unlimited, 30Hr', price: 11110 },
+          { code: 'IT12', name: 'Unlimited+30 Menit', desc: 'Telepon Sesama ISAT Unlimited + 30menit ALL, 7Hr', price: 14060 },
+          { code: 'IT25', name: 'Unlimited+60 Menit', desc: 'Telepon Sesama ISAT Unlimited + 60menit ALL, 30Hr', price: 26170 },
+          { code: 'IT4',  name: 'Unlimited+250 Menit', desc: 'Telepon Sesama ISAT Unlimited + 250menit ALL, 30Hr', price: 48930 }
+        ]
+      },
+    ]
+  },
+  {
+    name: 'xl-paktel',
+    title: 'XL Axiata',
+    prefixes: ['0817', '0818', '0819', '0859', '0877', '0878'],
+    subCategories: [
+      {
+        name: 'xl-telepon',
+        title: 'XL Telepon',
+        packages: [
+          { code: 'XT1',  name: '400 Menit', desc: 'Telepon 350mnt Sesama + 50mnt ALL, 7Hr', price: 11350 },
+          { code: 'XT2',  name: '200 Menit', desc: 'Telepon 200mnt Sesama, 14Hr', price: 15410 },
+          { code: 'XT4',  name: '600 Menit', desc: 'Telepon 200mnt Sesama + 400sms Sesama, 30Hr', price: 35000 },
+          { code: 'XT3',  name: '500 Menit', desc: 'Telepon 500mnt Sesama, 30Hr', price: 35850 },
+          { code: 'XT5',  name: '300 Menit', desc: 'Telepon 300mnt ALL, 30Hr', price: 72650 },
+          { code: 'XT7',  name: '300 Menit', desc: 'Telepon 300mnt ALL, 90Hr', price: 98050 },
+          { code: 'XT8',  name: '500 Menit', desc: 'Telepon 500mnt ALL, 90Hr', price: 140000 }
+        ]
+      }
+    ]
+  },
+  {
+    name: 'axis-paktel',
+    title: 'Axis',
+    prefixes: ['0831', '0832', '0833', '0838'],
+    subCategories: [
+      {
+        name: 'axis-telepon',
+        title: 'Axis Telepon',
+        packages: [
+          { code: 'AXT1',  name: 'Unlimited', desc: 'Voucher Telepon Unlimited Sesama 14Hr (*838*SN#) (Gangguan)', price: 2270 },
+          { code: 'AXT5',  name: 'Unlimited', desc: 'Telepon Unlimited Sesama 14Hr (Gangguan)', price: 4590 },
+          { code: 'AXT10', name: '30 Menit',  desc: 'Telepon 30 Menit All Operator 7 Hari', price: 10130 },
+          { code: 'AXT25', name: '100 Menit', desc: 'Telepon 100 Menit All Operator 30 Hari', price: 26550 }
+        ]
+      },
+    ]
+  }
+];
+
+export const smsProviders = [
+  {
+    name: 'telkomsel-paksms',
+    title: 'Telkomsel',
+    prefixes: ['0811', '0812', '0813', '0821', '0822', '0823', '0851', '0852', '0853'],
+    subCategories: [
+      {
+        name: 'tel-sms',
+        title: 'Telkomsel SMS',
+        packages: [
+          { code: 'SS1',  name: '20 SMS',      desc: '20 SMS ke sesama telkomsel 1 hari', price: 2700 },
+          { code: 'SS5',  name: '50-75 SMS',   desc: '50-75 SMS ke semua 1 hari', price: 8050 },
+          { code: 'SS20', name: '300-600 SMS', desc: '300-600 SMS ke semua 30 hari', price: 23650 }
+        ]
+      }
+    ]
+  },
+  {
+    name: 'tri-paksms',
+    title: 'Tri',
+    prefixes: ['0895', '0896', '0897', '0898', '0899'],
+    subCategories: [
+      {
+        name: 'tri-sms',
+        title: 'Tri SMS',
+        packages: [
+          { code: 'TS5',   name: '250 SMS', desc: '250 SMS All Operator 7hr', price: 9350 },
+          { code: 'TS10',  name: '250 SMS', desc: '250 SMS All Operator 75hr', price: 18850 },
+          { code: 'TS10D', name: '600 SMS', desc: '600 SMS All Operator 14hr', price: 21050 }
+        ]
+      },
+    ]
+  },
+  {
+    name: 'indosat-paksms',
+    title: 'Indosat Ooredoo',
+    prefixes: ['0814', '0815', '0816', '0855', '0856', '0857', '0858'],
+    subCategories: [
+      {
+        name: 'indosat-sms',
+        title: 'Indosat SMS',
+        packages: [
+          { code: 'I5S',  name: '400 SMS',  desc: '300 SMS sesama Isat + 100 SMS operator lain', price: 7550 },
+          { code: 'I10S', name: '800 SMS',  desc: '600 SMS sesama Isat + 200 SMS operator lain', price: 13300 },
+          { code: 'I15S', name: '1500 SMS', desc: '1250 SMS sesama Isat + 250 SMS operator lain', price: 13680 },
+          { code: 'I25S', name: '2500 SMS', desc: '2000 SMS sesama Isat + 500 SMS operator lain', price: 29500 }
+        ]
+      }
+    ]
+  },
+];
