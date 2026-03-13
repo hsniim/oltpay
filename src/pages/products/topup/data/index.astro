@@ -1,16 +1,16 @@
 ---
 import Navbar from "../../../../components/Navbar.astro";
 import BaseLayout from "../../../../layouts/BaseLayout.astro";
-import { pulsaProviders } from "../../../../data/products.js";
+import { paketDataProviders } from "../../../../data/products.js";
 
 const waNumber = "6289501450667";
 
 const providersJSON = JSON.stringify(
-  pulsaProviders.map((p) => ({
+  paketDataProviders.map((p) => ({
     name: p.name,
     title: p.title,
     prefixes: p.prefixes,
-    packages: p.packages,
+    subCategories: p.subCategories,
   })),
 );
 ---
@@ -33,14 +33,17 @@ const providersJSON = JSON.stringify(
               stroke-linecap="round"
               stroke-linejoin="round"
             >
-              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-              <line x1="12" y1="18" x2="12.01" y2="18"></line>
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path
+                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+              ></path>
             </svg>
           </div>
           <div>
-            <h1 class="page-title">Beli Pulsa</h1>
+            <h1 class="page-title">Beli Paket Data</h1>
             <p class="page-subtitle">
-              Isi pulsa semua operator, harga terbaik &amp; proses cepat
+              Kuota internet semua operator, harga terbaik &amp; proses cepat
             </p>
           </div>
         </div>
@@ -86,7 +89,7 @@ const providersJSON = JSON.stringify(
           </div>
           <p class="state-title">Masukkan nomor HP</p>
           <p class="state-desc">
-            Pilihan pulsa akan muncul setelah operator terdeteksi
+            Pilihan paket data akan muncul setelah operator terdeteksi
           </p>
         </div>
 
@@ -119,13 +122,13 @@ const providersJSON = JSON.stringify(
               <div class="provider-logo" id="products-provider-logo"></div>
               <div>
                 <h2 class="products-title" id="products-title">
-                  Pilih Nominal
+                  Pilih Paket Data
                 </h2>
                 <p class="products-count" id="products-count"></p>
               </div>
             </div>
           </div>
-          <div class="nominals-grid" id="products-grid"></div>
+          <div id="products-grid"></div>
         </div>
       </section>
     </main>
@@ -158,7 +161,7 @@ const providersJSON = JSON.stringify(
       <div class="modal-body">
         <!-- Nominal highlight -->
         <div class="modal-nominal-hero" id="modal-nominal-hero">
-          <div class="modal-nominal-hero__label">Pulsa yang dibeli</div>
+          <div class="modal-nominal-hero__label">Paket yang dibeli</div>
           <div class="modal-nominal-hero__value" id="detail-nominal">—</div>
           <div class="modal-nominal-hero__provider" id="detail-product">—</div>
         </div>
@@ -255,6 +258,7 @@ const providersJSON = JSON.stringify(
     style="display:none"
   >
   </div>
+
   <!-- ══ FLOATING WA BUTTON ══ -->
   <div class="wa-fab-wrap" id="wa-fab-wrap">
     <a
@@ -276,6 +280,14 @@ const providersJSON = JSON.stringify(
       <span class="wa-fab__label">Butuh bantuan?</span>
     </a>
   </div>
+
+  <style is:global>
+    @media (max-width: 600px) {
+      #provider-pill {
+        display: none !important;
+      }
+    }
+  </style>
 </BaseLayout>
 
 <style>
@@ -434,6 +446,12 @@ const providersJSON = JSON.stringify(
     border-left: 1.5px solid var(--color-border);
   }
 
+  @media (max-width: 640px) {
+    .provider-pill {
+      display: none !important;
+    }
+  }
+
   .provider-pill span {
     font-family: var(--font-display);
     font-size: 12px;
@@ -583,16 +601,46 @@ const providersJSON = JSON.stringify(
     margin: 0;
   }
 
-  /* ══ NOMINALS GRID — compact card grid ══ */
-  /* .nominals-grid is in the static HTML so normal scoping works */
-  .nominals-grid {
+  /* ══ SUB-CATEGORY SECTION HEADER ══ */
+  :global(.subcategory-header) {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 0 10px;
+    margin-top: 8px;
+  }
+
+  :global(.subcategory-header:first-child) {
+    padding-top: 0;
+    margin-top: 0;
+  }
+
+  :global(.subcategory-title) {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  :global(.subcategory-line) {
+    flex: 1;
+    height: 1px;
+    background: var(--color-border);
+  }
+
+  /* ══ NOMINALS GRID ══ */
+  :global(.nominals-grid) {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
+    margin-bottom: 8px;
   }
 
   @media (max-width: 700px) {
-    .nominals-grid {
+    :global(.nominals-grid) {
       grid-template-columns: repeat(2, 1fr);
       gap: 7px;
     }
@@ -900,13 +948,6 @@ const providersJSON = JSON.stringify(
     background: #f0f0f0;
   }
 
-  .order-divider {
-    height: 5px;
-    background: var(--page-bg);
-    border-top: 1px solid var(--color-border);
-    border-bottom: 1px solid var(--color-border);
-  }
-
   .order-label {
     font-family: var(--font-display);
     font-size: 12px;
@@ -1064,7 +1105,6 @@ const providersJSON = JSON.stringify(
     }
   }
 
-  /* Expanded pill state */
   .wa-fab {
     display: flex;
     align-items: center;
@@ -1081,7 +1121,6 @@ const providersJSON = JSON.stringify(
     font-size: 13px;
     font-weight: 700;
     white-space: nowrap;
-    /* Only animate properties that don't cause layout jank */
     transition:
       background 0.2s ease,
       box-shadow 0.2s ease,
@@ -1103,7 +1142,6 @@ const providersJSON = JSON.stringify(
     flex-shrink: 0;
   }
 
-  /* Label — animate via max-width for smooth text collapse */
   .wa-fab__label {
     display: inline-block;
     max-width: 160px;
@@ -1116,7 +1154,6 @@ const providersJSON = JSON.stringify(
     line-height: 1;
   }
 
-  /* Collapsed = perfect circle — shrink label, adjust padding */
   .wa-fab-wrap.collapsed .wa-fab {
     border-radius: 50%;
     padding: 15px;
@@ -1129,7 +1166,6 @@ const providersJSON = JSON.stringify(
     margin: 0;
   }
 
-  /* Dragging state */
   .wa-fab-wrap.dragging {
     transition: none;
     cursor: grabbing;
@@ -1148,7 +1184,6 @@ const providersJSON = JSON.stringify(
       bottom: 20px;
       right: 16px;
     }
-    /* Always a perfect circle on mobile — never changes */
     .wa-fab {
       width: 52px;
       height: 52px;
@@ -1206,6 +1241,25 @@ const providersJSON = JSON.stringify(
       transform: translateY(0);
     }
   }
+
+  /* ══ RESPONSIVE ══ */
+  @media (max-width: 600px) {
+    main {
+      padding: 16px 16px 80px;
+      gap: 12px;
+    }
+    .input-section {
+      padding: 20px 16px 24px;
+      gap: 18px;
+    }
+    #products-container {
+      padding: 20px 16px 24px;
+    }
+    .products-header {
+      padding-bottom: 16px;
+      margin-bottom: 18px;
+    }
+  }
 </style>
 
 <script>
@@ -1217,17 +1271,26 @@ const providersJSON = JSON.stringify(
       name: string;
       title: string;
       prefixes: string[];
-      packages: Array<{
-        code: string;
+      subCategories: Array<{
         name: string;
-        desc: string;
-        price: number;
+        title: string;
+        packages: Array<{
+          code: string;
+          name: string;
+          desc: string;
+          price: number;
+        }>;
       }>;
     }> = JSON.parse(configEl.dataset.providers!);
 
     /* ── STATE ── */
     let currentProvider: (typeof providers)[0] | null = null;
-    let selectedPkg: (typeof providers)[0]["packages"][0] | null = null;
+    let selectedPkg: {
+      code: string;
+      name: string;
+      desc: string;
+      price: number;
+    } | null = null;
 
     /* ── DOM ── */
     const phoneInput = document.getElementById(
@@ -1260,30 +1323,30 @@ const providersJSON = JSON.stringify(
 
     /* ── PROVIDER LOGOS ── */
     const providerLogos: Record<string, string> = {
-      "telkomsel-pulsa": "/logos/telkomsel_logo.svg",
-      "indosat-pulsa": "/logos/indosat_logo.svg",
-      "xl-pulsa": "/logos/xl_logo.svg",
-      "tri-pulsa": "/logos/tri_logo.svg",
-      "axis-pulsa": "/logos/axis_logo.svg",
-      "smartfren-pulsa": "/logos/smartfren_logo.svg",
+      "telkomsel-data": "/logos/telkomsel_logo.svg",
+      "tri-data": "/logos/tri_logo.svg",
+      "indosat-data": "/logos/indosat_logo.svg",
+      "xl-data": "/logos/xl_logo.svg",
+      "axis-data": "/logos/axis_logo.svg",
+      "smartfren-data": "/logos/smartfren_logo.svg",
     };
 
     const providerColors: Record<string, string> = {
-      "telkomsel-pulsa": "linear-gradient(135deg,#e53e3e,#c53030)",
-      "indosat-pulsa": "linear-gradient(135deg,#d97706,#b45309)",
-      "xl-pulsa": "linear-gradient(135deg,#2b6cb0,#2c5282)",
-      "tri-pulsa": "linear-gradient(135deg,#553c9a,#44337a)",
-      "axis-pulsa": "linear-gradient(135deg,#276749,#22543d)",
-      "smartfren-pulsa": "linear-gradient(135deg,#e53e3e,#805ad5)",
+      "telkomsel-data": "linear-gradient(135deg,#e53e3e,#c53030)",
+      "tri-data": "linear-gradient(135deg,#553c9a,#44337a)",
+      "indosat-data": "linear-gradient(135deg,#d97706,#b45309)",
+      "xl-data": "linear-gradient(135deg,#2b6cb0,#2c5282)",
+      "axis-data": "linear-gradient(135deg,#276749,#22543d)",
+      "smartfren-data": "linear-gradient(135deg,#e53e3e,#805ad5)",
     };
 
     const providerInitials: Record<string, string> = {
-      "telkomsel-pulsa": "TEL",
-      "indosat-pulsa": "IM3",
-      "xl-pulsa": "XL",
-      "tri-pulsa": "3",
-      "axis-pulsa": "AX",
-      "smartfren-pulsa": "SF",
+      "telkomsel-data": "TEL",
+      "tri-data": "3",
+      "indosat-data": "IM3",
+      "xl-data": "XL",
+      "axis-data": "AX",
+      "smartfren-data": "SF",
     };
 
     /* ── HELPERS ── */
@@ -1311,8 +1374,17 @@ const providersJSON = JSON.stringify(
     /* ── RENDER PRODUCTS ── */
     function renderProducts(provider: (typeof providers)[0]) {
       productsGrid.innerHTML = "";
-      productsTitleEl.textContent = `Pulsa ${provider.title}`;
-      productsCountEl.textContent = `${provider.packages.length} pilihan tersedia`;
+
+      // Count total packages across all subcategories
+      const totalPkgs = provider.subCategories.reduce(
+        (sum, sc) => sum + sc.packages.length,
+        0,
+      );
+
+      productsTitleEl.textContent = `Paket Data ${provider.title}`;
+      productsCountEl.textContent = `${totalPkgs} pilihan tersedia`;
+
+      // Provider logo
       const logoUrl = providerLogos[provider.name];
       productsLogoEl.innerHTML = "";
       productsLogoEl.style.background = "transparent";
@@ -1344,29 +1416,49 @@ const providersJSON = JSON.stringify(
         productsLogoEl.style.border = "none";
       }
 
-      provider.packages.forEach((pkg, i) => {
-        const btn = document.createElement("button");
-        btn.className = "nominal-btn";
-        btn.style.animationDelay = `${i * 30}ms`;
-        btn.innerHTML = `
-          <div class="nominal-btn__top">
-            <span class="nominal-btn__code">${pkg.code}</span>
-            <span class="nominal-btn__badge">Pulsa</span>
-          </div>
-          <div class="nominal-btn__value">
-            ${pkg.name}
-          </div>
-          <span class="nominal-btn__desc">${pkg.desc}</span>
-          <div class="nominal-btn__footer">
-            <div>
-              <div class="nominal-btn__price-label">Harga</div>
-              <div class="nominal-btn__price">${formatRp(pkg.price)}</div>
-            </div>
-            <div class="nominal-btn__cta">›</div>
-          </div>
+      // Render each sub-category with a header + grid
+      let globalIndex = 0;
+      provider.subCategories.forEach((subCat) => {
+        // Sub-category header
+        const headerEl = document.createElement("div");
+        headerEl.className = "subcategory-header";
+        headerEl.innerHTML = `
+          <span class="subcategory-title">${subCat.title}</span>
+          <span class="subcategory-line"></span>
         `;
-        btn.addEventListener("click", () => openModal(pkg, provider));
-        productsGrid.appendChild(btn);
+        productsGrid.appendChild(headerEl);
+
+        // Grid for this sub-category
+        const gridEl = document.createElement("div");
+        gridEl.className = "nominals-grid";
+
+        subCat.packages.forEach((pkg) => {
+          const btn = document.createElement("button");
+          btn.className = "nominal-btn";
+          btn.style.animationDelay = `${globalIndex * 25}ms`;
+          btn.innerHTML = `
+            <div class="nominal-btn__top">
+              <span class="nominal-btn__code">${pkg.code}</span>
+              <span class="nominal-btn__badge">Data</span>
+            </div>
+            <div class="nominal-btn__value">${pkg.name}</div>
+            <span class="nominal-btn__desc">${pkg.desc}</span>
+            <div class="nominal-btn__footer">
+              <div>
+                <div class="nominal-btn__price-label">Harga</div>
+                <div class="nominal-btn__price">${formatRp(pkg.price)}</div>
+              </div>
+              <div class="nominal-btn__cta">›</div>
+            </div>
+          `;
+          btn.addEventListener("click", () =>
+            openModal(pkg, provider, subCat.title),
+          );
+          gridEl.appendChild(btn);
+          globalIndex++;
+        });
+
+        productsGrid.appendChild(gridEl);
       });
     }
 
@@ -1434,8 +1526,9 @@ const providersJSON = JSON.stringify(
 
     /* ── MODAL ── */
     function openModal(
-      pkg: (typeof providers)[0]["packages"][0],
+      pkg: { code: string; name: string; desc: string; price: number },
       provider: (typeof providers)[0],
+      subCatTitle: string,
     ) {
       const phone = normalizePhone(phoneInput.value.trim());
       if (phone.length < 10) {
@@ -1449,7 +1542,7 @@ const providersJSON = JSON.stringify(
       selectedPkg = pkg;
 
       // Populate fields
-      detailProduct.textContent = `Pulsa ${provider.title} — ${pkg.desc}`;
+      detailProduct.textContent = `${subCatTitle} — ${pkg.desc}`;
       detailNominal.textContent = pkg.name;
       detailDesc.textContent = pkg.desc;
       detailPhone.textContent = `+62 ${phone.slice(1)}`;
@@ -1458,19 +1551,19 @@ const providersJSON = JSON.stringify(
       // Provider accent dot
       const dot = document.getElementById("modal-provider-dot")!;
       const colorMap: Record<string, string> = {
-        "telkomsel-pulsa": "#e53e3e",
-        "indosat-pulsa": "#d97706",
-        "xl-pulsa": "#2b6cb0",
-        "tri-pulsa": "#553c9a",
-        "axis-pulsa": "#276749",
-        "smartfren-pulsa": "#805ad5",
+        "telkomsel-data": "#e53e3e",
+        "tri-data": "#553c9a",
+        "indosat-data": "#d97706",
+        "xl-data": "#2b6cb0",
+        "axis-data": "#276749",
+        "smartfren-data": "#805ad5",
       };
       dot.style.background = colorMap[provider.name] ?? "#0a0a0a";
 
       // WA message preview
       const waMsg =
         `Halo min! 👋\n\n` +
-        `Saya mau beli *Pulsa ${provider.title} Rp ${pkg.name}*, ` +
+        `Saya mau beli *Paket Data ${provider.title} ${pkg.name}*, ` +
         `kirim ke nomor *${phone}* ya!\n\n` +
         `Detail:\n` +
         `• Produk: ${pkg.desc}\n` +
@@ -1496,7 +1589,7 @@ const providersJSON = JSON.stringify(
 
       const msg = encodeURIComponent(
         `Halo min! 👋\n\n` +
-          `Saya mau beli *Pulsa ${currentProvider.title} Rp ${selectedPkg.name}*, ` +
+          `Saya mau beli *Paket Data ${currentProvider.title} ${selectedPkg.name}*, ` +
           `kirim ke nomor *${phone}* ya!\n\n` +
           `Detail:\n` +
           `• Produk: ${selectedPkg.desc}\n` +
@@ -1540,7 +1633,7 @@ const providersJSON = JSON.stringify(
     window.addEventListener(
       "scroll",
       () => {
-        if (window.innerWidth <= 480) return; // mobile always circle via CSS
+        if (window.innerWidth <= 480) return;
         const y = window.scrollY;
         if (y > 80 && !collapsed) {
           collapsed = true;
@@ -1574,8 +1667,6 @@ const providersJSON = JSON.stringify(
       origTop = pos.top;
       startX = clientX;
       startY = clientY;
-
-      // Switch from bottom/right anchoring to top/left absolute
       wrap.style.right = "auto";
       wrap.style.bottom = "auto";
       wrap.style.left = origLeft + "px";
@@ -1588,7 +1679,6 @@ const providersJSON = JSON.stringify(
       const dx = clientX - startX;
       const dy = clientY - startY;
       if (Math.abs(dx) > 3 || Math.abs(dy) > 3) didDrag = true;
-
       const newLeft = Math.max(
         8,
         Math.min(window.innerWidth - wrap.offsetWidth - 8, origLeft + dx),
@@ -1605,37 +1695,27 @@ const providersJSON = JSON.stringify(
       if (!isDragging) return;
       isDragging = false;
       wrap.classList.remove("dragging");
-
-      // If barely moved → treat as click (let the <a> navigate)
       if (!didDrag) return;
-
-      // Snap to nearest horizontal edge
       const rect = wrap.getBoundingClientRect();
       const midX = rect.left + rect.width / 2;
       const snapLeft = midX < window.innerWidth / 2;
       const margin = 20;
-
       wrap.style.left = "auto";
       wrap.style.right = "auto";
       wrap.style.top = rect.top + "px";
       wrap.style.bottom = "auto";
-
       if (snapLeft) {
         wrap.style.left = margin + "px";
       } else {
         wrap.style.right = margin + "px";
       }
-
-      // Prevent the click from opening WA when we were dragging
       e.preventDefault();
     }
 
-    // Mouse events
     wrap.addEventListener("mousedown", (e) => startDrag(e.clientX, e.clientY));
     window.addEventListener("mousemove", (e) => moveDrag(e.clientX, e.clientY));
     window.addEventListener("mouseup", (e) => endDrag(e));
 
-    // Touch events
     wrap.addEventListener(
       "touchstart",
       (e) => {
