@@ -1,48 +1,97 @@
 ---
+// src/pages/products/topup/[brand]/index.astro
+//
+// Static pages yang di-generate saat build:
+//   /products/topup/gopay
+//   /products/topup/ovo
+//   /products/topup/spay
+//   /products/topup/dana
+//   /products/topup/linkaja
+//   /products/topup/gojekdriv
+//   /products/topup/grabdriv
+//   /products/topup/maximdriv
+//   /products/topup/plntoken
+//   /products/topup/gplay
+//   /products/topup/wifidi
+
 import Navbar from "../../../../components/Navbar.astro";
 import BaseLayout from "../../../../layouts/BaseLayout.astro";
-import { paketDataProviders } from "../../../../data/products.js";
+import { topupProducts } from "../../../../data/products.js";
+
+export function getStaticPaths() {
+  // Setiap item di topupProducts → 1 static page
+  return topupProducts.map((item) => ({
+    params: { brand: item.name },
+    props: item,
+  }));
+}
+
+// Props otomatis di-inject dari getStaticPaths
+const {
+  name,
+  title,
+  icon, // SVG path string dari products.js — sama persis dengan homepage
+  inputLabel,
+  inputType,
+  inputPrefix, // '+62' | null
+  packages,
+} = Astro.props;
 
 const waNumber = "6289501450667";
 
+// Warna aksen per brand (dot modal + fallback logo)
+const accentMap: Record<string, string> = {
+  gopay: "#00AA13",
+  ovo: "#4C3494",
+  spay: "#EE4D2D",
+  dana: "#118EEA",
+  linkaja: "#E82529",
+  gojekdriv: "#00AA13",
+  grabdriv: "#00B14F",
+  maximdriv: "#F5A623",
+  plntoken: "#00A0E3",
+  gplay: "#01875F",
+  wifidi: "#004B97",
+};
+
+const accent = accentMap[name] ?? "#0a0a0a";
+
+// Badge label singkat untuk kartu nominal
+const badgeLabel = title;
+
+// Apakah input pakai format +62 (nomor HP) atau teks bebas (ID/email)?
+const isPhoneInput = inputPrefix === "+62";
+
+// Placeholder teks input
+const inputPlaceholder = isPhoneInput
+  ? "8xx xxxx xxxx"
+  : `Masukkan ${inputLabel.toLowerCase()}`;
+
 const configData = JSON.stringify({
   wa: waNumber,
-  providers: paketDataProviders.map((p) => ({
-    name: p.name,
-    title: p.title,
-    prefixes: p.prefixes,
-    subCategories: p.subCategories,
-  })),
+  name,
+  title,
+  inputLabel,
+  isPhoneInput,
+  accent,
+  badgeLabel,
+  packages,
 });
 ---
 
 <BaseLayout
-  title="Beli Paket Data | Oltpay"
-  description="Beli paket data internet semua operator dengan harga terbaik dan proses cepat."
+  title={`Top Up ${title} | Oltpay`}
+  description={`Top up ${title} dengan harga terbaik dan proses cepat melalui WhatsApp.`}
 >
   <Navbar />
 
-  <!-- Shared SVG symbols — defined once, reused everywhere via <use> -->
+  <!-- ══ SVG SYMBOLS ══ -->
   <svg
     aria-hidden="true"
     style="display:none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <symbol
-      id="icon-globe"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="1.8"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    >
-      <circle cx="12" cy="12" r="10"></circle>
-      <line x1="2" y1="12" x2="22" y2="12"></line>
-      <path
-        d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
-      ></path>
-    </symbol>
+    <!-- icon-phone: dipakai di empty state & order row modal — SAMA di semua page -->
     <symbol
       id="icon-phone"
       viewBox="0 0 24 24"
@@ -56,7 +105,7 @@ const configData = JSON.stringify({
       <line x1="12" y1="18" x2="12.01" y2="18"></line>
     </symbol>
     <symbol
-      id="icon-alert"
+      id="icon-phone"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -64,9 +113,8 @@ const configData = JSON.stringify({
       stroke-linecap="round"
       stroke-linejoin="round"
     >
-      <circle cx="12" cy="12" r="10"></circle>
-      <line x1="12" y1="8" x2="12" y2="12"></line>
-      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+      <line x1="12" y1="18" x2="12.01" y2="18"></line>
     </symbol>
     <symbol
       id="icon-close"
@@ -89,7 +137,8 @@ const configData = JSON.stringify({
       stroke-linecap="round"
       stroke-linejoin="round"
     >
-      <circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path>
+      <circle cx="12" cy="12" r="10"></circle>
+      <path d="M12 6v6l4 2"></path>
     </symbol>
     <symbol id="icon-wa" viewBox="0 0 24 24" fill="currentColor">
       <path
@@ -105,79 +154,81 @@ const configData = JSON.stringify({
     <main>
       <!-- ══ INPUT SECTION ══ -->
       <section class="input-section">
-        <!-- Page title row -->
         <div class="page-title-row">
           <div class="page-title-icon">
-            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"
-              ><use href="#icon-globe"></use></svg
-            >
+            <!-- Icon sama persis dengan yang tampil di homepage/landing page -->
+            <svg
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              set:html={icon}
+            />
           </div>
           <div>
-            <h1 class="page-title">Beli Paket Data</h1>
+            <h1 class="page-title">Top Up {title}</h1>
             <p class="page-subtitle">
-              Kuota internet semua operator, harga terbaik &amp; proses cepat
+              Isi {title} instan, harga terbaik &amp; proses cepat
             </p>
           </div>
         </div>
 
-        <!-- Phone input card -->
         <div class="input-card">
-          <label class="input-label" for="phone-input">Nomor HP Tujuan</label>
+          <label class="input-label" for="user-input">{inputLabel}</label>
           <div class="input-row">
             <div class="input-wrap" id="input-wrap">
-              <span class="input-prefix">+62</span>
+              {/* Prefix +62 hanya tampil untuk input nomor HP */}
+              {inputPrefix && <span class="input-prefix">{inputPrefix}</span>}
               <input
-                type="tel"
-                id="phone-input"
-                placeholder="8xx xxxx xxxx"
-                autocomplete="tel"
-                maxlength="15"
+                type={inputType}
+                id="user-input"
+                placeholder={inputPlaceholder}
+                autocomplete={isPhoneInput ? "tel" : "off"}
+                maxlength={isPhoneInput ? 15 : 50}
               />
-              <div class="provider-pill" id="provider-pill">
-                <span id="provider-name">Operator</span>
-              </div>
             </div>
           </div>
-          <p class="input-hint" id="input-hint">Ketik nomor handphone</p>
+          <p class="input-hint" id="input-hint">
+            {
+              isPhoneInput
+                ? `Masukkan nomor HP yang terdaftar di ${title}`
+                : `Masukkan ${inputLabel.toLowerCase()} Anda`
+            }
+          </p>
         </div>
       </section>
 
       <!-- ══ PRODUCTS SECTION ══ -->
       <section class="products-section" id="products-section">
-        <!-- Empty state -->
         <div class="state-wrap" id="empty-state">
           <div class="state-icon">
-            <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"
-              ><use href="#icon-phone"></use></svg
-            >
+            <!-- Selalu icon mobile/phone di semua page topup -->
+            <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
+              <use href="#icon-phone"></use>
+            </svg>
           </div>
-          <p class="state-title">Masukkan nomor HP</p>
+          <p class="state-title">
+            {isPhoneInput ? "Masukkan nomor HP" : `Masukkan ${inputLabel}`}
+          </p>
           <p class="state-desc">
-            Pilihan paket data akan muncul setelah operator terdeteksi
+            Pilihan nominal top up akan muncul setelah {
+              isPhoneInput ? "nomor diisi" : "data diisi"
+            }
           </p>
         </div>
 
-        <!-- Unknown provider -->
-        <div class="state-wrap hidden" id="unknown-state">
-          <div class="state-icon state-icon--warn">
-            <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"
-              ><use href="#icon-alert"></use></svg
-            >
-          </div>
-          <p class="state-title">Operator tidak dikenali</p>
-          <p class="state-desc">
-            Pastikan nomor HP yang Anda masukkan sudah benar
-          </p>
-        </div>
-
-        <!-- Products -->
         <div class="hidden" id="products-container">
           <div class="products-header">
             <div class="products-header-left">
               <div class="provider-logo" id="products-provider-logo"></div>
               <div>
                 <h2 class="products-title" id="products-title">
-                  Pilih Paket Data
+                  Pilih Nominal {title}
                 </h2>
                 <p class="products-count" id="products-count"></p>
               </div>
@@ -189,48 +240,55 @@ const configData = JSON.stringify({
     </main>
   </div>
 
-  <!-- ══ DETAIL MODAL ══ -->
+  <!-- ══ MODAL ══ -->
   <div class="modal-overlay hidden" id="modal-overlay">
-    <div class="modal" id="modal">
-      <!-- Header -->
+    <div class="modal">
       <div class="modal-header">
         <div class="modal-header-left">
           <div class="modal-provider-dot" id="modal-provider-dot"></div>
           <h3 class="modal-title">Konfirmasi Pesanan</h3>
         </div>
         <button class="modal-close" id="modal-close" aria-label="Tutup">
-          <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"
-            ><use href="#icon-close"></use></svg
-          >
+          <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true">
+            <use href="#icon-close"></use>
+          </svg>
         </button>
       </div>
 
       <div class="modal-body">
-        <!-- Nominal highlight -->
-        <div class="modal-nominal-hero" id="modal-nominal-hero">
-          <div class="modal-nominal-hero__label">Paket yang dibeli</div>
+        <div class="modal-nominal-hero">
+          <div class="modal-nominal-hero__label">Nominal yang dibeli</div>
           <div class="modal-nominal-hero__value" id="detail-nominal">—</div>
           <div class="modal-nominal-hero__provider" id="detail-product">—</div>
         </div>
 
-        <!-- Detail rows -->
         <div class="order-card">
           <div class="order-row">
             <span class="order-label">
-              <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"
-                ><use href="#icon-phone"></use></svg
+              <svg
+                viewBox="0 0 24 24"
+                width="13"
+                height="13"
+                aria-hidden="true"
               >
-              Nomor Tujuan
+                <use href="#icon-phone"></use>
+              </svg>
+              {inputLabel}
             </span>
-            <span class="order-value order-value--phone" id="detail-phone"
+            <span class="order-value order-value--phone" id="detail-target"
               >—</span
             >
           </div>
           <div class="order-row">
             <span class="order-label">
-              <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"
-                ><use href="#icon-clock"></use></svg
+              <svg
+                viewBox="0 0 24 24"
+                width="13"
+                height="13"
+                aria-hidden="true"
               >
+                <use href="#icon-clock"></use>
+              </svg>
               Keterangan
             </span>
             <span class="order-value order-value--desc" id="detail-desc">—</span
@@ -244,7 +302,6 @@ const configData = JSON.stringify({
           </div>
         </div>
 
-        <!-- WA message preview -->
         <div class="wa-preview">
           <div class="wa-preview__header">
             <svg
@@ -252,8 +309,10 @@ const configData = JSON.stringify({
               fill="#25d366"
               width="14"
               height="14"
-              aria-hidden="true"><use href="#icon-wa"></use></svg
+              aria-hidden="true"
             >
+              <use href="#icon-wa"></use>
+            </svg>
             <span>Pesan yang akan dikirim</span>
           </div>
           <div class="wa-preview__bubble" id="wa-preview-text">—</div>
@@ -268,21 +327,22 @@ const configData = JSON.stringify({
             fill="currentColor"
             width="17"
             height="17"
-            aria-hidden="true"><use href="#icon-wa"></use></svg
+            aria-hidden="true"
           >
+            <use href="#icon-wa"></use>
+          </svg>
           Chat WhatsApp Sekarang
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Config data via JSON script (lebih efisien dari data attribute) -->
   <script id="config" type="application/json" set:html={configData} />
 
   <!-- ══ FLOATING WA BUTTON ══ -->
   <div class="wa-fab-wrap" id="wa-fab-wrap">
     <a
-      href="https://wa.me/6289501450677"
+      href={`https://wa.me/${waNumber}`}
       target="_blank"
       rel="noopener noreferrer"
       class="wa-fab"
@@ -293,26 +353,17 @@ const configData = JSON.stringify({
         class="wa-fab__icon"
         viewBox="0 0 24 24"
         fill="currentColor"
-        aria-hidden="true"><use href="#icon-wa"></use></svg
+        aria-hidden="true"
       >
+        <use href="#icon-wa"></use>
+      </svg>
       <span class="wa-fab__label">Butuh bantuan?</span>
     </a>
   </div>
-
-  <style is:global>
-    /* Provider pill hide on small screens — needs global scope karena dipakai lintas komponen */
-    @media (max-width: 600px) {
-      #provider-pill {
-        display: none !important;
-      }
-    }
-  </style>
 </BaseLayout>
 
 <style>
-  /* ══ LAYOUT ══ */
-  /* Tokens, .hidden, .page-wrapper sudah ada di global.css */
-
+  /* ── Layout ── */
   main {
     max-width: var(--content-max);
     margin: 0 auto;
@@ -322,13 +373,7 @@ const configData = JSON.stringify({
     gap: 16px;
   }
 
-  @media (max-width: 640px) {
-    main {
-      padding: 20px 12px 80px;
-    }
-  }
-
-  /* ══ INPUT SECTION ══ */
+  /* ── Input Section ── */
   .input-section {
     background: var(--color-bg);
     border-radius: 20px;
@@ -337,13 +382,11 @@ const configData = JSON.stringify({
     flex-direction: column;
     gap: 24px;
   }
-
   .page-title-row {
     display: flex;
     align-items: center;
     gap: 14px;
   }
-
   .page-title-icon {
     width: 48px;
     height: 48px;
@@ -352,13 +395,11 @@ const configData = JSON.stringify({
     justify-content: center;
     flex-shrink: 0;
   }
-
   .page-title-icon svg {
     width: 24px;
     height: 24px;
     color: var(--color-text);
   }
-
   .page-title {
     font-size: 1.25rem;
     font-weight: 800;
@@ -366,31 +407,26 @@ const configData = JSON.stringify({
     margin: 0 0 3px;
     letter-spacing: -0.3px;
   }
-
   .page-subtitle {
     font-size: 0.8rem;
     color: var(--color-muted);
     margin: 0;
   }
-
   .input-card {
     display: flex;
     flex-direction: column;
     gap: 10px;
   }
-
   .input-label {
     font-size: 13px;
     font-weight: 600;
     color: var(--color-text);
   }
-
   .input-row {
     display: flex;
     gap: 12px;
     align-items: stretch;
   }
-
   .input-wrap {
     flex: 1;
     display: flex;
@@ -401,14 +437,12 @@ const configData = JSON.stringify({
     background: var(--color-bg);
     transition: border-color 0.2s;
   }
-
   .input-wrap:focus-within {
     border-color: var(--color-text);
   }
   .input-wrap.error {
     border-color: #e53e3e;
   }
-
   .input-prefix {
     font-size: 14px;
     font-weight: 600;
@@ -421,7 +455,6 @@ const configData = JSON.stringify({
     border-right: 1.5px solid var(--color-border);
     flex-shrink: 0;
   }
-
   .input-wrap input {
     flex: 1;
     height: 52px;
@@ -434,51 +467,17 @@ const configData = JSON.stringify({
     background: transparent;
     letter-spacing: 0.3px;
   }
-
   .input-wrap input::placeholder {
     color: #c4c4c4;
     font-weight: 400;
     letter-spacing: 0;
   }
-
-  .provider-pill {
-    padding: 0 14px;
-    height: 52px;
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    border-left: 1.5px solid var(--color-border);
-  }
-
-  @media (max-width: 640px) {
-    .provider-pill {
-      display: none !important;
-    }
-  }
-
-  .provider-pill span {
-    font-size: 12px;
-    font-weight: 700;
-    color: #b0b0b0;
-    background: #f0f0f0;
-    padding: 4px 12px;
-    border-radius: 10px;
-    white-space: nowrap;
-    transition: all 0.25s;
-  }
-
-  .provider-pill.detected span {
-    color: var(--color-bg);
-    background: var(--color-text);
-  }
-
   .input-hint {
     font-size: 12px;
     color: #b0b0b0;
     margin: 0;
     transition: color 0.2s;
   }
-
   .input-hint.success {
     color: #22863a;
   }
@@ -486,7 +485,7 @@ const configData = JSON.stringify({
     color: #e53e3e;
   }
 
-  /* ══ PRODUCTS SECTION ══ */
+  /* ── Products Section ── */
   .products-section {
     background: var(--color-bg);
     border-radius: 20px;
@@ -497,7 +496,6 @@ const configData = JSON.stringify({
     justify-content: center;
     contain: layout style;
   }
-
   .state-wrap {
     display: flex;
     flex-direction: column;
@@ -508,7 +506,6 @@ const configData = JSON.stringify({
     gap: 10px;
     width: 100%;
   }
-
   .state-icon {
     width: 52px;
     height: 52px;
@@ -517,23 +514,17 @@ const configData = JSON.stringify({
     justify-content: center;
     margin-bottom: 4px;
   }
-
   .state-icon svg {
     width: 26px;
     height: 26px;
-    color: #000000;
+    color: #000;
   }
-  .state-icon--warn svg {
-    color: #d97706;
-  }
-
   .state-title {
     font-size: 14px;
     font-weight: 700;
     color: var(--color-text);
     margin: 0;
   }
-
   .state-desc {
     font-size: 13px;
     color: var(--color-muted);
@@ -542,12 +533,10 @@ const configData = JSON.stringify({
     line-height: 1.5;
   }
 
-  /* Products container */
   #products-container {
     width: 100%;
     padding: 28px 28px 32px;
   }
-
   .products-header {
     display: flex;
     align-items: center;
@@ -556,13 +545,11 @@ const configData = JSON.stringify({
     border-bottom: 1px solid var(--color-border);
     margin-bottom: 24px;
   }
-
   .products-header-left {
     display: flex;
     align-items: center;
     gap: 14px;
   }
-
   .provider-logo {
     width: 40px;
     height: 40px;
@@ -574,31 +561,27 @@ const configData = JSON.stringify({
     font-weight: 900;
     color: white;
     flex-shrink: 0;
-    letter-spacing: -0.5px;
     overflow: hidden;
     background: transparent;
   }
-
   .provider-logo img {
     width: 100%;
     height: 100%;
     object-fit: contain;
   }
-
   .products-title {
     font-size: 15px;
     font-weight: 700;
     color: var(--color-text);
     margin: 0 0 2px;
   }
-
   .products-count {
     font-size: 12px;
     color: var(--color-muted);
     margin: 0;
   }
 
-  /* ══ SUB-CATEGORY SECTION HEADER ══ */
+  /* ── Grid (via JS innerHTML → :global) ── */
   :global(.subcategory-header) {
     display: flex;
     align-items: center;
@@ -606,12 +589,10 @@ const configData = JSON.stringify({
     padding: 16px 0 10px;
     margin-top: 8px;
   }
-
   :global(.subcategory-header:first-child) {
     padding-top: 0;
     margin-top: 0;
   }
-
   :global(.subcategory-title) {
     font-size: 12px;
     font-weight: 700;
@@ -620,29 +601,17 @@ const configData = JSON.stringify({
     letter-spacing: 0.5px;
     white-space: nowrap;
   }
-
   :global(.subcategory-line) {
     flex: 1;
     height: 1px;
     background: var(--color-border);
   }
-
-  /* ══ NOMINALS GRID ══ */
   :global(.nominals-grid) {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
     margin-bottom: 8px;
   }
-
-  @media (max-width: 700px) {
-    :global(.nominals-grid) {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 7px;
-    }
-  }
-
-  /* .nominal-btn* diinjeksi via JS innerHTML → butuh :global() */
   :global(.nominal-btn) {
     background: #f0f0f0;
     border: 1.5px solid var(--color-border);
@@ -660,28 +629,23 @@ const configData = JSON.stringify({
     gap: 6px;
     width: 100%;
     text-align: left;
-    position: relative;
   }
-
   :global(.nominal-btn:hover) {
     border-color: var(--color-text);
     box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
     transform: translateY(-1px);
-    background: #ffffff;
+    background: #fff;
   }
-
   :global(.nominal-btn:active) {
     transform: translateY(0);
     box-shadow: none;
   }
-
   :global(.nominal-btn__top) {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 4px;
   }
-
   :global(.nominal-btn__code) {
     font-size: 10px;
     font-weight: 700;
@@ -691,7 +655,6 @@ const configData = JSON.stringify({
     font-family: var(--font-mono);
     line-height: 1;
   }
-
   :global(.nominal-btn__badge) {
     font-size: 9px;
     font-weight: 700;
@@ -704,7 +667,6 @@ const configData = JSON.stringify({
     flex-shrink: 0;
     line-height: 1.4;
   }
-
   :global(.nominal-btn__value) {
     font-size: 18px;
     font-weight: 900;
@@ -712,26 +674,20 @@ const configData = JSON.stringify({
     letter-spacing: -0.5px;
     line-height: 1;
   }
-
   :global(.nominal-btn__value-prefix) {
     font-size: 11px;
     font-weight: 700;
-    letter-spacing: 0;
     vertical-align: top;
     line-height: 1.55;
     color: var(--color-muted);
   }
-
   :global(.nominal-btn__desc) {
     font-size: 10.5px;
     color: var(--color-muted);
     font-weight: 500;
-    white-space: normal;
-    overflow: visible;
     line-height: 1.4;
     word-break: break-word;
   }
-
   :global(.nominal-btn__footer) {
     display: flex;
     align-items: center;
@@ -740,7 +696,6 @@ const configData = JSON.stringify({
     border-top: 1px solid var(--color-border);
     margin-top: 2px;
   }
-
   :global(.nominal-btn__price-label) {
     font-size: 9px;
     font-weight: 600;
@@ -750,7 +705,6 @@ const configData = JSON.stringify({
     line-height: 1;
     margin-bottom: 2px;
   }
-
   :global(.nominal-btn__price) {
     font-size: 13px;
     font-weight: 800;
@@ -758,7 +712,6 @@ const configData = JSON.stringify({
     letter-spacing: -0.3px;
     line-height: 1;
   }
-
   :global(.nominal-btn__cta) {
     width: 22px;
     height: 22px;
@@ -778,13 +731,12 @@ const configData = JSON.stringify({
       opacity 0.15s,
       transform 0.15s;
   }
-
   :global(.nominal-btn:hover .nominal-btn__cta) {
     opacity: 1;
     transform: scale(1);
   }
 
-  /* ══ MODAL ══ */
+  /* ── Modal ── */
   .modal-overlay {
     position: fixed;
     inset: 0;
@@ -795,16 +747,7 @@ const configData = JSON.stringify({
     align-items: flex-end;
     justify-content: center;
     animation: fadeIn 0.2s ease;
-    will-change: opacity;
   }
-
-  @media (min-width: 600px) {
-    .modal-overlay {
-      align-items: center;
-      padding: 24px;
-    }
-  }
-
   .modal {
     background: var(--color-bg);
     width: 100%;
@@ -813,14 +756,6 @@ const configData = JSON.stringify({
     overflow: hidden;
     animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
-
-  @media (min-width: 600px) {
-    .modal {
-      border-radius: 20px;
-      animation: scaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-  }
-
   .modal-header {
     display: flex;
     align-items: center;
@@ -828,13 +763,11 @@ const configData = JSON.stringify({
     padding: 18px 20px 16px;
     border-bottom: 1px solid var(--color-border);
   }
-
   .modal-header-left {
     display: flex;
     align-items: center;
     gap: 10px;
   }
-
   .modal-provider-dot {
     width: 10px;
     height: 10px;
@@ -843,14 +776,12 @@ const configData = JSON.stringify({
     flex-shrink: 0;
     transition: background 0.3s;
   }
-
   .modal-title {
     font-size: 14px;
     font-weight: 700;
     color: var(--color-text);
     margin: 0;
   }
-
   .modal-close {
     width: 32px;
     height: 32px;
@@ -863,24 +794,16 @@ const configData = JSON.stringify({
     align-items: center;
     justify-content: center;
     transition: background 0.15s;
-    flex-shrink: 0;
-  }
-
-  .modal-close svg {
-    width: 13px;
-    height: 13px;
   }
   .modal-close:hover {
     background: var(--page-bg);
   }
-
   .modal-body {
     padding: 16px 20px;
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
-
   .modal-nominal-hero {
     border-radius: 14px;
     padding: 16px 18px;
@@ -890,7 +813,6 @@ const configData = JSON.stringify({
     flex-direction: column;
     gap: 3px;
   }
-
   .modal-nominal-hero__label {
     font-size: 10px;
     font-weight: 600;
@@ -898,7 +820,6 @@ const configData = JSON.stringify({
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
-
   .modal-nominal-hero__value {
     font-size: 32px;
     font-weight: 900;
@@ -906,20 +827,17 @@ const configData = JSON.stringify({
     letter-spacing: -1px;
     line-height: 1;
   }
-
   .modal-nominal-hero__provider {
     font-size: 12px;
     font-weight: 500;
     color: var(--color-muted);
     margin-top: 2px;
   }
-
   .order-card {
     border: 1.5px solid var(--color-border);
     border-radius: 14px;
     overflow: hidden;
   }
-
   .order-row {
     display: flex;
     align-items: center;
@@ -927,14 +845,12 @@ const configData = JSON.stringify({
     padding: 11px 16px;
     gap: 16px;
   }
-
   .order-row:not(:last-child) {
     border-bottom: 1px solid var(--color-border);
   }
   .order-row--total {
     background: #f0f0f0;
   }
-
   .order-label {
     font-size: 12px;
     font-weight: 500;
@@ -944,19 +860,16 @@ const configData = JSON.stringify({
     align-items: center;
     gap: 5px;
   }
-
   .order-label--total {
     font-weight: 700;
     color: var(--color-text);
   }
-
   .order-value {
     font-size: 13px;
     font-weight: 600;
     color: var(--color-text);
     text-align: right;
   }
-
   .order-value--desc {
     font-size: 12px;
     font-weight: 500;
@@ -972,16 +885,13 @@ const configData = JSON.stringify({
     font-size: 16px;
     font-weight: 900;
     letter-spacing: -0.5px;
-    color: var(--color-text);
   }
-
   .wa-preview {
     border-radius: 12px;
     overflow: hidden;
     border: 1.5px solid #d4f0d8;
     background: #f0faf1;
   }
-
   .wa-preview__header {
     display: flex;
     align-items: center;
@@ -995,7 +905,6 @@ const configData = JSON.stringify({
     text-transform: uppercase;
     letter-spacing: 0.3px;
   }
-
   .wa-preview__bubble {
     font-size: 12.5px;
     color: #1a3a1f;
@@ -1003,13 +912,11 @@ const configData = JSON.stringify({
     padding: 10px 14px;
     white-space: pre-line;
   }
-
   .modal-footer {
     padding: 12px 20px 20px;
     display: flex;
     gap: 8px;
   }
-
   .btn-cancel {
     height: 46px;
     padding: 0 18px;
@@ -1025,12 +932,10 @@ const configData = JSON.stringify({
       border-color 0.15s;
     flex-shrink: 0;
   }
-
   .btn-cancel:hover {
     background: var(--page-bg);
     border-color: #c0c0c0;
   }
-
   .btn-order {
     flex: 1;
     height: 46px;
@@ -1050,7 +955,6 @@ const configData = JSON.stringify({
       transform 0.15s;
     letter-spacing: -0.1px;
   }
-
   .btn-order:hover {
     background: #1dba58;
     transform: translateY(-1px);
@@ -1059,7 +963,7 @@ const configData = JSON.stringify({
     transform: translateY(0);
   }
 
-  /* ══ FLOATING WA BUTTON ══ */
+  /* ── FAB ── */
   .wa-fab-wrap {
     position: fixed;
     bottom: 28px;
@@ -1068,20 +972,7 @@ const configData = JSON.stringify({
     animation: fabIn 0.5s 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
     touch-action: none;
     user-select: none;
-    will-change: transform;
   }
-
-  @keyframes fabIn {
-    from {
-      opacity: 0;
-      transform: translateY(16px) scale(0.9);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
-
   .wa-fab {
     display: flex;
     align-items: center;
@@ -1098,38 +989,34 @@ const configData = JSON.stringify({
     font-weight: 700;
     white-space: nowrap;
     transition:
-      background 0.2s ease,
-      box-shadow 0.2s ease,
-      border-radius 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-      padding 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-      gap 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      background 0.2s,
+      box-shadow 0.2s,
+      border-radius 0.35s,
+      padding 0.35s,
+      gap 0.35s;
   }
-
   .wa-fab:hover {
     background: #1dba58;
     box-shadow:
       0 8px 28px rgba(37, 211, 102, 0.45),
       0 4px 12px rgba(0, 0, 0, 0.14);
   }
-
   .wa-fab__icon {
     width: 20px;
     height: 20px;
     flex-shrink: 0;
   }
-
   .wa-fab__label {
     display: inline-block;
     max-width: 160px;
     overflow: hidden;
     opacity: 1;
     transition:
-      max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-      opacity 0.2s ease,
-      margin 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      max-width 0.35s,
+      opacity 0.2s,
+      margin 0.35s;
     line-height: 1;
   }
-
   .wa-fab-wrap.collapsed .wa-fab {
     border-radius: 50%;
     padding: 15px;
@@ -1140,38 +1027,12 @@ const configData = JSON.stringify({
     opacity: 0;
     margin: 0;
   }
-  .wa-fab-wrap.dragging {
-    transition: none;
-    cursor: grabbing;
-  }
-
   .wa-fab-wrap.dragging .wa-fab {
     opacity: 0.9;
     transform: scale(1.06);
-    box-shadow:
-      0 12px 32px rgba(37, 211, 102, 0.45),
-      0 6px 16px rgba(0, 0, 0, 0.18);
   }
 
-  @media (max-width: 480px) {
-    .wa-fab-wrap {
-      bottom: 20px;
-      right: 16px;
-    }
-    .wa-fab {
-      width: 52px;
-      height: 52px;
-      padding: 0 !important;
-      border-radius: 50% !important;
-      justify-content: center;
-      gap: 0 !important;
-    }
-    .wa-fab__label {
-      display: none !important;
-    }
-  }
-
-  /* ══ ANIMATIONS ══ */
+  /* ── Animations ── */
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -1180,7 +1041,6 @@ const configData = JSON.stringify({
       opacity: 1;
     }
   }
-
   @keyframes slideUp {
     from {
       transform: translateY(100%);
@@ -1191,7 +1051,6 @@ const configData = JSON.stringify({
       opacity: 1;
     }
   }
-
   @keyframes scaleIn {
     from {
       transform: scale(0.96);
@@ -1202,7 +1061,6 @@ const configData = JSON.stringify({
       opacity: 1;
     }
   }
-
   @keyframes cardIn {
     from {
       opacity: 0;
@@ -1213,8 +1071,39 @@ const configData = JSON.stringify({
       transform: translateY(0);
     }
   }
+  @keyframes fabIn {
+    from {
+      opacity: 0;
+      transform: translateY(16px) scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
 
-  /* ══ RESPONSIVE ══ */
+  /* ── Responsive ── */
+  @media (min-width: 600px) {
+    .modal {
+      border-radius: 20px;
+      animation: scaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .modal-overlay {
+      align-items: center;
+      padding: 24px;
+    }
+  }
+  @media (max-width: 700px) {
+    :global(.nominals-grid) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 7px;
+    }
+  }
+  @media (max-width: 640px) {
+    main {
+      padding: 20px 12px 80px;
+    }
+  }
   @media (max-width: 600px) {
     main {
       padding: 28px 16px 80px;
@@ -1232,312 +1121,233 @@ const configData = JSON.stringify({
       margin-bottom: 18px;
     }
   }
+  @media (max-width: 480px) {
+    .wa-fab-wrap {
+      bottom: 20px;
+      right: 16px;
+    }
+    .wa-fab {
+      width: 52px;
+      height: 52px;
+      padding: 0 !important;
+      border-radius: 50% !important;
+      justify-content: center;
+      gap: 0 !important;
+    }
+    .wa-fab__label {
+      display: none !important;
+    }
+  }
 </style>
 
 <script>
   (function () {
-    /* ── CONFIG — baca dari <script type="application/json"> ── */
-    const configEl = document.getElementById("config") as HTMLScriptElement;
-    const config: {
+    // ── CONFIG ──────────────────────────────────────────────────────────────
+    const cfg: {
       wa: string;
-      providers: Array<{
-        name: string;
-        title: string;
-        prefixes: string[];
-        subCategories: Array<{
-          name: string;
-          title: string;
-          packages: Array<{
-            code: string;
-            name: string;
-            desc: string;
-            price: number;
-          }>;
-        }>;
-      }>;
-    } = JSON.parse(configEl.textContent!);
-    const waNumber = config.wa;
-    const providers = config.providers;
-
-    /* ── STATE ── */
-    let currentProvider: (typeof providers)[0] | null = null;
-    let selectedPkg: {
-      code: string;
       name: string;
-      desc: string;
-      price: number;
-    } | null = null;
-    let selectedSubCatTitle = "";
+      title: string;
+      inputLabel: string;
+      isPhoneInput: boolean;
+      accent: string;
+      badgeLabel: string;
+      packages: Array<{
+        code: string;
+        name: string;
+        desc: string;
+        price: number;
+      }>;
+    } = JSON.parse(
+      (document.getElementById("config") as HTMLScriptElement).textContent!,
+    );
 
-    /* ── DOM ── */
-    const phoneInput = document.getElementById(
-      "phone-input",
-    ) as HTMLInputElement;
-    const inputWrap = document.getElementById("input-wrap")!;
-    const providerPill = document.getElementById("provider-pill")!;
-    const providerNameEl = document.getElementById("provider-name")!;
-    const inputHint = document.getElementById("input-hint")!;
+    const {
+      wa: waNumber,
+      title: brandTitle,
+      isPhoneInput,
+      accent,
+      badgeLabel,
+      packages,
+    } = cfg;
 
-    const emptyState = document.getElementById("empty-state")!;
-    const unknownState = document.getElementById("unknown-state")!;
-    const productsContainer = document.getElementById("products-container")!;
-    const productsGrid = document.getElementById("products-grid")!;
-    const productsTitleEl = document.getElementById("products-title")!;
-    const productsCountEl = document.getElementById("products-count")!;
-    const productsLogoEl = document.getElementById("products-provider-logo")!;
-    const productsSection = document.getElementById("products-section")!;
+    // ── STATE ───────────────────────────────────────────────────────────────
+    let selectedPkg: (typeof packages)[0] | null = null;
 
-    const modalOverlay = document.getElementById("modal-overlay")!;
-    const modalClose = document.getElementById("modal-close")!;
-    const btnCancel = document.getElementById("btn-cancel")!;
-    const btnOrder = document.getElementById("btn-order")!;
+    // ── DOM REFS ────────────────────────────────────────────────────────────
+    const $ = (id: string) => document.getElementById(id)!;
+    const userInput = $("user-input") as HTMLInputElement;
+    const inputWrap = $("input-wrap");
+    const inputHint = $("input-hint");
+    const emptyState = $("empty-state");
+    const productsSection = $("products-section");
+    const productsContainer = $("products-container");
+    const productsGrid = $("products-grid");
+    const productsTitleEl = $("products-title");
+    const productsCountEl = $("products-count");
+    const productsLogoEl = $("products-provider-logo");
+    const modalOverlay = $("modal-overlay");
+    const detailNominal = $("detail-nominal");
+    const detailProduct = $("detail-product");
+    const detailDesc = $("detail-desc");
+    const detailTarget = $("detail-target");
+    const detailPrice = $("detail-price");
+    const waPreviewText = $("wa-preview-text");
 
-    const detailProduct = document.getElementById("detail-product")!;
-    const detailNominal = document.getElementById("detail-nominal")!;
-    const detailDesc = document.getElementById("detail-desc")!;
-    const detailPhone = document.getElementById("detail-phone")!;
-    const detailPrice = document.getElementById("detail-price")!;
-
-    /* ── PROVIDER DATA ── */
-    const providerLogos: Record<string, string> = {
-      "telkomsel-data": "/logos/telkomsel_logo.svg",
-      "tri-data": "/logos/tri_logo.svg",
-      "indosat-data": "/logos/indosat_logo.svg",
-      "xl-data": "/logos/xl_logo.svg",
-      "axis-data": "/logos/axis_logo.svg",
-      "smartfren-data": "/logos/smartfren_logo.svg",
-    };
-
-    const providerColors: Record<string, string> = {
-      "telkomsel-data": "linear-gradient(135deg,#e53e3e,#c53030)",
-      "tri-data": "linear-gradient(135deg,#553c9a,#44337a)",
-      "indosat-data": "linear-gradient(135deg,#d97706,#b45309)",
-      "xl-data": "linear-gradient(135deg,#2b6cb0,#2c5282)",
-      "axis-data": "linear-gradient(135deg,#276749,#22543d)",
-      "smartfren-data": "linear-gradient(135deg,#e53e3e,#805ad5)",
-    };
-
-    const providerInitials: Record<string, string> = {
-      "telkomsel-data": "TEL",
-      "tri-data": "3",
-      "indosat-data": "IM3",
-      "xl-data": "XL",
-      "axis-data": "AX",
-      "smartfren-data": "SF",
-    };
-
-    /* ── HELPERS ── */
-    // Cache formatter — hindari instansiasi ulang tiap render kartu
-    const rpFormatter = new Intl.NumberFormat("id-ID", {
+    // ── HELPERS ─────────────────────────────────────────────────────────────
+    const rpFmt = new Intl.NumberFormat("id-ID", {
       style: "currency",
       currency: "IDR",
       minimumFractionDigits: 0,
     });
-    const formatRp = (n: number) => rpFormatter.format(n);
+    const formatRp = (n: number) => rpFmt.format(n);
 
-    function normalizePhone(val: string): string {
+    // Normalisasi nomor HP → format 08xx (hanya untuk isPhoneInput)
+    function normalizePhone(val: string) {
       let n = val.replace(/\D/g, "");
       if (n.startsWith("62")) n = "0" + n.slice(2);
       if (n.startsWith("8")) n = "0" + n;
       return n;
     }
 
-    function detectProvider(raw: string) {
-      const n = normalizePhone(raw);
-      if (n.length < 5) return null;
-      return providers.find((p) => p.prefixes.includes(n.slice(0, 4))) ?? null;
-    }
-
-    // Debounce helper — hindari deteksi tiap keystroke
-    function debounce<T extends (...args: unknown[]) => void>(
-      fn: T,
-      ms: number,
-    ) {
+    function debounce<T extends (...a: unknown[]) => void>(fn: T, ms: number) {
       let t: ReturnType<typeof setTimeout>;
-      return (...args: Parameters<T>) => {
+      return (...a: Parameters<T>) => {
         clearTimeout(t);
-        t = setTimeout(() => fn(...args), ms);
+        t = setTimeout(() => fn(...a), ms);
       };
     }
 
-    /* ── RENDER PRODUCTS ── */
-    function renderProducts(provider: (typeof providers)[0]) {
-      const totalPkgs = provider.subCategories.reduce(
-        (sum, sc) => sum + sc.packages.length,
-        0,
-      );
-      productsTitleEl.textContent = `Paket Data ${provider.title}`;
-      productsCountEl.textContent = `${totalPkgs} pilihan tersedia`;
+    // Validasi input — cukup 1 karakter untuk ID/email, 10 digit untuk nomor HP
+    function isInputValid(raw: string) {
+      if (isPhoneInput) return normalizePhone(raw).length >= 10;
+      return raw.trim().length >= 1;
+    }
 
-      // Logo
-      const logoUrl = providerLogos[provider.name];
-      productsLogoEl.innerHTML = "";
-      productsLogoEl.style.cssText =
-        "background:transparent;border:none;border-radius:0";
-      if (logoUrl) {
-        const img = document.createElement("img");
-        img.src = logoUrl;
-        img.alt = provider.title;
-        img.onerror = () => {
-          productsLogoEl.textContent =
-            providerInitials[provider.name] ??
-            provider.title.slice(0, 3).toUpperCase();
-          productsLogoEl.style.cssText = `background:${providerColors[provider.name] ?? "linear-gradient(135deg,#0a0a0a,#333)"};border-radius:14px;border:none`;
-        };
+    // ── RENDER (sekali saat load) ────────────────────────────────────────────
+    function initProducts() {
+      productsTitleEl.textContent = `Pilih Nominal ${brandTitle}`;
+      productsCountEl.textContent = `${packages.length} pilihan tersedia`;
+
+      // Provider dot warna
+      ($("modal-provider-dot") as HTMLElement).style.background = accent;
+
+      // Logo: coba load dari /logos/{name}_logo.svg, fallback ke inisial berwarna
+      const img = document.createElement("img");
+      img.src = `/logos/${cfg.name}_logo.svg`;
+      img.alt = brandTitle;
+      img.onload = () => {
+        productsLogoEl.style.cssText =
+          "background:transparent;border:none;border-radius:0";
+        productsLogoEl.innerHTML = "";
         productsLogoEl.appendChild(img);
-      } else {
-        productsLogoEl.textContent =
-          providerInitials[provider.name] ??
-          provider.title.slice(0, 3).toUpperCase();
-        productsLogoEl.style.cssText = `background:${providerColors[provider.name] ?? "linear-gradient(135deg,#0a0a0a,#333)"};border-radius:14px;border:none`;
-      }
+      };
+      img.onerror = () => {
+        productsLogoEl.textContent = brandTitle.slice(0, 2).toUpperCase();
+        productsLogoEl.style.cssText = `background:${accent};border-radius:14px;border:none`;
+      };
 
-      // Render subkategori + kartu dalam satu DocumentFragment (1 reflow)
+      // Render grid nominal
       const frag = document.createDocumentFragment();
-      let globalIndex = 0;
+      const header = document.createElement("div");
+      header.className = "subcategory-header";
+      header.innerHTML = `<span class="subcategory-title">Nominal ${brandTitle}</span><span class="subcategory-line"></span>`;
+      frag.appendChild(header);
 
-      provider.subCategories.forEach((subCat) => {
-        const headerEl = document.createElement("div");
-        headerEl.className = "subcategory-header";
-        headerEl.innerHTML = `<span class="subcategory-title">${subCat.title}</span><span class="subcategory-line"></span>`;
-        frag.appendChild(headerEl);
+      const grid = document.createElement("div");
+      grid.className = "nominals-grid";
 
-        const gridEl = document.createElement("div");
-        gridEl.className = "nominals-grid";
-
-        subCat.packages.forEach((pkg) => {
-          const btn = document.createElement("button");
-          btn.className = "nominal-btn";
-          btn.style.animationDelay = `${globalIndex * 25}ms`;
-          btn.innerHTML = `
-            <div class="nominal-btn__top">
-              <span class="nominal-btn__code">${pkg.code}</span>
-              <span class="nominal-btn__badge">Data</span>
+      packages.forEach((pkg, i) => {
+        const btn = document.createElement("button");
+        btn.className = "nominal-btn";
+        btn.style.animationDelay = `${i * 20}ms`;
+        btn.innerHTML = `
+          <div class="nominal-btn__top">
+            <span class="nominal-btn__code">${pkg.code}</span>
+            <span class="nominal-btn__badge">${badgeLabel}</span>
+          </div>
+          <div class="nominal-btn__value">
+            <span class="nominal-btn__value-prefix">Rp</span>${pkg.name}
+          </div>
+          <span class="nominal-btn__desc">${pkg.desc}</span>
+          <div class="nominal-btn__footer">
+            <div>
+              <div class="nominal-btn__price-label">Harga</div>
+              <div class="nominal-btn__price">${formatRp(pkg.price)}</div>
             </div>
-            <div class="nominal-btn__value">${pkg.name}</div>
-            <span class="nominal-btn__desc">${pkg.desc}</span>
-            <div class="nominal-btn__footer">
-              <div>
-                <div class="nominal-btn__price-label">Harga</div>
-                <div class="nominal-btn__price">${formatRp(pkg.price)}</div>
-              </div>
-              <div class="nominal-btn__cta">›</div>
-            </div>`;
-          btn.addEventListener("click", () =>
-            openModal(pkg, provider, subCat.title),
-          );
-          gridEl.appendChild(btn);
-          globalIndex++;
-        });
-
-        frag.appendChild(gridEl);
+            <div class="nominal-btn__cta">›</div>
+          </div>`;
+        btn.addEventListener("click", () => openModal(pkg));
+        grid.appendChild(btn);
       });
 
+      frag.appendChild(grid);
       productsGrid.innerHTML = "";
       productsGrid.appendChild(frag);
     }
 
-    /* ── UI STATE ── */
-    function setMode(mode: "empty" | "unknown" | "products") {
+    // ── UI STATE ─────────────────────────────────────────────────────────────
+    function setMode(mode: "empty" | "products") {
       productsSection.style.alignItems =
         mode === "products" ? "flex-start" : "center";
       emptyState.classList.toggle("hidden", mode !== "empty");
-      unknownState.classList.toggle("hidden", mode !== "unknown");
       productsContainer.classList.toggle("hidden", mode !== "products");
     }
 
+    // ── INPUT HANDLER ────────────────────────────────────────────────────────
     function updateUI() {
-      const raw = phoneInput.value.trim();
-
+      const raw = userInput.value.trim();
       if (!raw) {
-        currentProvider = null;
-        providerPill.classList.remove("detected");
-        providerNameEl.textContent = "Operator";
-        inputHint.textContent = "Ketik nomor handphone";
+        inputHint.textContent = isPhoneInput
+          ? `Masukkan nomor HP yang terdaftar di ${brandTitle}`
+          : `Masukkan ${cfg.inputLabel.toLowerCase()} Anda`;
         inputHint.className = "input-hint";
         inputWrap.classList.remove("error");
         setMode("empty");
         return;
       }
-
-      const n = normalizePhone(raw);
-      const provider = detectProvider(raw);
-
-      if (n.length < 5) {
-        providerPill.classList.remove("detected");
-        providerNameEl.textContent = "Operator";
-        inputHint.textContent = "Lanjutkan mengetik nomor HP Anda…";
+      if (!isInputValid(raw)) {
+        inputHint.textContent = isPhoneInput
+          ? "Lanjutkan mengetik nomor HP Anda…"
+          : "Lanjutkan mengisi data…";
         inputHint.className = "input-hint";
-        inputWrap.classList.remove("error");
         setMode("empty");
         return;
       }
-
-      if (provider) {
-        providerPill.classList.add("detected");
-        providerNameEl.textContent = provider.title;
-        inputHint.textContent = `✓ Terdeteksi sebagai nomor ${provider.title}`;
-        inputHint.className = "input-hint success";
-        inputWrap.classList.remove("error");
-
-        if (currentProvider?.name !== provider.name) {
-          currentProvider = provider;
-          setMode("products");
-          renderProducts(provider);
-        } else {
-          setMode("products");
-        }
-      } else {
-        currentProvider = null;
-        providerPill.classList.remove("detected");
-        providerNameEl.textContent = "Operator";
-        inputHint.textContent =
-          "Operator tidak dikenali — periksa kembali nomor HP Anda";
-        inputHint.className = "input-hint error";
-        inputWrap.classList.add("error");
-        setMode("unknown");
-      }
+      // Valid
+      const display = isPhoneInput
+        ? `+62 ${normalizePhone(raw).slice(1)}`
+        : raw;
+      inputHint.textContent = `✓ ${display} siap diisi ${brandTitle}`;
+      inputHint.className = "input-hint success";
+      inputWrap.classList.remove("error");
+      setMode("products");
     }
 
-    /* ── MODAL ── */
-    function openModal(
-      pkg: { code: string; name: string; desc: string; price: number },
-      provider: (typeof providers)[0],
-      subCatTitle: string,
-    ) {
-      const phone = normalizePhone(phoneInput.value.trim());
-      if (phone.length < 10) {
+    // ── MODAL ────────────────────────────────────────────────────────────────
+    function openModal(pkg: (typeof packages)[0]) {
+      const raw = userInput.value.trim();
+      if (!isInputValid(raw)) {
         inputWrap.classList.add("error");
-        inputHint.textContent = "Masukkan nomor HP yang valid terlebih dahulu!";
+        inputHint.textContent = `Isi ${cfg.inputLabel.toLowerCase()} yang valid terlebih dahulu!`;
         inputHint.className = "input-hint error";
-        phoneInput.focus();
+        userInput.focus();
         return;
       }
-
       selectedPkg = pkg;
-      selectedSubCatTitle = subCatTitle;
 
-      detailProduct.textContent = `${subCatTitle} — ${pkg.desc}`;
-      detailNominal.textContent = pkg.name;
+      const display = isPhoneInput
+        ? `+62 ${normalizePhone(raw).slice(1)}`
+        : raw;
+
+      detailNominal.textContent = `Rp${pkg.name}`;
+      detailProduct.textContent = `${brandTitle} — ${pkg.desc}`;
       detailDesc.textContent = pkg.desc;
-      detailPhone.textContent = `+62 ${phone.slice(1)}`;
+      detailTarget.textContent = display;
       detailPrice.textContent = formatRp(pkg.price);
-
-      const colorMap: Record<string, string> = {
-        "telkomsel-data": "#e53e3e",
-        "tri-data": "#553c9a",
-        "indosat-data": "#d97706",
-        "xl-data": "#2b6cb0",
-        "axis-data": "#276749",
-        "smartfren-data": "#805ad5",
-      };
-      document.getElementById("modal-provider-dot")!.style.background =
-        colorMap[provider.name] ?? "#0a0a0a";
-
-      document.getElementById("wa-preview-text")!.textContent =
+      waPreviewText.textContent =
         `Halo min! 👋\n\n` +
-        `Saya mau beli *Paket Data ${provider.title} ${pkg.name}*, ` +
-        `kirim ke nomor *${phone}* ya!\n\n` +
+        `Saya mau *Top Up ${brandTitle} Rp${pkg.name}*, ` +
+        `kirim ke *${display}* ya!\n\n` +
         `Detail:\n• Produk: ${pkg.desc}\n• Harga: ${formatRp(pkg.price)}\n\n` +
         `Mohon diproses, terima kasih 🙏`;
 
@@ -1551,14 +1361,17 @@ const configData = JSON.stringify({
       selectedPkg = null;
     }
 
-    /* ── WHATSAPP ── */
+    // ── SEND WA ──────────────────────────────────────────────────────────────
     function sendOrder() {
-      if (!selectedPkg || !currentProvider) return;
-      const phone = normalizePhone(phoneInput.value.trim());
+      if (!selectedPkg) return;
+      const raw = userInput.value.trim();
+      const display = isPhoneInput
+        ? `+62 ${normalizePhone(raw).slice(1)}`
+        : raw;
       const msg = encodeURIComponent(
         `Halo min! 👋\n\n` +
-          `Saya mau beli *Paket Data ${currentProvider.title} ${selectedPkg.name}*, ` +
-          `kirim ke nomor *${phone}* ya!\n\n` +
+          `Saya mau *Top Up ${brandTitle} Rp${selectedPkg.name}*, ` +
+          `kirim ke *${display}* ya!\n\n` +
           `Detail:\n• Produk: ${selectedPkg.desc}\n• Harga: ${formatRp(selectedPkg.price)}\n\n` +
           `Mohon diproses, terima kasih 🙏`,
       );
@@ -1566,15 +1379,23 @@ const configData = JSON.stringify({
       closeModal();
     }
 
-    /* ── EVENTS ── */
-    const debouncedUpdateUI = debounce(updateUI, 120);
-    phoneInput.addEventListener("input", debouncedUpdateUI, { passive: true });
-    phoneInput.addEventListener("keypress", (e) => {
-      if (!/[\d\s\-+()]/.test(e.key)) e.preventDefault();
-    });
-    modalClose.addEventListener("click", closeModal);
-    btnCancel.addEventListener("click", closeModal);
-    btnOrder.addEventListener("click", sendOrder);
+    // ── BOOT ─────────────────────────────────────────────────────────────────
+    initProducts();
+    setMode("empty");
+
+    const debouncedUpdate = debounce(updateUI, 120);
+    userInput.addEventListener("input", debouncedUpdate, { passive: true });
+
+    // Untuk input nomor HP: blokir karakter non-numerik
+    if (isPhoneInput) {
+      userInput.addEventListener("keypress", (e) => {
+        if (!/[\d\s\-+()]/.test(e.key)) e.preventDefault();
+      });
+    }
+
+    $("modal-close").addEventListener("click", closeModal);
+    $("btn-cancel").addEventListener("click", closeModal);
+    $("btn-order").addEventListener("click", sendOrder);
     modalOverlay.addEventListener("click", (e) => {
       if (e.target === modalOverlay) closeModal();
     });
@@ -1585,14 +1406,18 @@ const configData = JSON.stringify({
 </script>
 
 <script>
-  /* ── FLOATING WA BUTTON — drag + collapse ── */
+  /* ── FAB drag + collapse ── */
   (function () {
     const wrap = document.getElementById("wa-fab-wrap") as HTMLElement;
-    const fab = document.getElementById("wa-fab") as HTMLAnchorElement;
-    if (!wrap || !fab) return;
+    if (!wrap) return;
+    let isDragging = false,
+      didDrag = false;
+    let startX = 0,
+      startY = 0,
+      origLeft = 0,
+      origTop = 0,
+      collapsed = false;
 
-    /* ── COLLAPSE ON SCROLL (desktop only) ── */
-    let collapsed = false;
     window.addEventListener(
       "scroll",
       () => {
@@ -1609,92 +1434,65 @@ const configData = JSON.stringify({
       { passive: true },
     );
 
-    /* ── DRAG TO MOVE ── */
-    let isDragging = false;
-    let didDrag = false;
-    let startX = 0,
-      startY = 0;
-    let origLeft = 0,
-      origTop = 0;
-
-    function getPos() {
-      const rect = wrap.getBoundingClientRect();
-      return { left: rect.left, top: rect.top };
-    }
-
-    function startDrag(clientX: number, clientY: number) {
+    function startDrag(cx: number, cy: number) {
       isDragging = true;
       didDrag = false;
-      const pos = getPos();
-      origLeft = pos.left;
-      origTop = pos.top;
-      startX = clientX;
-      startY = clientY;
+      const r = wrap.getBoundingClientRect();
+      origLeft = r.left;
+      origTop = r.top;
+      startX = cx;
+      startY = cy;
       wrap.style.right = "auto";
       wrap.style.bottom = "auto";
       wrap.style.left = origLeft + "px";
       wrap.style.top = origTop + "px";
       wrap.classList.add("dragging");
     }
-
-    function moveDrag(clientX: number, clientY: number) {
+    function moveDrag(cx: number, cy: number) {
       if (!isDragging) return;
-      const dx = clientX - startX;
-      const dy = clientY - startY;
+      const dx = cx - startX,
+        dy = cy - startY;
       if (Math.abs(dx) > 3 || Math.abs(dy) > 3) didDrag = true;
-      const newLeft = Math.max(
-        8,
-        Math.min(window.innerWidth - wrap.offsetWidth - 8, origLeft + dx),
-      );
-      const newTop = Math.max(
-        8,
-        Math.min(window.innerHeight - wrap.offsetHeight - 8, origTop + dy),
-      );
-      wrap.style.left = newLeft + "px";
-      wrap.style.top = newTop + "px";
+      wrap.style.left =
+        Math.max(
+          8,
+          Math.min(window.innerWidth - wrap.offsetWidth - 8, origLeft + dx),
+        ) + "px";
+      wrap.style.top =
+        Math.max(
+          8,
+          Math.min(window.innerHeight - wrap.offsetHeight - 8, origTop + dy),
+        ) + "px";
     }
-
     function endDrag(e: Event) {
       if (!isDragging) return;
       isDragging = false;
       wrap.classList.remove("dragging");
       if (!didDrag) return;
-      const rect = wrap.getBoundingClientRect();
-      const midX = rect.left + rect.width / 2;
-      const snapLeft = midX < window.innerWidth / 2;
-      const margin = 20;
+      const r = wrap.getBoundingClientRect();
       wrap.style.left = "auto";
       wrap.style.right = "auto";
-      wrap.style.top = rect.top + "px";
+      wrap.style.top = r.top + "px";
       wrap.style.bottom = "auto";
-      if (snapLeft) {
-        wrap.style.left = margin + "px";
-      } else {
-        wrap.style.right = margin + "px";
-      }
+      wrap.style[
+        r.left + r.width / 2 < window.innerWidth / 2 ? "left" : "right"
+      ] = "20px";
       e.preventDefault();
     }
 
     wrap.addEventListener("mousedown", (e) => startDrag(e.clientX, e.clientY));
     window.addEventListener("mousemove", (e) => moveDrag(e.clientX, e.clientY));
-    window.addEventListener("mouseup", (e) => endDrag(e));
-
+    window.addEventListener("mouseup", endDrag);
     wrap.addEventListener(
       "touchstart",
-      (e) => {
-        const t = e.touches[0];
-        startDrag(t.clientX, t.clientY);
-      },
+      (e) => startDrag(e.touches[0].clientX, e.touches[0].clientY),
       { passive: true },
     );
     window.addEventListener(
       "touchmove",
-      (e) => {
-        const t = e.touches[0];
-        moveDrag(t.clientX, t.clientY);
-      },
+      (e) => moveDrag(e.touches[0].clientX, e.touches[0].clientY),
       { passive: true },
     );
-    window.addEventListener("touchend", (e) => endDrag(e));
+    window.addEventListener("touchend", endDrag);
   })();
 </script>

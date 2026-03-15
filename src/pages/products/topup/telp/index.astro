@@ -1,13 +1,13 @@
 ---
 import Navbar from "../../../../components/Navbar.astro";
 import BaseLayout from "../../../../layouts/BaseLayout.astro";
-import { paketDataProviders } from "../../../../data/products.js";
+import { telephoneProviders } from "../../../../data/products.js";
 
 const waNumber = "6289501450667";
 
 const configData = JSON.stringify({
   wa: waNumber,
-  providers: paketDataProviders.map((p) => ({
+  providers: telephoneProviders.map((p) => ({
     name: p.name,
     title: p.title,
     prefixes: p.prefixes,
@@ -17,8 +17,8 @@ const configData = JSON.stringify({
 ---
 
 <BaseLayout
-  title="Beli Paket Data | Oltpay"
-  description="Beli paket data internet semua operator dengan harga terbaik dan proses cepat."
+  title="Beli Paket Telepon | Oltpay"
+  description="Beli paket telepon semua operator dengan harga terbaik dan proses cepat."
 >
   <Navbar />
 
@@ -29,7 +29,7 @@ const configData = JSON.stringify({
     xmlns="http://www.w3.org/2000/svg"
   >
     <symbol
-      id="icon-globe"
+      id="icon-phone-call"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -37,10 +37,8 @@ const configData = JSON.stringify({
       stroke-linecap="round"
       stroke-linejoin="round"
     >
-      <circle cx="12" cy="12" r="10"></circle>
-      <line x1="2" y1="12" x2="22" y2="12"></line>
       <path
-        d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6 6l.94-.94a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.61 16.92z"
       ></path>
     </symbol>
     <symbol
@@ -109,13 +107,13 @@ const configData = JSON.stringify({
         <div class="page-title-row">
           <div class="page-title-icon">
             <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"
-              ><use href="#icon-globe"></use></svg
+              ><use href="#icon-phone-call"></use></svg
             >
           </div>
           <div>
-            <h1 class="page-title">Beli Paket Data</h1>
+            <h1 class="page-title">Beli Paket Telepon</h1>
             <p class="page-subtitle">
-              Kuota internet semua operator, harga terbaik &amp; proses cepat
+              Paket nelpon semua operator, harga terbaik &amp; proses cepat
             </p>
           </div>
         </div>
@@ -153,7 +151,7 @@ const configData = JSON.stringify({
           </div>
           <p class="state-title">Masukkan nomor HP</p>
           <p class="state-desc">
-            Pilihan paket data akan muncul setelah operator terdeteksi
+            Pilihan paket telepon akan muncul setelah operator terdeteksi
           </p>
         </div>
 
@@ -177,7 +175,7 @@ const configData = JSON.stringify({
               <div class="provider-logo" id="products-provider-logo"></div>
               <div>
                 <h2 class="products-title" id="products-title">
-                  Pilih Paket Data
+                  Pilih Paket Telepon
                 </h2>
                 <p class="products-count" id="products-count"></p>
               </div>
@@ -1300,30 +1298,27 @@ const configData = JSON.stringify({
 
     /* ── PROVIDER DATA ── */
     const providerLogos: Record<string, string> = {
-      "telkomsel-data": "/logos/telkomsel_logo.svg",
-      "tri-data": "/logos/tri_logo.svg",
-      "indosat-data": "/logos/indosat_logo.svg",
-      "xl-data": "/logos/xl_logo.svg",
-      "axis-data": "/logos/axis_logo.svg",
-      "smartfren-data": "/logos/smartfren_logo.svg",
+      "telkomsel-paktel": "/logos/telkomsel_logo.svg",
+      "tri-paktel": "/logos/tri_logo.svg",
+      "indosat-paktel": "/logos/indosat_logo.svg",
+      "xl-paktel": "/logos/xl_logo.svg",
+      "axis-paktel": "/logos/axis_logo.svg",
     };
 
     const providerColors: Record<string, string> = {
-      "telkomsel-data": "linear-gradient(135deg,#e53e3e,#c53030)",
-      "tri-data": "linear-gradient(135deg,#553c9a,#44337a)",
-      "indosat-data": "linear-gradient(135deg,#d97706,#b45309)",
-      "xl-data": "linear-gradient(135deg,#2b6cb0,#2c5282)",
-      "axis-data": "linear-gradient(135deg,#276749,#22543d)",
-      "smartfren-data": "linear-gradient(135deg,#e53e3e,#805ad5)",
+      "telkomsel-paktel": "linear-gradient(135deg,#e53e3e,#c53030)",
+      "tri-paktel": "linear-gradient(135deg,#553c9a,#44337a)",
+      "indosat-paktel": "linear-gradient(135deg,#d97706,#b45309)",
+      "xl-paktel": "linear-gradient(135deg,#2b6cb0,#2c5282)",
+      "axis-paktel": "linear-gradient(135deg,#276749,#22543d)",
     };
 
     const providerInitials: Record<string, string> = {
-      "telkomsel-data": "TEL",
-      "tri-data": "3",
-      "indosat-data": "IM3",
-      "xl-data": "XL",
-      "axis-data": "AX",
-      "smartfren-data": "SF",
+      "telkomsel-paktel": "TEL",
+      "tri-paktel": "3",
+      "indosat-paktel": "IM3",
+      "xl-paktel": "XL",
+      "axis-paktel": "AX",
     };
 
     /* ── HELPERS ── */
@@ -1366,7 +1361,7 @@ const configData = JSON.stringify({
         (sum, sc) => sum + sc.packages.length,
         0,
       );
-      productsTitleEl.textContent = `Paket Data ${provider.title}`;
+      productsTitleEl.textContent = `Paket Telepon ${provider.title}`;
       productsCountEl.textContent = `${totalPkgs} pilihan tersedia`;
 
       // Logo
@@ -1412,7 +1407,7 @@ const configData = JSON.stringify({
           btn.innerHTML = `
             <div class="nominal-btn__top">
               <span class="nominal-btn__code">${pkg.code}</span>
-              <span class="nominal-btn__badge">Data</span>
+              <span class="nominal-btn__badge">Telpon</span>
             </div>
             <div class="nominal-btn__value">${pkg.name}</div>
             <span class="nominal-btn__desc">${pkg.desc}</span>
@@ -1524,19 +1519,18 @@ const configData = JSON.stringify({
       detailPrice.textContent = formatRp(pkg.price);
 
       const colorMap: Record<string, string> = {
-        "telkomsel-data": "#e53e3e",
-        "tri-data": "#553c9a",
-        "indosat-data": "#d97706",
-        "xl-data": "#2b6cb0",
-        "axis-data": "#276749",
-        "smartfren-data": "#805ad5",
+        "telkomsel-paktel": "#e53e3e",
+        "tri-paktel": "#553c9a",
+        "indosat-paktel": "#d97706",
+        "xl-paktel": "#2b6cb0",
+        "axis-paktel": "#276749",
       };
       document.getElementById("modal-provider-dot")!.style.background =
         colorMap[provider.name] ?? "#0a0a0a";
 
       document.getElementById("wa-preview-text")!.textContent =
         `Halo min! 👋\n\n` +
-        `Saya mau beli *Paket Data ${provider.title} ${pkg.name}*, ` +
+        `Saya mau beli *Paket Telepon ${provider.title} ${pkg.name}*, ` +
         `kirim ke nomor *${phone}* ya!\n\n` +
         `Detail:\n• Produk: ${pkg.desc}\n• Harga: ${formatRp(pkg.price)}\n\n` +
         `Mohon diproses, terima kasih 🙏`;
@@ -1557,7 +1551,7 @@ const configData = JSON.stringify({
       const phone = normalizePhone(phoneInput.value.trim());
       const msg = encodeURIComponent(
         `Halo min! 👋\n\n` +
-          `Saya mau beli *Paket Data ${currentProvider.title} ${selectedPkg.name}*, ` +
+          `Saya mau beli *Paket Telepon ${currentProvider.title} ${selectedPkg.name}*, ` +
           `kirim ke nomor *${phone}* ya!\n\n` +
           `Detail:\n• Produk: ${selectedPkg.desc}\n• Harga: ${formatRp(selectedPkg.price)}\n\n` +
           `Mohon diproses, terima kasih 🙏`,

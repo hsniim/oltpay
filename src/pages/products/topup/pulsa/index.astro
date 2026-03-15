@@ -5,14 +5,15 @@ import { pulsaProviders } from "../../../../data/products.js";
 
 const waNumber = "6289501450667";
 
-const providersJSON = JSON.stringify(
-  pulsaProviders.map((p) => ({
+const configData = JSON.stringify({
+  wa: waNumber,
+  providers: pulsaProviders.map((p) => ({
     name: p.name,
     title: p.title,
     prefixes: p.prefixes,
     packages: p.packages,
   })),
-);
+});
 ---
 
 <BaseLayout title="Oltpay">
@@ -25,17 +26,9 @@ const providersJSON = JSON.stringify(
         <!-- Page title row -->
         <div class="page-title-row">
           <div class="page-title-icon">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"
+              ><use href="#icon-phone"></use></svg
             >
-              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-              <line x1="12" y1="18" x2="12.01" y2="18"></line>
-            </svg>
           </div>
           <div>
             <h1 class="page-title">Beli Pulsa</h1>
@@ -72,17 +65,9 @@ const providersJSON = JSON.stringify(
         <!-- Empty state -->
         <div class="state-wrap" id="empty-state">
           <div class="state-icon">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+            <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"
+              ><use href="#icon-phone"></use></svg
             >
-              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-              <line x1="12" y1="18" x2="12.01" y2="18"></line>
-            </svg>
           </div>
           <p class="state-title">Masukkan nomor HP</p>
           <p class="state-desc">
@@ -93,18 +78,9 @@ const providersJSON = JSON.stringify(
         <!-- Unknown provider -->
         <div class="state-wrap hidden" id="unknown-state">
           <div class="state-icon state-icon--warn">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+            <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"
+              ><use href="#icon-alert"></use></svg
             >
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="8" x2="12" y2="12"></line>
-              <line x1="12" y1="16" x2="12.01" y2="16"></line>
-            </svg>
           </div>
           <p class="state-title">Operator tidak dikenali</p>
           <p class="state-desc">
@@ -141,17 +117,9 @@ const providersJSON = JSON.stringify(
           <h3 class="modal-title">Konfirmasi Pesanan</h3>
         </div>
         <button class="modal-close" id="modal-close" aria-label="Tutup">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+          <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"
+            ><use href="#icon-close"></use></svg
           >
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
         </button>
       </div>
 
@@ -167,20 +135,8 @@ const providersJSON = JSON.stringify(
         <div class="order-card">
           <div class="order-row">
             <span class="order-label">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                width="13"
-                height="13"
-                ><rect x="5" y="2" width="14" height="20" rx="2"></rect><line
-                  x1="12"
-                  y1="18"
-                  x2="12.01"
-                  y2="18"></line></svg
+              <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"
+                ><use href="#icon-phone"></use></svg
               >
               Nomor Tujuan
             </span>
@@ -190,17 +146,8 @@ const providersJSON = JSON.stringify(
           </div>
           <div class="order-row">
             <span class="order-label">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                width="13"
-                height="13"
-                ><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"
-                ></path></svg
+              <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"
+                ><use href="#icon-clock"></use></svg
               >
               Keterangan
             </span>
@@ -218,12 +165,12 @@ const providersJSON = JSON.stringify(
         <!-- WA message preview -->
         <div class="wa-preview">
           <div class="wa-preview__header">
-            <svg viewBox="0 0 24 24" fill="#25d366" width="14" height="14"
-              ><path
-                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"
-              ></path><path
-                d="M11.99 0C5.374 0 0 5.373 0 11.988c0 2.114.549 4.099 1.504 5.83L0 24l6.335-1.652A11.939 11.939 0 0 0 11.99 24C18.626 24 24 18.626 24 12.012 24 5.373 18.626 0 11.99 0zm0 21.785a9.796 9.796 0 0 1-4.994-1.365l-.357-.212-3.758.98.999-3.647-.233-.374A9.722 9.722 0 0 1 2.203 12c0-5.398 4.394-9.791 9.787-9.791 5.394 0 9.788 4.393 9.788 9.791 0 5.398-4.394 9.785-9.788 9.785z"
-              ></path></svg
+            <svg
+              viewBox="0 0 24 24"
+              fill="#25d366"
+              width="14"
+              height="14"
+              aria-hidden="true"><use href="#icon-wa"></use></svg
             >
             <span>Pesan yang akan dikirim</span>
           </div>
@@ -234,12 +181,12 @@ const providersJSON = JSON.stringify(
       <div class="modal-footer">
         <button class="btn-cancel" id="btn-cancel">Batal</button>
         <button class="btn-order" id="btn-order">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17"
-            ><path
-              d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"
-            ></path><path
-              d="M11.99 0C5.374 0 0 5.373 0 11.988c0 2.114.549 4.099 1.504 5.83L0 24l6.335-1.652A11.939 11.939 0 0 0 11.99 24C18.626 24 24 18.626 24 12.012 24 5.373 18.626 0 11.99 0zm0 21.785a9.796 9.796 0 0 1-4.994-1.365l-.357-.212-3.758.98.999-3.647-.233-.374A9.722 9.722 0 0 1 2.203 12c0-5.398 4.394-9.791 9.787-9.791 5.394 0 9.788 4.393 9.788 9.791 0 5.398-4.394 9.785-9.788 9.785z"
-            ></path></svg
+          <svg
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            width="17"
+            height="17"
+            aria-hidden="true"><use href="#icon-wa"></use></svg
           >
           Chat WhatsApp Sekarang
         </button>
@@ -247,14 +194,73 @@ const providersJSON = JSON.stringify(
     </div>
   </div>
 
-  <!-- Config data -->
-  <div
-    id="config"
-    data-wa={waNumber}
-    data-providers={providersJSON}
+  <!-- Config data via JSON script (avoids large HTML attribute, parsed faster) -->
+  <script id="config" type="application/json" set:html={configData} />
+
+  <!-- Shared SVG symbols — defined once, reused everywhere via <use> -->
+  <svg
+    aria-hidden="true"
     style="display:none"
+    xmlns="http://www.w3.org/2000/svg"
   >
-  </div>
+    <symbol
+      id="icon-phone"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+      <line x1="12" y1="18" x2="12.01" y2="18"></line>
+    </symbol>
+    <symbol
+      id="icon-alert"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" y1="8" x2="12" y2="12"></line>
+      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+    </symbol>
+    <symbol
+      id="icon-close"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </symbol>
+    <symbol
+      id="icon-clock"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path>
+    </symbol>
+    <symbol id="icon-wa" viewBox="0 0 24 24" fill="currentColor">
+      <path
+        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"
+      ></path>
+      <path
+        d="M11.99 0C5.374 0 0 5.373 0 11.988c0 2.114.549 4.099 1.504 5.83L0 24l6.335-1.652A11.939 11.939 0 0 0 11.99 24C18.626 24 24 18.626 24 12.012 24 5.373 18.626 0 11.99 0zm0 21.785a9.796 9.796 0 0 1-4.994-1.365l-.357-.212-3.758.98.999-3.647-.233-.374A9.722 9.722 0 0 1 2.203 12c0-5.398 4.394-9.791 9.787-9.791 5.394 0 9.788 4.393 9.788 9.791 0 5.398-4.394 9.785-9.788 9.785z"
+      ></path>
+    </symbol>
+  </svg>
+
   <!-- ══ FLOATING WA BUTTON ══ -->
   <div class="wa-fab-wrap" id="wa-fab-wrap">
     <a
@@ -265,37 +271,17 @@ const providersJSON = JSON.stringify(
       id="wa-fab"
       aria-label="Chat WhatsApp Admin"
     >
-      <svg class="wa-fab__icon" viewBox="0 0 24 24" fill="currentColor">
-        <path
-          d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"
-        ></path>
-        <path
-          d="M11.99 0C5.374 0 0 5.373 0 11.988c0 2.114.549 4.099 1.504 5.83L0 24l6.335-1.652A11.939 11.939 0 0 0 11.99 24C18.626 24 24 18.626 24 12.012 24 5.373 18.626 0 11.99 0zm0 21.785a9.796 9.796 0 0 1-4.994-1.365l-.357-.212-3.758.98.999-3.647-.233-.374A9.722 9.722 0 0 1 2.203 12c0-5.398 4.394-9.791 9.787-9.791 5.394 0 9.788 4.393 9.788 9.791 0 5.398-4.394 9.785-9.788 9.785z"
-        ></path>
-      </svg>
+      <svg class="wa-fab__icon" aria-hidden="true"
+        ><use href="#icon-wa"></use></svg
+      >
       <span class="wa-fab__label">Butuh bantuan?</span>
     </a>
   </div>
 </BaseLayout>
 
 <style>
-  /* ══ DESIGN TOKENS — matched to Oltpay homepage ══ */
-  :root {
-    --navbar-height: 80px;
-    --font-display: "Plus Jakarta Sans", sans-serif;
-    --color-bg: #ffffff;
-    --color-text: #0a0a0a;
-    --color-muted: #6b6b6b;
-    --color-border: #e8e8e8;
-    --page-bg: #f2f2ed;
-    --content-max: 1300px;
-    --content-px: 2.5rem;
-  }
-
   /* ══ LAYOUT ══ */
-  .page-wrapper {
-    padding-top: var(--navbar-height);
-  }
+  /* Tokens & .hidden & .page-wrapper sudah ada di global.css */
 
   main {
     max-width: var(--content-max);
@@ -304,6 +290,12 @@ const providersJSON = JSON.stringify(
     display: flex;
     flex-direction: column;
     gap: 16px;
+  }
+
+  @media (max-width: 640px) {
+    main {
+      padding: 20px 12px 80px;
+    }
   }
 
   /* ══ INPUT SECTION ══ */
@@ -338,7 +330,6 @@ const providersJSON = JSON.stringify(
   }
 
   .page-title {
-    font-family: var(--font-display);
     font-size: 1.25rem;
     font-weight: 800;
     color: var(--color-text);
@@ -347,7 +338,6 @@ const providersJSON = JSON.stringify(
   }
 
   .page-subtitle {
-    font-family: var(--font-display);
     font-size: 0.8rem;
     color: var(--color-muted);
     margin: 0;
@@ -360,7 +350,6 @@ const providersJSON = JSON.stringify(
   }
 
   .input-label {
-    font-family: var(--font-display);
     font-size: 13px;
     font-weight: 600;
     color: var(--color-text);
@@ -392,7 +381,6 @@ const providersJSON = JSON.stringify(
   }
 
   .input-prefix {
-    font-family: var(--font-display);
     font-size: 14px;
     font-weight: 600;
     color: var(--color-muted);
@@ -411,7 +399,6 @@ const providersJSON = JSON.stringify(
     padding: 0 16px;
     border: none;
     outline: none;
-    font-family: var(--font-display);
     font-size: 15px;
     font-weight: 500;
     color: var(--color-text);
@@ -435,7 +422,6 @@ const providersJSON = JSON.stringify(
   }
 
   .provider-pill span {
-    font-family: var(--font-display);
     font-size: 12px;
     font-weight: 700;
     color: #b0b0b0;
@@ -452,7 +438,6 @@ const providersJSON = JSON.stringify(
   }
 
   .input-hint {
-    font-family: var(--font-display);
     font-size: 12px;
     color: #b0b0b0;
     margin: 0;
@@ -475,6 +460,7 @@ const providersJSON = JSON.stringify(
     display: flex;
     align-items: center;
     justify-content: center;
+    contain: layout style;
   }
 
   .state-wrap {
@@ -508,7 +494,6 @@ const providersJSON = JSON.stringify(
   }
 
   .state-title {
-    font-family: var(--font-display);
     font-size: 14px;
     font-weight: 700;
     color: var(--color-text);
@@ -516,7 +501,6 @@ const providersJSON = JSON.stringify(
   }
 
   .state-desc {
-    font-family: var(--font-display);
     font-size: 13px;
     color: var(--color-muted);
     margin: 0;
@@ -552,7 +536,6 @@ const providersJSON = JSON.stringify(
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: var(--font-display);
     font-size: 11px;
     font-weight: 900;
     color: white;
@@ -569,7 +552,6 @@ const providersJSON = JSON.stringify(
   }
 
   .products-title {
-    font-family: var(--font-display);
     font-size: 15px;
     font-weight: 700;
     color: var(--color-text);
@@ -577,7 +559,6 @@ const providersJSON = JSON.stringify(
   }
 
   .products-count {
-    font-family: var(--font-display);
     font-size: 12px;
     color: var(--color-muted);
     margin: 0;
@@ -606,7 +587,6 @@ const providersJSON = JSON.stringify(
     border-radius: 12px;
     padding: 12px 14px;
     cursor: pointer;
-    font-family: var(--font-display);
     transition:
       border-color 0.15s,
       box-shadow 0.15s,
@@ -669,7 +649,6 @@ const providersJSON = JSON.stringify(
     color: var(--color-text);
     letter-spacing: -0.5px;
     line-height: 1;
-    font-family: var(--font-display);
   }
 
   :global(.nominal-btn__value-prefix) {
@@ -754,6 +733,7 @@ const providersJSON = JSON.stringify(
     align-items: flex-end;
     justify-content: center;
     animation: fadeIn 0.2s ease;
+    will-change: opacity;
   }
 
   @media (min-width: 600px) {
@@ -803,7 +783,6 @@ const providersJSON = JSON.stringify(
   }
 
   .modal-title {
-    font-family: var(--font-display);
     font-size: 14px;
     font-weight: 700;
     color: var(--color-text);
@@ -852,7 +831,6 @@ const providersJSON = JSON.stringify(
   }
 
   .modal-nominal-hero__label {
-    font-family: var(--font-display);
     font-size: 10px;
     font-weight: 600;
     color: var(--color-muted);
@@ -861,7 +839,6 @@ const providersJSON = JSON.stringify(
   }
 
   .modal-nominal-hero__value {
-    font-family: var(--font-display);
     font-size: 32px;
     font-weight: 900;
     color: var(--color-text);
@@ -870,7 +847,6 @@ const providersJSON = JSON.stringify(
   }
 
   .modal-nominal-hero__provider {
-    font-family: var(--font-display);
     font-size: 12px;
     font-weight: 500;
     color: var(--color-muted);
@@ -908,7 +884,6 @@ const providersJSON = JSON.stringify(
   }
 
   .order-label {
-    font-family: var(--font-display);
     font-size: 12px;
     font-weight: 500;
     color: var(--color-muted);
@@ -924,7 +899,6 @@ const providersJSON = JSON.stringify(
   }
 
   .order-value {
-    font-family: var(--font-display);
     font-size: 13px;
     font-weight: 600;
     color: var(--color-text);
@@ -938,7 +912,7 @@ const providersJSON = JSON.stringify(
   }
 
   .order-value--phone {
-    font-family: "Courier New", monospace;
+    font-family: var(--font-mono);
     font-size: 13px;
     font-weight: 700;
     letter-spacing: 0.5px;
@@ -966,7 +940,6 @@ const providersJSON = JSON.stringify(
     padding: 8px 12px;
     background: #e4f7e6;
     border-bottom: 1px solid #d4f0d8;
-    font-family: var(--font-display);
     font-size: 10.5px;
     font-weight: 600;
     color: #2d7a3a;
@@ -975,7 +948,6 @@ const providersJSON = JSON.stringify(
   }
 
   .wa-preview__bubble {
-    font-family: var(--font-display);
     font-size: 12.5px;
     color: #1a3a1f;
     line-height: 1.65;
@@ -996,7 +968,6 @@ const providersJSON = JSON.stringify(
     border: 1.5px solid var(--color-border);
     border-radius: 12px;
     background: var(--color-bg);
-    font-family: var(--font-display);
     font-size: 13px;
     font-weight: 600;
     color: var(--color-muted);
@@ -1018,7 +989,6 @@ const providersJSON = JSON.stringify(
     background: #25d366;
     border: none;
     border-radius: 12px;
-    font-family: var(--font-display);
     font-size: 13px;
     font-weight: 700;
     color: white;
@@ -1051,6 +1021,7 @@ const providersJSON = JSON.stringify(
     animation: fabIn 0.5s 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
     touch-action: none;
     user-select: none;
+    will-change: transform;
   }
 
   @keyframes fabIn {
@@ -1077,7 +1048,6 @@ const providersJSON = JSON.stringify(
     box-shadow:
       0 4px 20px rgba(37, 211, 102, 0.4),
       0 2px 8px rgba(0, 0, 0, 0.12);
-    font-family: var(--font-display);
     font-size: 13px;
     font-weight: 700;
     white-space: nowrap;
@@ -1162,11 +1132,6 @@ const providersJSON = JSON.stringify(
     }
   }
 
-  /* ══ UTILITY ══ */
-  .hidden {
-    display: none !important;
-  }
-
   /* ══ ANIMATIONS ══ */
   @keyframes fadeIn {
     from {
@@ -1210,20 +1175,24 @@ const providersJSON = JSON.stringify(
 
 <script>
   (function () {
-    /* ── CONFIG ── */
-    const configEl = document.getElementById("config") as HTMLElement;
-    const waNumber = configEl.dataset.wa!;
-    const providers: Array<{
-      name: string;
-      title: string;
-      prefixes: string[];
-      packages: Array<{
-        code: string;
+    /* ── CONFIG — read from <script type="application/json"> ── */
+    const configEl = document.getElementById("config") as HTMLScriptElement;
+    const config: {
+      wa: string;
+      providers: Array<{
         name: string;
-        desc: string;
-        price: number;
+        title: string;
+        prefixes: string[];
+        packages: Array<{
+          code: string;
+          name: string;
+          desc: string;
+          price: number;
+        }>;
       }>;
-    }> = JSON.parse(configEl.dataset.providers!);
+    } = JSON.parse(configEl.textContent!);
+    const waNumber = config.wa;
+    const providers = config.providers;
 
     /* ── STATE ── */
     let currentProvider: (typeof providers)[0] | null = null;
@@ -1287,12 +1256,14 @@ const providersJSON = JSON.stringify(
     };
 
     /* ── HELPERS ── */
+    // Cache formatter — avoid re-creating on every card render
+    const rpFormatter = new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    });
     function formatRp(n: number) {
-      return new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        minimumFractionDigits: 0,
-      }).format(n);
+      return rpFormatter.format(n);
     }
 
     function normalizePhone(val: string): string {
@@ -1310,7 +1281,6 @@ const providersJSON = JSON.stringify(
 
     /* ── RENDER PRODUCTS ── */
     function renderProducts(provider: (typeof providers)[0]) {
-      productsGrid.innerHTML = "";
       productsTitleEl.textContent = `Pulsa ${provider.title}`;
       productsCountEl.textContent = `${provider.packages.length} pilihan tersedia`;
       const logoUrl = providerLogos[provider.name];
@@ -1344,6 +1314,8 @@ const providersJSON = JSON.stringify(
         productsLogoEl.style.border = "none";
       }
 
+      // Use DocumentFragment to batch DOM insertions (single reflow)
+      const frag = document.createDocumentFragment();
       provider.packages.forEach((pkg, i) => {
         const btn = document.createElement("button");
         btn.className = "nominal-btn";
@@ -1353,9 +1325,7 @@ const providersJSON = JSON.stringify(
             <span class="nominal-btn__code">${pkg.code}</span>
             <span class="nominal-btn__badge">Pulsa</span>
           </div>
-          <div class="nominal-btn__value">
-            ${pkg.name}
-          </div>
+          <div class="nominal-btn__value">${pkg.name}</div>
           <span class="nominal-btn__desc">${pkg.desc}</span>
           <div class="nominal-btn__footer">
             <div>
@@ -1363,11 +1333,12 @@ const providersJSON = JSON.stringify(
               <div class="nominal-btn__price">${formatRp(pkg.price)}</div>
             </div>
             <div class="nominal-btn__cta">›</div>
-          </div>
-        `;
+          </div>`;
         btn.addEventListener("click", () => openModal(pkg, provider));
-        productsGrid.appendChild(btn);
+        frag.appendChild(btn);
       });
+      productsGrid.innerHTML = "";
+      productsGrid.appendChild(frag);
     }
 
     /* ── UI STATE ── */
@@ -1377,6 +1348,18 @@ const providersJSON = JSON.stringify(
       emptyState.classList.toggle("hidden", mode !== "empty");
       unknownState.classList.toggle("hidden", mode !== "unknown");
       productsContainer.classList.toggle("hidden", mode !== "products");
+    }
+
+    // Debounce helper — avoid re-running detection on every keystroke
+    function debounce<T extends (...args: unknown[]) => void>(
+      fn: T,
+      ms: number,
+    ) {
+      let t: ReturnType<typeof setTimeout>;
+      return (...args: Parameters<T>) => {
+        clearTimeout(t);
+        t = setTimeout(() => fn(...args), ms);
+      };
     }
 
     function updateUI() {
@@ -1448,14 +1431,12 @@ const providersJSON = JSON.stringify(
 
       selectedPkg = pkg;
 
-      // Populate fields
       detailProduct.textContent = `Pulsa ${provider.title} — ${pkg.desc}`;
       detailNominal.textContent = pkg.name;
       detailDesc.textContent = pkg.desc;
       detailPhone.textContent = `+62 ${phone.slice(1)}`;
       detailPrice.textContent = formatRp(pkg.price);
 
-      // Provider accent dot
       const dot = document.getElementById("modal-provider-dot")!;
       const colorMap: Record<string, string> = {
         "telkomsel-pulsa": "#e53e3e",
@@ -1467,7 +1448,6 @@ const providersJSON = JSON.stringify(
       };
       dot.style.background = colorMap[provider.name] ?? "#0a0a0a";
 
-      // WA message preview
       const waMsg =
         `Halo min! 👋\n\n` +
         `Saya mau beli *Pulsa ${provider.title} Rp ${pkg.name}*, ` +
@@ -1509,10 +1489,8 @@ const providersJSON = JSON.stringify(
     }
 
     /* ── EVENTS ── */
-    phoneInput.addEventListener("input", () => {
-      currentProvider = null;
-      updateUI();
-    });
+    const debouncedUpdateUI = debounce(updateUI, 120);
+    phoneInput.addEventListener("input", debouncedUpdateUI, { passive: true });
     phoneInput.addEventListener("keypress", (e) => {
       if (!/[\d\s\-+()]/.test(e.key)) e.preventDefault();
     });

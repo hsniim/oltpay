@@ -648,267 +648,6 @@ export const paketDataProviders = [
   }
 ];
 
-export const products = {
-  topup: [
-    {
-      brand: 'gopay',
-      title: 'GoPay',
-      inputLabel: 'Nomor HP Tujuan',
-      inputType: 'tel',
-      icon: '<svg ... />', // Gunakan icon yang sudah ada
-      packages: [
-        { code: 'GJ10',  name: '10.000',  desc: 'Saldo GoPay', price: 11750 },
-        { code: 'GJ15',  name: '15.000',  desc: 'Saldo GoPay', price: 16750 },
-        { code: 'GJ20',  name: '20.000',  desc: 'Saldo GoPay', price: 21800 },
-        { code: 'GJ25',  name: '25.000',  desc: 'Saldo GoPay', price: 26850 },
-        { code: 'GJ30',  name: '30.000',  desc: 'Saldo GoPay', price: 31850 },
-        { code: 'GJ35',  name: '35.000',  desc: 'Saldo GoPay', price: 36900 },
-        { code: 'GJ40',  name: '40.000',  desc: 'Saldo GoPay', price: 41950 },
-        { code: 'GJ45',  name: '45.000',  desc: 'Saldo GoPay', price: 47000 },
-        { code: 'GJ50',  name: '50.000',  desc: 'Saldo GoPay', price: 52000 },
-        { code: 'GJ55',  name: '55.000',  desc: 'Saldo GoPay', price: 57150 },
-        { code: 'GJ60',  name: '60.000',  desc: 'Saldo GoPay', price: 62200 },
-        { code: 'GJ65',  name: '65.000',  desc: 'Saldo GoPay', price: 67250 },
-        { code: 'GJ70',  name: '70.000',  desc: 'Saldo GoPay', price: 72250 },
-        { code: 'GJ75',  name: '75.000',  desc: 'Saldo GoPay', price: 77300 },
-        { code: 'GJ80',  name: '80.000',  desc: 'Saldo GoPay', price: 82350 },
-        { code: 'GJ85',  name: '85.000',  desc: 'Saldo GoPay', price: 87400 },
-        { code: 'GJ90',  name: '90.000',  desc: 'Saldo GoPay', price: 92400 },
-        { code: 'GJ95',  name: '95.000',  desc: 'Saldo GoPay', price: 97450 },
-        { code: 'GJ100', name: '100.000', desc: 'Saldo GoPay', price: 102700 }
-      ]
-    },
-    {
-      brand: 'spay',
-      title: 'ShopeePay',
-      inputLabel: 'Nomor HP Tujuan',
-      inputType: 'tel',
-      icon: '<svg ... />', // Gunakan icon ShopeePay milikmu
-      packages: [
-        { code: 'SHP15',  name: '15.000',  desc: 'Saldo ShopeePay', price: 15700 },
-        { code: 'SHP20',  name: '20.000',  desc: 'Saldo ShopeePay', price: 20700 },
-        { code: 'SHP25',  name: '25.000',  desc: 'Saldo ShopeePay', price: 25750 },
-        { code: 'SHP30',  name: '30.000',  desc: 'Saldo ShopeePay', price: 30800 },
-        { code: 'SHP35',  name: '35.000',  desc: 'Saldo ShopeePay', price: 35850 },
-        { code: 'SHP40',  name: '40.000',  desc: 'Saldo ShopeePay', price: 40850 },
-        { code: 'SHP45',  name: '45.000',  desc: 'Saldo ShopeePay', price: 45900 },
-        { code: 'SHP50',  name: '50.000',  desc: 'Saldo ShopeePay', price: 50950 },
-        { code: 'SHP55',  name: '55.000',  desc: 'Saldo ShopeePay', price: 56000 },
-        { code: 'SHP60',  name: '60.000',  desc: 'Saldo ShopeePay', price: 61000 },
-        { code: 'SHP65',  name: '65.000',  desc: 'Saldo ShopeePay', price: 66050 },
-        { code: 'SHP70',  name: '70.000',  desc: 'Saldo ShopeePay', price: 71100 },
-        { code: 'SHP75',  name: '75.000',  desc: 'Saldo ShopeePay', price: 76100 },
-        { code: 'SHP80',  name: '80.000',  desc: 'Saldo ShopeePay', price: 81150 },
-        { code: 'SHP85',  name: '85.000',  desc: 'Saldo ShopeePay', price: 86200 },
-        { code: 'SHP90',  name: '90.000',  desc: 'Saldo ShopeePay', price: 91200 },
-        { code: 'SHP95',  name: '95.000',  desc: 'Saldo ShopeePay', price: 96300 },
-        { code: 'SHP100', name: '100.000', desc: 'Saldo ShopeePay', price: 101300 },
-      ]
-    },
-    {
-      brand: 'ovo',
-      title: 'OVO',
-      inputLabel: 'Nomor HP / ID OVO',
-      inputType: 'tel',
-      icon: '<svg ... />', // Gunakan icon OVO milikmu
-      packages: [
-        { code: 'VO20',  name: '20.000',  desc: 'Saldo OVO', price: 21150 },
-        { code: 'VO25',  name: '25.000',  desc: 'Saldo OVO', price: 26175 },
-        { code: 'VO30',  name: '30.000',  desc: 'Saldo OVO', price: 31225 },
-        { code: 'VO40',  name: '40.000',  desc: 'Saldo OVO', price: 41300 },
-        { code: 'VO50',  name: '50.000',  desc: 'Saldo OVO', price: 51375 },
-        { code: 'VO60',  name: '60.000',  desc: 'Saldo OVO', price: 61450 },
-        { code: 'VO70',  name: '70.000',  desc: 'Saldo OVO', price: 71500 },
-        { code: 'VO75',  name: '75.000',  desc: 'Saldo OVO', price: 76550 },
-        { code: 'VO80',  name: '80.000',  desc: 'Saldo OVO', price: 81575 },
-        { code: 'VO90',  name: '90.000',  desc: 'Saldo OVO', price: 91650 },
-        { code: 'VO100', name: '100.000', desc: 'Saldo OVO', price: 101750 },
-      ]
-    },
-    {
-      brand: 'dana',
-      title: 'DANA',
-      inputLabel: 'Nomor HP Tujuan',
-      inputType: 'tel',
-      icon: '<svg ... />', // Gunakan icon DANA milikmu
-      packages: [
-        { code: 'DNA5',   name: '5.000',   desc: 'Saldo DANA', price: 6150 },
-        { code: 'DNA6',   name: '6.000',   desc: 'Saldo DANA', price: 7200 },
-        { code: 'DNA7',   name: '7.000',   desc: 'Saldo DANA', price: 8250 },
-        { code: 'DNA8',   name: '8.000',   desc: 'Saldo DANA', price: 9250 },
-        { code: 'DNA9',   name: '9.000',   desc: 'Saldo DANA', price: 10250 },
-        { code: 'DNA10',  name: '10.000',  desc: 'Saldo DANA', price: 11200 },
-        { code: 'DNA11',  name: '11.000',  desc: 'Saldo DANA', price: 12250 },
-        { code: 'DNA12',  name: '12.000',  desc: 'Saldo DANA', price: 13300 },
-        { code: 'DNA13',  name: '13.000',  desc: 'Saldo DANA', price: 14350 },
-        { code: 'DNA14',  name: '14.000',  desc: 'Saldo DANA', price: 15350 },
-        { code: 'DNA15',  name: '15.000',  desc: 'Saldo DANA', price: 16250 },
-        { code: 'DNA16',  name: '16.000',  desc: 'Saldo DANA', price: 17350 },
-        { code: 'DNA17',  name: '17.000',  desc: 'Saldo DANA', price: 18350 },
-        { code: 'DNA18',  name: '18.000',  desc: 'Saldo DANA', price: 19400 },
-        { code: 'DNA19',  name: '19.000',  desc: 'Saldo DANA', price: 20400 },
-        { code: 'DNA20',  name: '20.000',  desc: 'Saldo DANA', price: 21350 },
-        { code: 'DNA25',  name: '25.000',  desc: 'Saldo DANA', price: 26400 },
-        { code: 'DNA30',  name: '30.000',  desc: 'Saldo DANA', price: 31450 },
-        { code: 'DNA35',  name: '35.000',  desc: 'Saldo DANA', price: 36500 },
-        { code: 'DNA40',  name: '40.000',  desc: 'Saldo DANA', price: 41550 },
-        { code: 'DNA45',  name: '45.000',  desc: 'Saldo DANA', price: 46600 },
-        { code: 'DNA50',  name: '50.000',  desc: 'Saldo DANA', price: 51650 },
-        { code: 'DNA60',  name: '60.000',  desc: 'Saldo DANA', price: 61750 },
-        { code: 'DNA70',  name: '70.000',  desc: 'Saldo DANA', price: 71850 },
-        { code: 'DNA75',  name: '75.000',  desc: 'Saldo DANA', price: 76900 },
-        { code: 'DNA80',  name: '80.000',  desc: 'Saldo DANA', price: 81950 },
-        { code: 'DNA90',  name: '90.000',  desc: 'Saldo DANA', price: 92050 },
-        { code: 'DNA100', name: '100.000', desc: 'Saldo DANA', price: 102150 }
-      ]
-    },
-    // Contoh untuk driver & lainnya (sesuaikan nominal yang benar-benar didukung)
-    {
-      brand: 'gojekdriv',
-      title: 'Gojek Driver',
-      inputLabel: 'Nomor HP Driver',
-      inputType: 'tel',
-      icon: '<svg ... />', // Gunakan icon Gojek Driver
-      packages: [
-        { code: 'GJD10',  name: '10.000',  desc: 'Topup Saldo Driver Gojek', price: 11800 },
-        { code: 'GJD15',  name: '15.000',  desc: 'Topup Saldo Driver Gojek', price: 16850 },
-        { code: 'GJD20',  name: '20.000',  desc: 'Topup Saldo Driver Gojek', price: 21850 },
-        { code: 'GJD25',  name: '25.000',  desc: 'Topup Saldo Driver Gojek', price: 26900 },
-        { code: 'GJD30',  name: '30.000',  desc: 'Topup Saldo Driver Gojek', price: 31950 },
-        { code: 'GJD35',  name: '35.000',  desc: 'Topup Saldo Driver Gojek', price: 37000 },
-        { code: 'GJD40',  name: '40.000',  desc: 'Topup Saldo Driver Gojek', price: 42000 },
-        { code: 'GJD45',  name: '45.000',  desc: 'Topup Saldo Driver Gojek', price: 47050 },
-        { code: 'GJD50',  name: '50.000',  desc: 'Topup Saldo Driver Gojek', price: 52050 },
-        { code: 'GJD55',  name: '55.000',  desc: 'Topup Saldo Driver Gojek', price: 57150 },
-        { code: 'GJD60',  name: '60.000',  desc: 'Topup Saldo Driver Gojek', price: 62200 },
-        { code: 'GJD65',  name: '65.000',  desc: 'Topup Saldo Driver Gojek', price: 67200 },
-        { code: 'GJD70',  name: '70.000',  desc: 'Topup Saldo Driver Gojek', price: 72250 },
-        { code: 'GJD75',  name: '75.000',  desc: 'Topup Saldo Driver Gojek', price: 77200 },
-        { code: 'GJD80',  name: '80.000',  desc: 'Topup Saldo Driver Gojek', price: 82300 },
-        { code: 'GJD85',  name: '85.000',  desc: 'Topup Saldo Driver Gojek', price: 87350 },
-        { code: 'GJD90',  name: '90.000',  desc: 'Topup Saldo Driver Gojek', price: 92400 },
-        { code: 'GJD95',  name: '95.000',  desc: 'Topup Saldo Driver Gojek', price: 97400 },
-        { code: 'GJD100', name: '100.000', desc: 'Topup Saldo Driver Gojek', price: 102450 },
-      ]
-    },
-    {
-      brand: 'plntoken',
-      title: 'Token Listrik PLN',
-      inputLabel: 'ID Pelanggan / Nomor Meter',
-      inputType: 'tel',
-      icon: '<svg ... />', // Gunakan icon PLN
-      packages: [
-        { code: 'PLN5',    name: '5.000',     desc: 'Token PLN 5.000 (Lambat)',  price: 8100 },
-        { code: 'PLN10',   name: '10.000',    desc: 'Token PLN 10.000 (Lambat)', price: 12950 },
-        { code: 'PLN15',   name: '15.000',    desc: 'Token PLN 15.000 (Lambat)', price: 18000 },
-        { code: 'PLN20',   name: '20.000',    desc: 'Token PLN 20.000',          price: 23150 },
-        { code: 'PLN50',   name: '50.000',    desc: 'Token PLN 50.000',          price: 53350 },
-        { code: 'PLN100',  name: '100.000',   desc: 'Token PLN 100.000',         price: 103750 }
-      ]
-    },
-    {
-      brand: 'wifi',
-      title: 'Wi-Fi ID',
-      inputLabel: 'Username / Nomor HP',
-      inputType: 'text',
-      icon: '<svg ... />', // Gunakan icon WiFi
-      packages: [
-        { code: 'WIFI1',  name: '1 Hari',  desc: 'Voucher Wi-Fi ID 1 Hari',  price: 6250 },
-        { code: 'WIFI7',  name: '7 Hari',  desc: 'Voucher Wi-Fi ID 7 Hari',  price: 18000 },
-        { code: 'WIFI30', name: '30 Hari', desc: 'Voucher Wi-Fi ID 30 Hari', price: 38000 },
-      ]
-    },
-  ],
-
-  games: [
-    {
-      brand: 'ml',
-      title: 'Mobile Legends',
-      inputLabel: 'ID Game',
-      inputType: 'text',
-      icon: '<svg ... />', // Tetap sesuai aslinya
-      packages: [
-        { code: 'ML5',   name: '5 Diamonds',   desc: '5 Diamonds MLBB',   price: 2750   },
-        { code: 'ML12',  name: '12 Diamonds',  desc: '12 Diamonds MLBB',  price: 4810   },
-        { code: 'ML14',  name: '14 Diamonds',  desc: '14 Diamonds MLBB',  price: 5460   },
-        { code: 'ML15',  name: '15 Diamonds',  desc: '15 Diamonds MLBB',  price: 6080   },
-        { code: 'ML19',  name: '19 Diamonds',  desc: '19 Diamonds MLBB',  price: 6720   },
-        { code: 'ML28',  name: '28 Diamonds',  desc: '28 Diamonds MLBB',  price: 9120   },
-        { code: 'ML33',  name: '33 Diamonds',  desc: '33 Diamonds MLBB',  price: 10860  },
-        { code: 'ML36',  name: '36 Diamonds',  desc: '36 Diamonds MLBB',  price: 11300  },
-        { code: 'ML42',  name: '42 Diamonds',  desc: '42 Diamonds MLBB',  price: 13020  },
-        { code: 'ML44',  name: '44 Diamonds',  desc: '44 Diamonds MLBB',  price: 13170  },
-        { code: 'ML56',  name: '56 Diamonds',  desc: '56 Diamonds MLBB',  price: 16730  },
-        { code: 'ML59',  name: '59 Diamonds',  desc: '59 Diamonds MLBB',  price: 17000  },
-        { code: 'ML67',  name: '67 Diamonds',  desc: '67 Diamonds MLBB',  price: 20370  },
-        { code: 'ML74',  name: '74 Diamonds',  desc: '74 Diamonds MLBB',  price: 21000  },
-        { code: 'ML75',  name: '75 Diamonds',  desc: '75 Diamonds MLBB',  price: 23000  },
-        { code: 'ML85',  name: '85 Diamonds',  desc: '85 Diamonds MLBB',  price: 24000  },
-        { code: 'ML86',  name: '86 Diamonds',  desc: '86 Diamonds MLBB',  price: 24350  },
-        { code: 'ML170', name: '170 Diamonds', desc: '170 Diamonds MLBB', price: 46100  },
-        { code: 'ML172', name: '172 Diamonds', desc: '172 Diamonds MLBB', price: 46350  },
-        { code: 'ML167', name: '167 Diamonds', desc: '167 Diamonds MLBB', price: 46860  },
-        { code: 'ML169', name: '169 Diamonds', desc: '169 Diamonds MLBB', price: 47060  },
-        { code: 'ML185', name: '185 Diamonds', desc: '185 Diamonds MLBB', price: 50080  },
-        { code: 'ML222', name: '222 Diamonds', desc: '222 Diamonds MLBB', price: 59430  },
-        { code: 'ML220', name: '220 Diamonds', desc: '220 Diamonds MLBB', price: 61230  },
-        { code: 'ML257', name: '257 Diamonds', desc: '257 Diamonds MLBB', price: 68300  },
-        { code: 'ML282', name: '282 Diamonds', desc: '282 Diamonds MLBB', price: 77350  },
-        { code: 'ML296', name: '296 Diamonds', desc: '296 Diamonds MLBB', price: 78300  },
-        { code: 'ML344', name: '344 Diamonds', desc: '344 Diamonds MLBB', price: 92250  },
-        { code: 'ML345', name: '345 Diamonds', desc: '345 Diamonds MLBB', price: 94550  },
-        { code: 'ML370', name: '370 Diamonds', desc: '370 Diamonds MLBB', price: 98150  },
-        { code: 'ML429', name: '429 Diamonds', desc: '429 Diamonds MLBB', price: 112550 },
-      ]
-    },
-    {
-      brand: 'ff',
-      title: 'Free Fire',
-      inputLabel: 'ID Game',
-      inputType: 'text',
-      packages: [
-        { code: 'FF5',   name: '5 Diamonds',   desc: '5 Diamonds FF',   price: 2140   },
-        { code: 'FF12',  name: '12 Diamonds',  desc: '12 Diamonds FF',  price: 3110   },
-        { code: 'FF20',  name: '20 Diamonds',  desc: '20 Diamonds FF',  price: 4680   },
-        { code: 'FF30',  name: '30 Diamonds',  desc: '30 Diamonds FF',  price: 6400   },
-        { code: 'FF50',  name: '50 Diamonds',  desc: '50 Diamonds FF',  price: 8080   },
-        { code: 'FF70',  name: '70 Diamonds',  desc: '70 Diamonds FF',  price: 10870  },
-        { code: 'FF75',  name: '75 Diamonds',  desc: '75 Diamonds FF',  price: 11300  },
-        { code: 'FF140', name: '140 Diamonds', desc: '140 Diamonds FF', price: 19290  },
-        { code: 'FF355', name: '355 Diamonds', desc: '355 Diamonds FF', price: 45620  },
-        { code: 'FF720', name: '720 Diamonds', desc: '720 Diamonds FF', price: 90830  },
-      ]
-    },
-    {
-      brand: 'pubgm',
-      title: 'PUBG Mobile',
-      inputLabel: 'ID Game',
-      inputType: 'text',
-      packages: [
-        { code: 'PU35',  name: '35 UC',  desc: '35 UC PUBG Mobile',  price: 9010   },
-        { code: 'PU150', name: '150 UC', desc: '150 UC PUBG Mobile', price: 9130   },
-        { code: 'PU70',  name: '70 UC',  desc: '70 UC PUBG Mobile',  price: 15355  },
-        { code: 'PU50',  name: '40 UC',  desc: '40 UC PUBG Mobile',  price: 16815  },
-        { code: 'PU125', name: '120 UC', desc: '120 UC PUBG Mobile', price: 44960  },
-        { code: 'PU210', name: '210 UC', desc: '210 UC PUBG Mobile', price: 52165  },
-        { code: 'PU250', name: '200 UC', desc: '200 UC PUBG Mobile', price: 76535  },
-      ]
-    },
-    {
-      brand: 'garena',
-      title: 'Garena Shells',
-      inputLabel: 'Nomor HP Tujuan',
-      inputType: 'text',
-      packages: [
-        { code: 'GR10',  name: '33 Shells',   desc: 'Voucher 33 Shell / 1000 Cash',  price: 10730  },
-        { code: 'GR20',  name: '66 Shells',   desc: 'Voucher 66 Shell / 2000 Cash',  price: 19920  },
-        { code: 'GR50',  name: '165 Shells',  desc: 'Voucher 165 Shell / 5000 Cash', price: 47490  },
-        { code: 'GR100', name: '330 Shells',  desc: 'Voucher 330 Shell / 10000 Cash',price: 93810  },
-      ]
-    }
-  ],
-};
-
 export const telephoneProviders = [
   {
     name: 'telkomsel-paktel',
@@ -1071,5 +810,282 @@ export const smsProviders = [
         ]
       }
     ]
+  },
+];
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TOPUP PRODUCTS
+// Digunakan oleh: src/pages/products/topup/[brand]/index.astro
+// Setiap brand menghasilkan 1 static page: /products/topup/{name}
+//
+// Field wajib per item:
+//   name        → slug URL, harus unik  (contoh: 'gopay')
+//   title       → nama tampil           (contoh: 'GoPay')
+//   icon        → path SVG dari homepage (isi path/shape saja, tanpa tag <svg> luar)
+//   inputLabel  → label field input     (contoh: 'Nomor HP Tujuan')
+//   inputType   → 'tel' | 'text'        (untuk tipe <input>)
+//   inputPrefix → '+62' | null          (tampil di kiri input, null = tidak ada)
+//   packages    → array nominal
+// ─────────────────────────────────────────────────────────────────────────────
+
+export const topupProducts = [
+
+  // ── E-WALLET ──────────────────────────────────────────────────────────────
+
+  {
+    name: 'gopay',
+    title: 'GoPay',
+    // icon: sama persis dengan homepage tab Isi → GoPay (gift/box icon)
+    icon: '<path d="M20 12V22H4V12"></path><path d="M22 7H2v5h20V7z"></path><path d="M12 22V7"></path><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>',
+    inputLabel: 'Nomor HP Tujuan',
+    inputType: 'tel',
+    inputPrefix: '+62',
+    packages: [
+      { code: 'GJ10',  name: '10.000',  desc: 'Saldo GoPay 10K',  price: 11700 },
+      { code: 'GJ15',  name: '15.000',  desc: 'Saldo GoPay 15K',  price: 16750 },
+      { code: 'GJ20',  name: '20.000',  desc: 'Saldo GoPay 20K',  price: 21800 },
+      { code: 'GJ25',  name: '25.000',  desc: 'Saldo GoPay 25K',  price: 26850 },
+      { code: 'GJ30',  name: '30.000',  desc: 'Saldo GoPay 30K',  price: 31850 },
+      { code: 'GJ35',  name: '35.000',  desc: 'Saldo GoPay 35K',  price: 36900 },
+      { code: 'GJ40',  name: '40.000',  desc: 'Saldo GoPay 40K',  price: 41950 },
+      { code: 'GJ45',  name: '45.000',  desc: 'Saldo GoPay 45K',  price: 47000 },
+      { code: 'GJ50',  name: '50.000',  desc: 'Saldo GoPay 50K',  price: 52000 },
+      { code: 'GJ55',  name: '55.000',  desc: 'Saldo GoPay 55K',  price: 57150 },
+      { code: 'GJ60',  name: '60.000',  desc: 'Saldo GoPay 60K',  price: 62200 },
+      { code: 'GJ65',  name: '65.000',  desc: 'Saldo GoPay 65K',  price: 67250 },
+      { code: 'GJ70',  name: '70.000',  desc: 'Saldo GoPay 70K',  price: 72300 },
+      { code: 'GJ75',  name: '75.000',  desc: 'Saldo GoPay 75K',  price: 77300 },
+      { code: 'GJ80',  name: '80.000',  desc: 'Saldo GoPay 80K',  price: 82350 },
+      { code: 'GJ85',  name: '85.000',  desc: 'Saldo GoPay 85K',  price: 87400 },
+      { code: 'GJ90',  name: '90.000',  desc: 'Saldo GoPay 90K',  price: 92400 },
+      { code: 'GJ95',  name: '95.000',  desc: 'Saldo GoPay 95K',  price: 97450 },
+      { code: 'GJ100', name: '100.000', desc: 'Saldo GoPay 100K', price: 102700 },
+    ],
+  },
+  {
+    name: 'ovo',
+    title: 'OVO',
+    // icon: wallet icon (homepage OVO)
+    icon: '<path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"></path><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path><path d="M18 12a2 2 0 0 0 0 4h4v-4z"></path>',
+    inputLabel: 'Nomor HP / ID OVO',
+    inputType: 'tel',
+    inputPrefix: '+62',
+    packages: [
+      { code: 'VO20',  name: '20.000',  desc: 'Saldo OVO 20K',  price: 21200 },
+      { code: 'VO25',  name: '25.000',  desc: 'Saldo OVO 25K',  price: 26200 },
+      { code: 'VO30',  name: '30.000',  desc: 'Saldo OVO 30K',  price: 31250 },
+      { code: 'VO40',  name: '40.000',  desc: 'Saldo OVO 40K',  price: 41350 },
+      { code: 'VO50',  name: '50.000',  desc: 'Saldo OVO 50K',  price: 51400 },
+      { code: 'VO60',  name: '60.000',  desc: 'Saldo OVO 60K',  price: 61450 },
+      { code: 'VO70',  name: '70.000',  desc: 'Saldo OVO 70K',  price: 71550 },
+      { code: 'VO75',  name: '75.000',  desc: 'Saldo OVO 75K',  price: 76550 },
+      { code: 'VO80',  name: '80.000',  desc: 'Saldo OVO 80K',  price: 81600 },
+      { code: 'VO90',  name: '90.000',  desc: 'Saldo OVO 90K',  price: 91700 },
+      { code: 'VO100', name: '100.000', desc: 'Saldo OVO 100K', price: 101800 },
+    ],
+  },
+  {
+    name: 'spay',
+    title: 'ShopeePay',
+    // icon: cart icon (homepage ShopeePay)
+    icon: '<circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>',
+    inputLabel: 'Nomor HP Tujuan',
+    inputType: 'tel',
+    inputPrefix: '+62',
+    packages: [
+      { code: 'SHP15',  name: '15.000',  desc: 'ShopeePay 15K',  price: 15700 },
+      { code: 'SHP20',  name: '20.000',  desc: 'ShopeePay 20K',  price: 20750 },
+      { code: 'SHP25',  name: '25.000',  desc: 'ShopeePay 25K',  price: 25800 },
+      { code: 'SHP30',  name: '30.000',  desc: 'ShopeePay 30K',  price: 30850 },
+      { code: 'SHP35',  name: '35.000',  desc: 'ShopeePay 35K',  price: 35850 },
+      { code: 'SHP40',  name: '40.000',  desc: 'ShopeePay 40K',  price: 40900 },
+      { code: 'SHP45',  name: '45.000',  desc: 'ShopeePay 45K',  price: 45950 },
+      { code: 'SHP50',  name: '50.000',  desc: 'ShopeePay 50K',  price: 51000 },
+      { code: 'SHP55',  name: '55.000',  desc: 'ShopeePay 55K',  price: 56000 },
+      { code: 'SHP60',  name: '60.000',  desc: 'ShopeePay 60K',  price: 61050 },
+      { code: 'SHP65',  name: '65.000',  desc: 'ShopeePay 65K',  price: 66100 },
+      { code: 'SHP70',  name: '70.000',  desc: 'ShopeePay 70K',  price: 71100 },
+      { code: 'SHP75',  name: '75.000',  desc: 'ShopeePay 75K',  price: 76150 },
+      { code: 'SHP80',  name: '80.000',  desc: 'ShopeePay 80K',  price: 81200 },
+      { code: 'SHP85',  name: '85.000',  desc: 'ShopeePay 85K',  price: 86200 },
+      { code: 'SHP90',  name: '90.000',  desc: 'ShopeePay 90K',  price: 91250 },
+      { code: 'SHP95',  name: '95.000',  desc: 'ShopeePay 95K',  price: 96300 },
+      { code: 'SHP100', name: '100.000', desc: 'ShopeePay 100K', price: 101350 },
+    ],
+  },
+  {
+    name: 'dana',
+    title: 'DANA',
+    // icon: rotate/coins icon (homepage DANA)
+    icon: '<circle cx="8" cy="8" r="6"></circle><path d="M18.09 10.37A6 6 0 1 1 10.34 18"></path><path d="M7 6h1v4"></path><path d="m16.71 13.88.7.71-2.82 2.82"></path>',
+    inputLabel: 'Nomor HP Tujuan',
+    inputType: 'tel',
+    inputPrefix: '+62',
+    packages: [
+      { code: 'DNA5',   name: '5.000',   desc: 'Saldo DANA 5K',   price: 6100 },
+      { code: 'DNA10',  name: '10.000',  desc: 'Saldo DANA 10K',  price: 11150 },
+      { code: 'DNA15',  name: '15.000',  desc: 'Saldo DANA 15K',  price: 16150 },
+      { code: 'DNA20',  name: '20.000',  desc: 'Saldo DANA 20K',  price: 21200 },
+      { code: 'DNA25',  name: '25.000',  desc: 'Saldo DANA 25K',  price: 26250 },
+      { code: 'DNA30',  name: '30.000',  desc: 'Saldo DANA 30K',  price: 31250 },
+      { code: 'DNA35',  name: '35.000',  desc: 'Saldo DANA 35K',  price: 36300 },
+      { code: 'DNA40',  name: '40.000',  desc: 'Saldo DANA 40K',  price: 41350 },
+      { code: 'DNA45',  name: '45.000',  desc: 'Saldo DANA 45K',  price: 46400 },
+      { code: 'DNA50',  name: '50.000',  desc: 'Saldo DANA 50K',  price: 51450 },
+      { code: 'DNA60',  name: '60.000',  desc: 'Saldo DANA 60K',  price: 61500 },
+      { code: 'DNA70',  name: '70.000',  desc: 'Saldo DANA 70K',  price: 71550 },
+      { code: 'DNA75',  name: '75.000',  desc: 'Saldo DANA 75K',  price: 76600 },
+      { code: 'DNA80',  name: '80.000',  desc: 'Saldo DANA 80K',  price: 81650 },
+      { code: 'DNA90',  name: '90.000',  desc: 'Saldo DANA 90K',  price: 91700 },
+      { code: 'DNA100', name: '100.000', desc: 'Saldo DANA 100K', price: 101800 },
+    ],
+  },
+  {
+    name: 'linkaja',
+    title: 'LinkAja',
+    // icon: link/chain icon (homepage LinkAja)
+    icon: '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>',
+    inputLabel: 'Nomor HP Tujuan',
+    inputType: 'tel',
+    inputPrefix: '+62',
+    packages: [
+      { code: 'LINK10',  name: '10.000',  desc: 'LinkAja 10K',  price: 10900 },
+      { code: 'LINK15',  name: '15.000',  desc: 'LinkAja 15K',  price: 15750 },
+      { code: 'LINK20',  name: '20.000',  desc: 'LinkAja 20K',  price: 20800 },
+      { code: 'LINK25',  name: '25.000',  desc: 'LinkAja 25K',  price: 25850 },
+      { code: 'LINK30',  name: '30.000',  desc: 'LinkAja 30K',  price: 30900 },
+      { code: 'LINK35',  name: '35.000',  desc: 'LinkAja 35K',  price: 35950 },
+      { code: 'LINK40',  name: '40.000',  desc: 'LinkAja 40K',  price: 41000 },
+      { code: 'LINK45',  name: '45.000',  desc: 'LinkAja 45K',  price: 46000 },
+      { code: 'LINK50',  name: '50.000',  desc: 'LinkAja 50K',  price: 51050 },
+      { code: 'LINK55',  name: '55.000',  desc: 'LinkAja 55K',  price: 56300 },
+      { code: 'LINK60',  name: '60.000',  desc: 'LinkAja 60K',  price: 61100 },
+      { code: 'LINK75',  name: '75.000',  desc: 'LinkAja 75K',  price: 76200 },
+      { code: 'LINK80',  name: '80.000',  desc: 'LinkAja 80K',  price: 81250 },
+      { code: 'LINK85',  name: '85.000',  desc: 'LinkAja 85K',  price: 86300 },
+      { code: 'LINK90',  name: '90.000',  desc: 'LinkAja 90K',  price: 91350 },
+      { code: 'LINK95',  name: '95.000',  desc: 'LinkAja 95K',  price: 96400 },
+      { code: 'LINK100', name: '100.000', desc: 'LinkAja 100K', price: 101450 },
+    ],
+  },
+
+  // ── DRIVER ────────────────────────────────────────────────────────────────
+
+  {
+    name: 'gojekdriv',
+    title: 'Gojek Driver',
+    // icon: motor/scooter icon (homepage Gojek Driver)
+    icon: '<path d="M19 17H5v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2z"></path><circle cx="7.5" cy="17.5" r="1.5"></circle><circle cx="16.5" cy="17.5" r="1.5"></circle><path d="M5 17H3v-3l2-4h10l2 4v3h-2"></path>',
+    inputLabel: 'Nomor HP Driver',
+    inputType: 'tel',
+    inputPrefix: '+62',
+    packages: [
+      { code: 'GJD10',  name: '10.000',  desc: 'Saldo Gojek Driver 10K',  price: 11750 },
+      { code: 'GJD15',  name: '15.000',  desc: 'Saldo Gojek Driver 15K',  price: 16800 },
+      { code: 'GJD20',  name: '20.000',  desc: 'Saldo Gojek Driver 20K',  price: 21850 },
+      { code: 'GJD25',  name: '25.000',  desc: 'Saldo Gojek Driver 25K',  price: 26900 },
+      { code: 'GJD30',  name: '30.000',  desc: 'Saldo Gojek Driver 30K',  price: 31900 },
+      { code: 'GJD35',  name: '35.000',  desc: 'Saldo Gojek Driver 35K',  price: 37000 },
+      { code: 'GJD40',  name: '40.000',  desc: 'Saldo Gojek Driver 40K',  price: 42000 },
+      { code: 'GJD45',  name: '45.000',  desc: 'Saldo Gojek Driver 45K',  price: 47050 },
+      { code: 'GJD50',  name: '50.000',  desc: 'Saldo Gojek Driver 50K',  price: 52050 },
+      { code: 'GJD55',  name: '55.000',  desc: 'Saldo Gojek Driver 55K',  price: 57150 },
+      { code: 'GJD60',  name: '60.000',  desc: 'Saldo Gojek Driver 60K',  price: 62150 },
+      { code: 'GJD65',  name: '65.000',  desc: 'Saldo Gojek Driver 65K',  price: 67200 },
+      { code: 'GJD70',  name: '70.000',  desc: 'Saldo Gojek Driver 70K',  price: 72250 },
+      { code: 'GJD75',  name: '75.000',  desc: 'Saldo Gojek Driver 75K',  price: 77150 },
+      { code: 'GJD80',  name: '80.000',  desc: 'Saldo Gojek Driver 80K',  price: 82250 },
+      { code: 'GJD85',  name: '85.000',  desc: 'Saldo Gojek Driver 85K',  price: 87300 },
+      { code: 'GJD90',  name: '90.000',  desc: 'Saldo Gojek Driver 90K',  price: 92350 },
+      { code: 'GJD95',  name: '95.000',  desc: 'Saldo Gojek Driver 95K',  price: 97400 },
+      { code: 'GJD100', name: '100.000', desc: 'Saldo Gojek Driver 100K', price: 102400 },
+    ],
+  },
+  {
+    name: 'grabdriv',
+    title: 'Grab Driver',
+    // icon: bicycle icon (homepage Grab Driver)
+    icon: '<circle cx="5.5" cy="17.5" r="2.5"></circle><circle cx="18.5" cy="17.5" r="2.5"></circle><path d="M15 6h-2l-3 6H5l-2 2v3h2.5"></path><path d="M15 6l3 6h1.5v3H21l-3-9z"></path><path d="M8 17.5h7"></path>',
+    inputLabel: 'Nomor HP Driver',
+    inputType: 'tel',
+    inputPrefix: '+62',
+    packages: [
+      { code: 'GBD100', name: '100.000', desc: 'Saldo Grab Driver 100K', price: 103200 },
+    ],
+  },
+  {
+    name: 'maximdriv',
+    title: 'Maxim Driver',
+    // icon: bus/van icon (homepage Maxim Driver)
+    icon: '<rect x="1" y="8" width="22" height="10" rx="2"></rect><path d="M5 8V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2"></path><circle cx="7" cy="18" r="2"></circle><circle cx="17" cy="18" r="2"></circle>',
+    inputLabel: 'ID Driver Maxim',
+    inputType: 'text',
+    inputPrefix: null, // Maxim pakai ID, bukan nomor HP
+    packages: [
+      { code: 'MXD5',   name: '5.000',   desc: 'Saldo Maxim Driver 5K',   price: 8800 },
+      { code: 'MXD10',  name: '10.000',  desc: 'Saldo Maxim Driver 10K',  price: 13850 },
+      { code: 'MXD15',  name: '15.000',  desc: 'Saldo Maxim Driver 15K',  price: 18850 },
+      { code: 'MXD20',  name: '20.000',  desc: 'Saldo Maxim Driver 20K',  price: 23900 },
+      { code: 'MXD30',  name: '30.000',  desc: 'Saldo Maxim Driver 30K',  price: 34000 },
+      { code: 'MXD40',  name: '40.000',  desc: 'Saldo Maxim Driver 40K',  price: 44100 },
+      { code: 'MXD50',  name: '50.000',  desc: 'Saldo Maxim Driver 50K',  price: 54150 },
+      { code: 'MXD100', name: '100.000', desc: 'Saldo Maxim Driver 100K', price: 104800 },
+    ],
+  },
+
+  // ── LAINNYA ───────────────────────────────────────────────────────────────
+
+  {
+    name: 'plntoken',
+    title: 'Token Listrik PLN',
+    // icon: lightning/bolt icon (homepage Token Listrik PLN)
+    icon: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>',
+    inputLabel: 'ID Pelanggan / Nomor Meter',
+    inputType: 'text',
+    inputPrefix: null,
+    packages: [
+      { code: 'PLN5',    name: '5.000',     desc: 'Token PLN 5.000 [lambat]',  price: 8100 },
+      { code: 'PLN10',   name: '10.000',    desc: 'Token PLN 10.000 [lambat]', price: 13000 },
+      { code: 'PLN15',   name: '15.000',    desc: 'Token PLN 15.000 [lambat]', price: 18100 },
+      { code: 'PLN20',   name: '20.000',    desc: 'Token PLN 20.000',          price: 23150 },
+      { code: 'PLN50',   name: '50.000',    desc: 'Token PLN 50.000',          price: 53300 },
+      { code: 'PLN100',  name: '100.000',   desc: 'Token PLN 100.000',         price: 103700 },
+      { code: 'PLN200',  name: '200.000',   desc: 'Token PLN 200.000',         price: 204500 },
+      { code: 'PLN500',  name: '500.000',   desc: 'Token PLN 500.000',         price: 505500 },
+      { code: 'PLN1000', name: '1.000.000', desc: 'Token PLN 1.000.000',       price: 1009100 },
+    ],
+  },
+  {
+    name: 'gplay',
+    title: 'Google Play',
+    // icon: play/triangle icon (homepage Google Play)
+    icon: '<polygon points="5 3 19 12 5 21 5 3"></polygon>',
+    inputLabel: 'Email Akun Google',
+    inputType: 'text',
+    inputPrefix: null,
+    packages: [
+      { code: 'GP20',  name: '20.000',  desc: 'Google Play ID 20rb',  price: 19900 },
+      { code: 'GP50',  name: '50.000',  desc: 'Google Play ID 50rb',  price: 49050 },
+      { code: 'GP100', name: '100.000', desc: 'Google Play ID 100rb', price: 92700 },
+      { code: 'GP150', name: '150.000', desc: 'Google Play ID 150rb', price: 142100 },
+      { code: 'GP300', name: '300.000', desc: 'Google Play ID 300rb', price: 290650 },
+      { code: 'GP500', name: '500.000', desc: 'Google Play ID 500rb', price: 472100 },
+    ],
+  },
+  {
+    name: 'wifidi',
+    title: 'Wi-Fi ID',
+    // icon: wifi signal icon (homepage Wi-Fi ID)
+    icon: '<path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line>',
+    inputLabel: 'Username / Nomor HP',
+    inputType: 'text',
+    inputPrefix: null,
+    packages: [
+      { code: 'WIFI5',  name: '5.000',  desc: 'Wifi.ID 5.000 (12 Jam)',  price: 6150 },
+      { code: 'WIFI10', name: '10.000', desc: 'Wifi.ID 10.000 (3 Hari)', price: 11200 },
+      { code: 'WIFI20', name: '20.000', desc: 'Wifi.ID 20.000 (7 Hari)', price: 21250 },
+      { code: 'WIFI50', name: '50.000', desc: 'Wifi.ID 50.000 (30 Hari)', price: 51500 },
+    ],
   },
 ];
