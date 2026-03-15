@@ -49,7 +49,8 @@ const configData = JSON.stringify({
                 id="phone-input"
                 placeholder="8xx xxxx xxxx"
                 autocomplete="tel"
-                maxlength="15"
+                inputmode="numeric"
+                maxlength="13"
               />
               <div class="provider-pill" id="provider-pill">
                 <span id="provider-name">Operator</span>
@@ -1273,6 +1274,68 @@ const configData = JSON.stringify({
       return n;
     }
 
+    // Semua prefix operator Indonesia yang valid (4 digit pertama)
+    const VALID_PREFIXES = new Set([
+      // Telkomsel
+      "0811",
+      "0812",
+      "0813",
+      "0821",
+      "0822",
+      "0823",
+      "0851",
+      "0852",
+      "0853",
+      // Indosat
+      "0814",
+      "0815",
+      "0816",
+      "0855",
+      "0856",
+      "0857",
+      "0858",
+      // XL Axiata
+      "0817",
+      "0818",
+      "0819",
+      "0859",
+      "0877",
+      "0878",
+      // Axis
+      "0831",
+      "0832",
+      "0833",
+      "0838",
+      // Tri
+      "0895",
+      "0896",
+      "0897",
+      "0898",
+      "0899",
+      // Smartfren
+      "0881",
+      "0882",
+      "0883",
+      "0884",
+      "0885",
+      "0886",
+      "0887",
+      "0888",
+      "0889",
+    ]);
+
+    // Status validasi bertahap
+    function phoneStatus(
+      raw: string,
+    ): "empty" | "typing" | "invalid_prefix" | "valid" {
+      const n = normalizePhone(raw);
+      if (!n) return "empty";
+      if (n.length < 4) return "typing";
+      if (!VALID_PREFIXES.has(n.slice(0, 4))) return "invalid_prefix";
+      if (n.length < 10) return "typing";
+      return "valid";
+    }
+
     function detectProvider(raw: string) {
       const n = normalizePhone(raw);
       if (n.length < 5) return null;
@@ -1376,10 +1439,22 @@ const configData = JSON.stringify({
         return;
       }
 
-      const n = normalizePhone(raw);
-      const provider = detectProvider(raw);
+      const status = phoneStatus(raw);
 
-      if (n.length < 5) {
+      // Prefix tidak valid → tolak langsung tanpa perlu menunggu 10 digit
+      if (status === "invalid_prefix") {
+        currentProvider = null;
+        providerPill.classList.remove("detected");
+        providerNameEl.textContent = "Operator";
+        inputHint.textContent =
+          "Nomor tidak dikenali — pastikan nomor HP Indonesia yang valid";
+        inputHint.className = "input-hint error";
+        inputWrap.classList.add("error");
+        setMode("unknown");
+        return;
+      }
+
+      if (status === "typing") {
         providerPill.classList.remove("detected");
         providerNameEl.textContent = "Operator";
         inputHint.textContent = "Lanjutkan mengetik nomor HP Anda…";
@@ -1388,6 +1463,9 @@ const configData = JSON.stringify({
         setMode("empty");
         return;
       }
+
+      // status === "valid" → cek provider
+      const provider = detectProvider(raw);
 
       if (provider) {
         providerPill.classList.add("detected");
@@ -1491,8 +1569,31 @@ const configData = JSON.stringify({
     /* ── EVENTS ── */
     const debouncedUpdateUI = debounce(updateUI, 120);
     phoneInput.addEventListener("input", debouncedUpdateUI, { passive: true });
-    phoneInput.addEventListener("keypress", (e) => {
-      if (!/[\d\s\-+()]/.test(e.key)) e.preventDefault();
+
+    // Hanya angka yang diizinkan — blokir keydown & sanitasi paste
+    phoneInput.addEventListener("keydown", (e) => {
+      const allowed = [
+        "Backspace",
+        "Delete",
+        "ArrowLeft",
+        "ArrowRight",
+        "ArrowUp",
+        "ArrowDown",
+        "Tab",
+        "Enter",
+        "Home",
+        "End",
+      ];
+      if (allowed.includes(e.key)) return;
+      if (!/^\d$/.test(e.key)) e.preventDefault();
+    });
+    phoneInput.addEventListener("paste", (e) => {
+      e.preventDefault();
+      const text =
+        (e.clipboardData ?? (window as any).clipboardData)?.getData("text") ??
+        "";
+      const digits = text.replace(/\D/g, "");
+      document.execCommand("insertText", false, digits);
     });
     modalClose.addEventListener("click", closeModal);
     btnCancel.addEventListener("click", closeModal);

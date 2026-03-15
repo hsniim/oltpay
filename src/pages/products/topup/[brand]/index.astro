@@ -62,10 +62,17 @@ const badgeLabel = title;
 // Apakah input pakai format +62 (nomor HP) atau teks bebas (ID/email)?
 const isPhoneInput = inputPrefix === "+62";
 
+// Brand yang inputnya hanya angka (bukan nomor HP, bukan teks bebas)
+// PLN: nomor meter 11-12 digit angka
+// Maxim: ID driver berupa angka
+const isNumericInput = ["plntoken", "maximdriv"].includes(name);
+
 // Placeholder teks input
 const inputPlaceholder = isPhoneInput
   ? "8xx xxxx xxxx"
-  : `Masukkan ${inputLabel.toLowerCase()}`;
+  : isNumericInput
+    ? `Masukkan ${inputLabel.toLowerCase()}`
+    : `Masukkan ${inputLabel.toLowerCase()}`;
 
 const configData = JSON.stringify({
   wa: waNumber,
@@ -73,6 +80,7 @@ const configData = JSON.stringify({
   title,
   inputLabel,
   isPhoneInput,
+  isNumericInput,
   accent,
   badgeLabel,
   packages,
@@ -189,7 +197,10 @@ const configData = JSON.stringify({
                 id="user-input"
                 placeholder={inputPlaceholder}
                 autocomplete={isPhoneInput ? "tel" : "off"}
-                maxlength={isPhoneInput ? 15 : 50}
+                inputmode={isPhoneInput || isNumericInput
+                  ? "numeric"
+                  : undefined}
+                maxlength={isPhoneInput ? 15 : isNumericInput ? 12 : 50}
               />
             </div>
           </div>
@@ -1149,6 +1160,7 @@ const configData = JSON.stringify({
       title: string;
       inputLabel: string;
       isPhoneInput: boolean;
+      isNumericInput: boolean;
       accent: string;
       badgeLabel: string;
       packages: Array<{
@@ -1165,6 +1177,7 @@ const configData = JSON.stringify({
       wa: waNumber,
       title: brandTitle,
       isPhoneInput,
+      isNumericInput,
       accent,
       badgeLabel,
       packages,
@@ -1201,12 +1214,85 @@ const configData = JSON.stringify({
     });
     const formatRp = (n: number) => rpFmt.format(n);
 
-    // Normalisasi nomor HP → format 08xx (hanya untuk isPhoneInput)
+    // Normalisasi → selalu format 08xx...
     function normalizePhone(val: string) {
       let n = val.replace(/\D/g, "");
       if (n.startsWith("62")) n = "0" + n.slice(2);
       if (n.startsWith("8")) n = "0" + n;
       return n;
+    }
+
+    // Semua prefix operator Indonesia yang valid (4 digit pertama setelah 0)
+    const VALID_PREFIXES = new Set([
+      // Telkomsel
+      "0811",
+      "0812",
+      "0813",
+      "0821",
+      "0822",
+      "0823",
+      "0851",
+      "0852",
+      "0853",
+      // Indosat
+      "0814",
+      "0815",
+      "0816",
+      "0855",
+      "0856",
+      "0857",
+      "0858",
+      // XL Axiata
+      "0817",
+      "0818",
+      "0819",
+      "0859",
+      "0877",
+      "0878",
+      // Axis
+      "0831",
+      "0832",
+      "0833",
+      "0838",
+      // Tri
+      "0895",
+      "0896",
+      "0897",
+      "0898",
+      "0899",
+      // Smartfren
+      "0881",
+      "0882",
+      "0883",
+      "0884",
+      "0885",
+      "0886",
+      "0887",
+      "0888",
+      "0889",
+      // Telkom (PSTN/FWA — jarang, tapi valid)
+      "0820",
+      "0840",
+    ]);
+
+    // Cek apakah nomor punya prefix operator yang dikenal
+    function isValidIndonesianPhone(normalized: string): boolean {
+      if (normalized.length < 10 || normalized.length > 13) return false;
+      return VALID_PREFIXES.has(normalized.slice(0, 4));
+    }
+
+    // Status validasi nomor — untuk feedback bertahap ke user
+    function phoneStatus(
+      raw: string,
+    ): "empty" | "typing" | "invalid_prefix" | "valid" {
+      const n = normalizePhone(raw);
+      if (!n) return "empty";
+      if (n.length < 7) return "typing";
+      // Cukup 4 digit pertama untuk cek prefix
+      if (n.length >= 4 && !VALID_PREFIXES.has(n.slice(0, 4)))
+        return "invalid_prefix";
+      if (n.length < 10) return "typing";
+      return "valid";
     }
 
     function debounce<T extends (...a: unknown[]) => void>(fn: T, ms: number) {
@@ -1217,9 +1303,10 @@ const configData = JSON.stringify({
       };
     }
 
-    // Validasi input — cukup 1 karakter untuk ID/email, 10 digit untuk nomor HP
+    // Validasi final sebelum buka modal
     function isInputValid(raw: string) {
-      if (isPhoneInput) return normalizePhone(raw).length >= 10;
+      if (isPhoneInput) return phoneStatus(raw) === "valid";
+      if (isNumericInput) return raw.trim().length >= 1;
       return raw.trim().length >= 1;
     }
 
@@ -1296,28 +1383,51 @@ const configData = JSON.stringify({
     // ── INPUT HANDLER ────────────────────────────────────────────────────────
     function updateUI() {
       const raw = userInput.value.trim();
+
+      if (isPhoneInput) {
+        const status = phoneStatus(raw);
+        if (status === "empty") {
+          inputHint.textContent = `Masukkan nomor HP yang terdaftar di ${brandTitle}`;
+          inputHint.className = "input-hint";
+          inputWrap.classList.remove("error");
+          setMode("empty");
+        } else if (status === "typing") {
+          inputHint.textContent = "Lanjutkan mengetik nomor HP Anda…";
+          inputHint.className = "input-hint";
+          inputWrap.classList.remove("error");
+          setMode("empty");
+        } else if (status === "invalid_prefix") {
+          inputHint.textContent =
+            "Nomor tidak dikenali — pastikan nomor HP Indonesia yang valid";
+          inputHint.className = "input-hint error";
+          inputWrap.classList.add("error");
+          setMode("empty");
+        } else {
+          // valid
+          const display = `+62 ${normalizePhone(raw).slice(1)}`;
+          inputHint.textContent = `✓ ${display} siap diisi ${brandTitle}`;
+          inputHint.className = "input-hint success";
+          inputWrap.classList.remove("error");
+          setMode("products");
+        }
+        return;
+      }
+
+      // Non-phone input (PLN, Maxim, Wi-Fi ID, dll)
       if (!raw) {
-        inputHint.textContent = isPhoneInput
-          ? `Masukkan nomor HP yang terdaftar di ${brandTitle}`
-          : `Masukkan ${cfg.inputLabel.toLowerCase()} Anda`;
+        inputHint.textContent = `Masukkan ${cfg.inputLabel.toLowerCase()} Anda`;
         inputHint.className = "input-hint";
         inputWrap.classList.remove("error");
         setMode("empty");
         return;
       }
       if (!isInputValid(raw)) {
-        inputHint.textContent = isPhoneInput
-          ? "Lanjutkan mengetik nomor HP Anda…"
-          : "Lanjutkan mengisi data…";
+        inputHint.textContent = "Lanjutkan mengisi data…";
         inputHint.className = "input-hint";
         setMode("empty");
         return;
       }
-      // Valid
-      const display = isPhoneInput
-        ? `+62 ${normalizePhone(raw).slice(1)}`
-        : raw;
-      inputHint.textContent = `✓ ${display} siap diisi ${brandTitle}`;
+      inputHint.textContent = `✓ ${raw} siap di-top up`;
       inputHint.className = "input-hint success";
       inputWrap.classList.remove("error");
       setMode("products");
@@ -1386,10 +1496,34 @@ const configData = JSON.stringify({
     const debouncedUpdate = debounce(updateUI, 120);
     userInput.addEventListener("input", debouncedUpdate, { passive: true });
 
-    // Untuk input nomor HP: blokir karakter non-numerik
-    if (isPhoneInput) {
-      userInput.addEventListener("keypress", (e) => {
-        if (!/[\d\s\-+()]/.test(e.key)) e.preventDefault();
+    // ── INPUT SANITIZATION ───────────────────────────────────────────────────
+    // Semua input nomor (HP, PLN, Maxim): hanya angka — blokir keypress & sanitasi paste
+    if (isPhoneInput || isNumericInput) {
+      // Blokir karakter non-angka saat mengetik
+      userInput.addEventListener("keydown", (e) => {
+        const allowed = [
+          "Backspace",
+          "Delete",
+          "ArrowLeft",
+          "ArrowRight",
+          "ArrowUp",
+          "ArrowDown",
+          "Tab",
+          "Enter",
+          "Home",
+          "End",
+        ];
+        if (allowed.includes(e.key)) return;
+        if (!/^\d$/.test(e.key)) e.preventDefault();
+      });
+      // Sanitasi paste — buang semua selain angka
+      userInput.addEventListener("paste", (e) => {
+        e.preventDefault();
+        const text =
+          (e.clipboardData ?? (window as any).clipboardData)?.getData("text") ??
+          "";
+        const digits = text.replace(/\D/g, "");
+        document.execCommand("insertText", false, digits);
       });
     }
 

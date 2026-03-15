@@ -129,7 +129,8 @@ const configData = JSON.stringify({
                 id="phone-input"
                 placeholder="8xx xxxx xxxx"
                 autocomplete="tel"
-                maxlength="15"
+                inputmode="numeric"
+                maxlength="13"
               />
               <div class="provider-pill" id="provider-pill">
                 <span id="provider-name">Operator</span>
@@ -165,6 +166,19 @@ const configData = JSON.stringify({
           <p class="state-title">Operator tidak dikenali</p>
           <p class="state-desc">
             Pastikan nomor HP yang Anda masukkan sudah benar
+          </p>
+        </div>
+
+        <!-- No product for this provider -->
+        <div class="state-wrap hidden" id="no-product-state">
+          <div class="state-icon state-icon--warn">
+            <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"
+              ><use href="#icon-alert"></use></svg
+            >
+          </div>
+          <p class="state-title">Produk tidak tersedia</p>
+          <p class="state-desc" id="no-product-desc">
+            Maaf, belum ada paket telepon untuk operator ini
           </p>
         </div>
 
@@ -1337,6 +1351,115 @@ const configData = JSON.stringify({
       return n;
     }
 
+    // Semua prefix operator Indonesia yang valid (4 digit pertama)
+    const VALID_PREFIXES = new Set([
+      // Telkomsel
+      "0811",
+      "0812",
+      "0813",
+      "0821",
+      "0822",
+      "0823",
+      "0851",
+      "0852",
+      "0853",
+      // Indosat
+      "0814",
+      "0815",
+      "0816",
+      "0855",
+      "0856",
+      "0857",
+      "0858",
+      // XL Axiata
+      "0817",
+      "0818",
+      "0819",
+      "0859",
+      "0877",
+      "0878",
+      // Axis
+      "0831",
+      "0832",
+      "0833",
+      "0838",
+      // Tri
+      "0895",
+      "0896",
+      "0897",
+      "0898",
+      "0899",
+      // Smartfren
+      "0881",
+      "0882",
+      "0883",
+      "0884",
+      "0885",
+      "0886",
+      "0887",
+      "0888",
+      "0889",
+    ]);
+
+    // Petakan prefix → nama operator (untuk pesan no_product yang informatif)
+    function getOperatorNameByPrefix(prefix: string): string | null {
+      const map: Record<string, string> = {
+        "0811": "Telkomsel",
+        "0812": "Telkomsel",
+        "0813": "Telkomsel",
+        "0821": "Telkomsel",
+        "0822": "Telkomsel",
+        "0823": "Telkomsel",
+        "0851": "Telkomsel",
+        "0852": "Telkomsel",
+        "0853": "Telkomsel",
+        "0814": "Indosat",
+        "0815": "Indosat",
+        "0816": "Indosat",
+        "0855": "Indosat",
+        "0856": "Indosat",
+        "0857": "Indosat",
+        "0858": "Indosat",
+        "0817": "XL",
+        "0818": "XL",
+        "0819": "XL",
+        "0859": "XL",
+        "0877": "XL",
+        "0878": "XL",
+        "0831": "Axis",
+        "0832": "Axis",
+        "0833": "Axis",
+        "0838": "Axis",
+        "0895": "Tri",
+        "0896": "Tri",
+        "0897": "Tri",
+        "0898": "Tri",
+        "0899": "Tri",
+        "0881": "Smartfren",
+        "0882": "Smartfren",
+        "0883": "Smartfren",
+        "0884": "Smartfren",
+        "0885": "Smartfren",
+        "0886": "Smartfren",
+        "0887": "Smartfren",
+        "0888": "Smartfren",
+        "0889": "Smartfren",
+      };
+      return map[prefix] ?? null;
+    }
+
+    // Status validasi bertahap
+    function phoneStatus(
+      raw: string,
+    ): "empty" | "typing" | "invalid_prefix" | "valid" {
+      const n = normalizePhone(raw);
+      if (!n) return "empty";
+      if (n.length < 4) return "typing";
+      if (!VALID_PREFIXES.has(n.slice(0, 4))) return "invalid_prefix";
+      if (n.length < 10) return "typing";
+      return "valid";
+    }
+
     function detectProvider(raw: string) {
       const n = normalizePhone(raw);
       if (n.length < 5) return null;
@@ -1433,11 +1556,15 @@ const configData = JSON.stringify({
     }
 
     /* ── UI STATE ── */
-    function setMode(mode: "empty" | "unknown" | "products") {
+    const noProductState = document.getElementById("no-product-state")!;
+    const noProductDesc = document.getElementById("no-product-desc")!;
+
+    function setMode(mode: "empty" | "unknown" | "no_product" | "products") {
       productsSection.style.alignItems =
         mode === "products" ? "flex-start" : "center";
       emptyState.classList.toggle("hidden", mode !== "empty");
       unknownState.classList.toggle("hidden", mode !== "unknown");
+      noProductState.classList.toggle("hidden", mode !== "no_product");
       productsContainer.classList.toggle("hidden", mode !== "products");
     }
 
@@ -1455,10 +1582,10 @@ const configData = JSON.stringify({
         return;
       }
 
-      const n = normalizePhone(raw);
-      const provider = detectProvider(raw);
+      const status = phoneStatus(raw);
 
-      if (n.length < 5) {
+      // Masih mengetik
+      if (status === "typing") {
         providerPill.classList.remove("detected");
         providerNameEl.textContent = "Operator";
         inputHint.textContent = "Lanjutkan mengetik nomor HP Anda…";
@@ -1468,7 +1595,25 @@ const configData = JSON.stringify({
         return;
       }
 
+      // Prefix tidak dikenal sama sekali (bukan operator Indonesia)
+      if (status === "invalid_prefix") {
+        currentProvider = null;
+        providerPill.classList.remove("detected");
+        providerNameEl.textContent = "Operator";
+        inputHint.textContent =
+          "Nomor tidak dikenali — pastikan nomor HP Indonesia yang valid";
+        inputHint.className = "input-hint error";
+        inputWrap.classList.add("error");
+        setMode("unknown");
+        return;
+      }
+
+      // Prefix valid — cek apakah ada di daftar provider paket telepon
+      const provider = detectProvider(raw);
+      const n = normalizePhone(raw);
+
       if (provider) {
+        // Operator ada & punya paket telepon
         providerPill.classList.add("detected");
         providerNameEl.textContent = provider.title;
         inputHint.textContent = `✓ Terdeteksi sebagai nomor ${provider.title}`;
@@ -1483,14 +1628,23 @@ const configData = JSON.stringify({
           setMode("products");
         }
       } else {
+        // Prefix valid tapi tidak ada paket telepon untuk operator ini
+        const prefix = n.slice(0, 4);
+        const operatorName = getOperatorNameByPrefix(prefix);
+
         currentProvider = null;
         providerPill.classList.remove("detected");
-        providerNameEl.textContent = "Operator";
-        inputHint.textContent =
-          "Operator tidak dikenali — periksa kembali nomor HP Anda";
-        inputHint.className = "input-hint error";
-        inputWrap.classList.add("error");
-        setMode("unknown");
+        providerNameEl.textContent = operatorName ?? "Operator";
+        if (operatorName) providerPill.classList.add("detected");
+        inputHint.textContent = operatorName
+          ? `Nomor terdeteksi sebagai ${operatorName}`
+          : "Operator tidak dikenali";
+        inputHint.className = "input-hint";
+        inputWrap.classList.remove("error");
+        noProductDesc.textContent = operatorName
+          ? `Maaf, belum ada paket telepon untuk nomor ${operatorName}`
+          : "Maaf, belum ada paket telepon untuk operator ini";
+        setMode("no_product");
       }
     }
 
@@ -1563,8 +1717,31 @@ const configData = JSON.stringify({
     /* ── EVENTS ── */
     const debouncedUpdateUI = debounce(updateUI, 120);
     phoneInput.addEventListener("input", debouncedUpdateUI, { passive: true });
-    phoneInput.addEventListener("keypress", (e) => {
-      if (!/[\d\s\-+()]/.test(e.key)) e.preventDefault();
+
+    // Hanya angka yang diizinkan — blokir keydown & sanitasi paste
+    phoneInput.addEventListener("keydown", (e) => {
+      const allowed = [
+        "Backspace",
+        "Delete",
+        "ArrowLeft",
+        "ArrowRight",
+        "ArrowUp",
+        "ArrowDown",
+        "Tab",
+        "Enter",
+        "Home",
+        "End",
+      ];
+      if (allowed.includes(e.key)) return;
+      if (!/^\d$/.test(e.key)) e.preventDefault();
+    });
+    phoneInput.addEventListener("paste", (e) => {
+      e.preventDefault();
+      const text =
+        (e.clipboardData ?? (window as any).clipboardData)?.getData("text") ??
+        "";
+      const digits = text.replace(/\D/g, "");
+      document.execCommand("insertText", false, digits);
     });
     modalClose.addEventListener("click", closeModal);
     btnCancel.addEventListener("click", closeModal);

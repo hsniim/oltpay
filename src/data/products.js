@@ -1041,7 +1041,7 @@ export const topupProducts = [
     title: 'Token Listrik PLN',
     // icon: lightning/bolt icon (homepage Token Listrik PLN)
     icon: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>',
-    inputLabel: 'ID Pelanggan / Nomor Meter',
+    inputLabel: 'Nomor Meter PLN',
     inputType: 'text',
     inputPrefix: null,
     packages: [
@@ -1061,9 +1061,9 @@ export const topupProducts = [
     title: 'Google Play',
     // icon: play/triangle icon (homepage Google Play)
     icon: '<polygon points="5 3 19 12 5 21 5 3"></polygon>',
-    inputLabel: 'Email Akun Google',
-    inputType: 'text',
-    inputPrefix: null,
+    inputLabel: 'Nomor HP Tujuan',
+    inputType: 'tel',
+    inputPrefix: '+62',
     packages: [
       { code: 'GP20',  name: '20.000',  desc: 'Google Play ID 20rb',  price: 19900 },
       { code: 'GP50',  name: '50.000',  desc: 'Google Play ID 50rb',  price: 49050 },
@@ -1088,4 +1088,95 @@ export const topupProducts = [
       { code: 'WIFI50', name: '50.000', desc: 'Wifi.ID 50.000 (30 Hari)', price: 51500 },
     ],
   },
+];
+
+export const gameProducts = [
+  {
+    name: 'ml',
+    title: 'Mobile Legends',
+    // Icon sama persis dengan homepage tab Game → Mobile Legends (star icon)
+    icon: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>',
+    inputLabel: 'User ID/ID Game',
+    inputType: 'text',
+    inputPrefix: null,
+    packages: [
+      { code: 'ML5',  name: '5 Diamonds',  desc: 'Mobile Legend 5 Diamond',  price: 2750 },
+      { code: 'ML12', name: '12 Diamonds', desc: 'Mobile Legend 12 Diamond', price: 4800 },
+      { code: 'ML14', name: '14 Diamonds', desc: 'Mobile Legend 14 Diamond', price: 5500 },
+      { code: 'ML15', name: '15 Diamonds', desc: 'Mobile Legend 15 Diamond', price: 6100 },
+      { code: 'ML19', name: '19 Diamonds', desc: 'Mobile Legend 19 Diamond', price: 6750 },
+      { code: 'ML28', name: '28 Diamonds', desc: 'Mobile Legend 28 Diamond', price: 9150 },
+      { code: 'ML33', name: '33 Diamonds', desc: 'Mobile Legend 33 Diamond', price: 10900 },
+      { code: 'ML36', name: '36 Diamonds', desc: 'Mobile Legend 36 Diamond', price: 11300 },
+      { code: 'ML42', name: '42 Diamonds', desc: 'Mobile Legend 42 Diamond', price: 13000 },
+      { code: 'ML44', name: '44 Diamonds', desc: 'Mobile Legend 44 Diamond', price: 13150 },
+      { code: 'ML56', name: '56 Diamonds', desc: 'Mobile Legend 56 Diamond', price: 16750 },
+      { code: 'ML59', name: '59 Diamonds', desc: 'Mobile Legend 59 Diamond', price: 17000 },
+      { code: 'ML67', name: '67 Diamonds', desc: 'Mobile Legend 67 Diamond', price: 20400 },
+      { code: 'ML74', name: '74 Diamonds', desc: 'Mobile Legend 74 Diamond', price: 21000 },
+      { code: 'ML75', name: '75 Diamonds', desc: 'Mobile Legend 75 Diamond', price: 23000 },
+      { code: 'ML85', name: '85 Diamonds', desc: 'Mobile Legend 85 Diamond', price: 24000 },
+    ],
+  },
+  {
+    name: 'ff',
+    title: 'Free Fire',
+    // Icon sama persis dengan homepage tab Game → Free Fire (flame icon)
+    icon: '<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path>',
+    inputLabel: 'ID Game/User ID',
+    inputType: 'number',
+    inputPrefix: null,
+    packages: [
+      { code: 'FF5',    name: '5 Diamonds',    desc: 'Free Fire 5 Diamond',    price: 2200 },
+      { code: 'FF12',   name: '12 Diamonds',   desc: 'Free Fire 12 Diamond',   price: 3150 },
+      { code: 'FF20',   name: '20 Diamonds',   desc: 'Free Fire 20 Diamond',   price: 4750 },
+      { code: 'FF30',   name: '30 Diamonds',   desc: 'Free Fire 30 Diamond',   price: 6500 },
+      { code: 'FF50',   name: '50 Diamonds',   desc: 'Free Fire 50 Diamond',   price: 8150 },
+      { code: 'FF70',   name: '70 Diamonds',   desc: 'Free Fire 70 Diamond',   price: 11000 },
+      { code: 'FF75',   name: '75 Diamonds',   desc: 'Free Fire 75 Diamond',   price: 11400 },
+      { code: 'FF140',  name: '140 Diamonds',  desc: 'Free Fire 140 Diamond',  price: 19400 },
+      { code: 'FF355',  name: '355 Diamonds',  desc: 'Free Fire 355 Diamond',  price: 46800 },
+      { code: 'FF720',  name: '720 Diamonds',  desc: 'Free Fire 720 Diamond',  price: 91400 }
+    ],
+  },
+  {
+    name: 'pubgm',
+    title: 'PUBG Mobile',
+    // Icon sama persis dengan homepage tab Game → PUBG Mobile (crosshair icon)
+    icon: '<circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle><line x1="12" y1="2" x2="12" y2="5"></line><line x1="12" y1="19" x2="12" y2="22"></line><line x1="2" y1="12" x2="5" y2="12"></line><line x1="19" y1="12" x2="22" y2="12"></line>',
+    inputLabel: 'User ID/ID Game',
+    inputType: 'number',
+    inputPrefix: null,
+    packages: [
+      { code: 'PU35',   name: '35 UC',   desc: 'PUBG Mobile 35 UC',   price: 9050 },
+      { code: 'PU150',  name: '150 UC',  desc: 'PUBG Mobile 150 UC',  price: 9150 },
+      { code: 'PU70',   name: '70 UC',   desc: 'PUBG Mobile 70 UC',   price: 15400 },
+      { code: 'PU50',   name: '40 UC',   desc: 'PUBG Mobile 40 UC',   price: 16850 },
+      { code: 'PU125',  name: '120 UC',  desc: 'PUBG Mobile 120 UC',  price: 45000 },
+      { code: 'PU210',  name: '210 UC',  desc: 'PUBG Mobile 210 UC',  price: 52200 },
+      { code: 'PU250',  name: '200 UC',  desc: 'PUBG Mobile 200 UC',  price: 76600 },
+      { code: 'PU500',  name: '400 UC',  desc: 'PUBG Mobile 400 UC',  price: 122700 },
+      { code: 'PU700',  name: '700 UC',  desc: 'PUBG Mobile 700 UC',  price: 168500 },
+      { code: 'PU1250', name: '1000 UC', desc: 'PUBG Mobile 1000 UC', price: 269500 },
+      { code: 'PU1750', name: '1750 UC', desc: 'PUBG Mobile 1750 UC', price: 340500 },
+      { code: 'PU2500', name: '2000 UC', desc: 'PUBG Mobile 2000 UC', price: 567500 },
+      { code: 'PU3500', name: '3500 UC', desc: 'PUBG Mobile 3500 UC', price: 687500 },
+      { code: 'PU5000', name: '5000 UC', desc: 'PUBG Mobile 5000 UC', price: 1016000 },
+    ],
+  },
+  {
+    name: 'garena',
+    title: 'Garena Shell',
+    // Icon sama persis dengan homepage tab Game → Garena (gamepad icon)
+    icon: '<line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><circle cx="15" cy="13" r="1" fill="currentColor" stroke="none"></circle><circle cx="17" cy="11" r="1" fill="currentColor" stroke="none"></circle><path d="M17 6H7a5 5 0 0 0-5 5v2a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5v-2a5 5 0 0 0-5-5z"></path>',
+    inputLabel: 'Nomor HP',
+    inputType: 'tel',
+    inputPrefix: '+62',
+    packages: [
+      { code: 'GR10',  name: '33 Shell',  desc: 'Voucher 33 Shell / 1000 Cash',  price: 10800 },
+      { code: 'GR20',  name: '66 Shell',  desc: 'Voucher 66 Shell / 2000 Cash',  price: 20000 },
+      { code: 'GR50',  name: '165 Shell', desc: 'Voucher 165 Shell / 5000 Cash', price: 47550 },
+      { code: 'GR100', name: '330 Shell', desc: 'Voucher 330 Shell / 10000 Cash', price: 94000 },
+    ],
+  }
 ];

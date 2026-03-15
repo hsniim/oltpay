@@ -680,91 +680,102 @@ import Navbar from "../components/Navbar.astro";
             <!-- TAB GAME -->
             <div class="tab-panel" id="tab-game">
               <div class="services-grid">
-                <div class="service-item">
-                  <div class="service-icon">
-                    <!-- <img src="/icons/mlbb.svg"> -->
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.8"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      ><polygon
-                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                      ></polygon></svg
-                    >
-                  </div><span class="service-label">Mobile Legends</span>
-                </div>
-                <div class="service-item">
-                  <div class="service-icon">
-                    <!-- <img src="/icons/freefire.svg"> -->
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.8"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      ><path
-                        d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"
-                      ></path></svg
-                    >
-                  </div><span class="service-label">Free Fire</span>
-                </div>
-                <div class="service-item">
-                  <div class="service-icon">
-                    <!-- <img src="/icons/pubg.svg"> -->
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.8"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      ><circle cx="12" cy="12" r="10"></circle><circle
-                        cx="12"
-                        cy="12"
-                        r="3"></circle><line x1="12" y1="2" x2="12" y2="5"
-                      ></line><line x1="12" y1="19" x2="12" y2="22"></line><line
-                        x1="2"
-                        y1="12"
-                        x2="5"
-                        y2="12"></line><line x1="19" y1="12" x2="22" y2="12"
-                      ></line></svg
-                    >
-                  </div><span class="service-label">PUBG Mobile</span>
-                </div>
-                <div class="service-item">
-                  <div class="service-icon">
-                    <!-- <img src="/icons/garena.svg"> -->
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.8"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      ><line x1="6" y1="12" x2="10" y2="12"></line><line
-                        x1="8"
-                        y1="10"
-                        x2="8"
-                        y2="14"></line><circle
-                        cx="15"
-                        cy="13"
-                        r="1"
-                        fill="currentColor"
-                        stroke="none"></circle><circle
-                        cx="17"
-                        cy="11"
-                        r="1"
-                        fill="currentColor"
-                        stroke="none"></circle><path
-                        d="M17 6H7a5 5 0 0 0-5 5v2a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5v-2a5 5 0 0 0-5-5z"
-                      ></path></svg
-                    >
-                  </div><span class="service-label">Garena</span>
-                </div>
+                <a href="/products/game/ml/">
+                  <div class="service-item">
+                    <div class="service-icon">
+                      <!-- <img src="/icons/mlbb.svg"> -->
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        ><polygon
+                          points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                        ></polygon></svg
+                      >
+                    </div><span class="service-label">Mobile Legends</span>
+                  </div>
+                </a>
+
+                <a href="/products/game/ff/">
+                  <div class="service-item">
+                    <div class="service-icon">
+                      <!-- <img src="/icons/freefire.svg"> -->
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        ><path
+                          d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"
+                        ></path></svg
+                      >
+                    </div><span class="service-label">Free Fire</span>
+                  </div>
+                </a>
+
+                <a href="products/game/pubgm/">
+                  <div class="service-item">
+                    <div class="service-icon">
+                      <!-- <img src="/icons/pubg.svg"> -->
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        ><circle cx="12" cy="12" r="10"></circle><circle
+                          cx="12"
+                          cy="12"
+                          r="3"></circle><line x1="12" y1="2" x2="12" y2="5"
+                        ></line><line x1="12" y1="19" x2="12" y2="22"
+                        ></line><line x1="2" y1="12" x2="5" y2="12"></line><line
+                          x1="19"
+                          y1="12"
+                          x2="22"
+                          y2="12"></line></svg
+                      >
+                    </div><span class="service-label">PUBG Mobile</span>
+                  </div>
+                </a>
+
+                <a href="/products/game/garena/">
+                  <div class="service-item">
+                    <div class="service-icon">
+                      <!-- <img src="/icons/garena.svg"> -->
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        ><line x1="6" y1="12" x2="10" y2="12"></line><line
+                          x1="8"
+                          y1="10"
+                          x2="8"
+                          y2="14"></line><circle
+                          cx="15"
+                          cy="13"
+                          r="1"
+                          fill="currentColor"
+                          stroke="none"></circle><circle
+                          cx="17"
+                          cy="11"
+                          r="1"
+                          fill="currentColor"
+                          stroke="none"></circle><path
+                          d="M17 6H7a5 5 0 0 0-5 5v2a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5v-2a5 5 0 0 0-5-5z"
+                        ></path></svg
+                      >
+                    </div><span class="service-label">Garena</span>
+                  </div>
+                </a>
               </div>
             </div>
           </div><!-- end tab-panels-wrap -->
@@ -798,17 +809,32 @@ import Navbar from "../components/Navbar.astro";
           wrap.style.minHeight = maxH + "px";
         }
 
-        window.addEventListener("load", lockToTallest);
+        function activateTab(tabName) {
+          const targetBtn = document.querySelector(
+            `.tab-btn[data-tab="${tabName}"]`,
+          );
+          if (!targetBtn) return;
+          tabBtns.forEach((b) => b.classList.remove("active"));
+          tabPanels.forEach((p) => p.classList.remove("active"));
+          targetBtn.classList.add("active");
+          document.getElementById("tab-" + tabName)?.classList.add("active");
+        }
+
+        window.addEventListener("load", () => {
+          lockToTallest();
+          // Baca ?tab= SETELAH lockToTallest selesai restore semua panel
+          const params = new URLSearchParams(window.location.search);
+          const tab = params.get("tab");
+          if (tab) {
+            activateTab(tab);
+            window.history.replaceState(null, "", window.location.pathname);
+          }
+        });
         window.addEventListener("resize", lockToTallest);
 
         tabBtns.forEach((btn) => {
           btn.addEventListener("click", () => {
-            tabBtns.forEach((b) => b.classList.remove("active"));
-            tabPanels.forEach((p) => p.classList.remove("active"));
-            btn.classList.add("active");
-            document
-              .getElementById("tab-" + btn.dataset.tab)
-              .classList.add("active");
+            activateTab(btn.dataset.tab);
           });
         });
       })();
