@@ -1,5 +1,15 @@
 ---
 import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Oltpay",
+  description = "Beli pulsa, paket data, dan produk PPOB lainnya dengan harga terbaik dan proses cepat.",
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -7,10 +17,14 @@ import "../styles/global.css";
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Oltpay</title>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- Preconnect: percepat load Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   </head>
   <body>
     <slot />
-    <!-- ← semua konten halaman akan masuk di sini -->
   </body>
 </html>
