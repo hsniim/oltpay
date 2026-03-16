@@ -4,14 +4,31 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import {
   pulsaProviders,
   paketDataInjectProviders,
-  ewalletProducts,
-  tokenProducts,
+  topupProducts,
   gameProducts,
 } from "../../data/products.js";
 
 const waNumber = "6289501450667";
 
-// Serialise semua data produk ke JSON untuk dikonsumsi JS client
+// Pisahkan topupProducts menjadi e-wallet dan token PLN berdasarkan name
+// E-wallet: gopay, ovo, spay, dana, linkaja, gojekdriv, grabdriv, maximdriv
+// Token: plntoken
+// E-wallet murni: gopay, ovo, spay, dana, linkaja, gojekdriv, grabdriv, maximdriv
+const EWALLET_NAMES = new Set([
+  "gopay",
+  "ovo",
+  "spay",
+  "dana",
+  "linkaja",
+  "gojekdriv",
+  "grabdriv",
+  "maximdriv",
+]);
+const TOKEN_NAMES = new Set(["plntoken"]);
+
+const ewalletProducts = topupProducts.filter((p) => EWALLET_NAMES.has(p.name));
+const tokenProducts = topupProducts.filter((p) => TOKEN_NAMES.has(p.name));
+
 const configData = JSON.stringify({
   wa: waNumber,
   pulsa: pulsaProviders.map((p) => ({
@@ -26,19 +43,19 @@ const configData = JSON.stringify({
     prefixes: p.prefixes,
     subCategories: p.subCategories,
   })),
-  ewallet: (ewalletProducts ?? []).map((p) => ({
+  ewallet: ewalletProducts.map((p) => ({
     name: p.name,
     title: p.title,
     inputLabel: p.inputLabel ?? "Nomor / Username",
     packages: p.packages,
   })),
-  token: (tokenProducts ?? []).map((p) => ({
+  token: tokenProducts.map((p) => ({
     name: p.name,
     title: p.title,
-    inputLabel: p.inputLabel ?? "ID Pelanggan",
+    inputLabel: p.inputLabel ?? "Nomor Meter",
     packages: p.packages,
   })),
-  game: (gameProducts ?? []).map((p) => ({
+  game: gameProducts.map((p) => ({
     name: p.name,
     title: p.title,
     inputLabel: p.inputLabel ?? "ID Game",
@@ -233,17 +250,33 @@ const configData = JSON.stringify({
 
       <!-- ══ PRODUCTS SECTION ══ -->
       <section class="products-section" id="products-section">
-        <!-- Provider / game selector — tampil untuk pulsa, data, game -->
-        <div class="provider-selector hidden" id="provider-selector">
-          <p class="provider-selector__label" id="provider-selector-label">
-            Pilih operator
-          </p>
-          <div class="provider-grid" id="provider-grid"></div>
-        </div>
-
-        <!-- Sub-category pills — tampil khusus paket data -->
-        <div class="subcat-bar hidden" id="subcat-bar">
-          <div class="subcat-pills" id="subcat-pills"></div>
+        <!-- Custom dropdown selector -->
+        <div class="selector-row hidden" id="provider-selector">
+          <p class="selector-label" id="provider-selector-label">Operator</p>
+          <div
+            class="cust-dropdown"
+            id="provider-grid"
+            role="listbox"
+            aria-expanded="false"
+          >
+            <div class="cust-dropdown__trigger" id="dd-trigger">
+              <span class="cust-dropdown__value" id="dd-value">Pilih...</span>
+              <svg
+                class="cust-dropdown__chevron"
+                viewBox="0 0 24 24"
+                width="16"
+                height="16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                ><polyline points="6 9 12 15 18 9"></polyline></svg
+              >
+            </div>
+            <div class="cust-dropdown__menu" id="dd-menu"></div>
+          </div>
         </div>
 
         <!-- Empty / loading / no-result states -->
@@ -298,89 +331,56 @@ const configData = JSON.stringify({
     </main>
   </div>
 
-  <!-- ══ DETAIL MODAL ══ -->
+  <!-- ══ MINI MODAL — "Mau beli produk ini?" ══ -->
   <div class="modal-overlay hidden" id="modal-overlay">
     <div
-      class="modal"
+      class="mini-modal"
       id="modal"
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
     >
-      <div class="modal-header">
-        <div class="modal-header-left">
-          <div class="modal-provider-dot" id="modal-provider-dot"></div>
-          <h3 class="modal-title" id="modal-title">Konfirmasi Pesanan</h3>
+      <button class="mini-modal__close" id="modal-close" aria-label="Tutup">
+        <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"
+          ><use href="#icon-close"></use></svg
+        >
+      </button>
+
+      <p class="mini-modal__eyebrow">Mau beli produk ini?</p>
+
+      <div class="mini-modal__product">
+        <div class="mini-modal__dot" id="modal-provider-dot"></div>
+        <div class="mini-modal__info">
+          <div class="mini-modal__name" id="m-nominal">—</div>
+          <div class="mini-modal__desc" id="m-product">—</div>
         </div>
-        <button class="modal-close" id="modal-close" aria-label="Tutup">
-          <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"
-            ><use href="#icon-close"></use></svg
-          >
-        </button>
+        <div class="mini-modal__price" id="m-price">—</div>
       </div>
 
-      <div class="modal-body">
-        <!-- Nominal highlight -->
-        <div class="modal-nominal-hero">
-          <div class="modal-nominal-hero__label">Produk yang dipilih</div>
-          <div class="modal-nominal-hero__value" id="m-nominal">—</div>
-          <div class="modal-nominal-hero__provider" id="m-product">—</div>
-        </div>
-
-        <!-- Detail rows -->
-        <div class="order-card">
-          <div class="order-row">
-            <span class="order-label">
-              <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"
-                ><use href="#icon-tag"></use></svg
-              >
-              Kode Produk
-            </span>
-            <span class="order-value order-value--code" id="m-code">—</span>
-          </div>
-          <div class="order-row">
-            <span class="order-label">
-              <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"
-                ><use href="#icon-clock"></use></svg
-              >
-              Keterangan
-            </span>
-            <span class="order-value order-value--desc" id="m-desc">—</span>
-          </div>
-          <div class="order-row order-row--total">
-            <span class="order-label order-label--total">Harga</span>
-            <span class="order-value order-value--price" id="m-price">—</span>
-          </div>
-        </div>
-
-        <!-- WA preview -->
-        <div class="wa-preview">
-          <div class="wa-preview__header">
-            <svg
-              viewBox="0 0 24 24"
-              fill="#25d366"
-              width="14"
-              height="14"
-              aria-hidden="true"><use href="#icon-wa"></use></svg
-            >
-            <span>Pesan yang akan dikirim</span>
-          </div>
-          <div class="wa-preview__bubble" id="m-wa-text">—</div>
-        </div>
+      <div class="mini-modal__code-row">
+        <span class="mini-modal__code-label">Kode</span>
+        <span class="mini-modal__code" id="m-code">—</span>
       </div>
 
-      <div class="modal-footer">
-        <button class="btn-cancel" id="btn-cancel">Batal</button>
-        <button class="btn-order" id="btn-order">
+      <div class="mini-modal__actions">
+        <button class="btn-cancel" id="btn-cancel">Tutup</button>
+        <a class="btn-order" id="btn-order" href="#">
+          Lihat &amp; Order
           <svg
             viewBox="0 0 24 24"
-            fill="currentColor"
-            width="17"
-            height="17"
-            aria-hidden="true"><use href="#icon-wa"></use></svg
+            width="14"
+            height="14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
           >
-          Order via WhatsApp
-        </button>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
       </div>
     </div>
   </div>
@@ -560,7 +560,7 @@ const configData = JSON.stringify({
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    transition: background 0.15s;
+    transition: background 0.1s;
   }
   .search-clear:hover {
     background: var(--color-border);
@@ -582,93 +582,128 @@ const configData = JSON.stringify({
     flex-direction: column;
   }
 
-  /* ══ PROVIDER SELECTOR ══ */
-  .provider-selector {
-    padding: 24px 28px 0;
+  /* ══ CUSTOM SELECTOR ══ */
+  .selector-row {
+    padding: 20px 28px 0;
   }
-  .provider-selector__label {
-    font-size: 12px;
+  @media (max-width: 600px) {
+    .selector-row {
+      padding: 16px 16px 0;
+    }
+  }
+
+  .selector-label {
+    font-size: 11px;
     font-weight: 700;
     color: var(--color-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin: 0 0 12px;
-  }
-  .provider-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-  }
-  @media (min-width: 500px) {
-    .provider-grid {
-      grid-template-columns: repeat(4, 1fr);
-    }
+    margin: 0 0 8px;
   }
 
-  /* ══ PROVIDER BUTTON — injected via JS → :global ══ */
-  :global(.prov-btn) {
-    background: #f0f0f0;
-    border: 1.5px solid var(--color-border);
-    border-radius: 12px;
-    padding: 12px 8px;
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--color-muted);
-    text-align: center;
-    transition:
-      border-color 0.15s,
-      background 0.15s,
-      color 0.15s;
-    line-height: 1.3;
-  }
-  :global(.prov-btn:hover) {
-    border-color: var(--color-text);
-    background: var(--color-bg);
-    color: var(--color-text);
-  }
-  :global(.prov-btn.active) {
-    background: var(--color-text);
-    border-color: var(--color-text);
-    color: var(--color-bg);
+  /* ── Custom dropdown ── */
+  .cust-dropdown {
+    position: relative;
+    width: 100%;
+    user-select: none;
   }
 
-  /* ══ SUB-CATEGORY PILLS ══ */
-  .subcat-bar {
-    padding: 16px 28px 0;
-  }
-  .subcat-pills {
+  .cust-dropdown__trigger {
     display: flex;
-    gap: 6px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    padding-bottom: 2px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    height: 48px;
+    padding: 0 16px;
+    border: none;
+    border-radius: 12px;
+    background: #f0f0f0;
+    cursor: pointer;
+    transition: background 0.15s;
   }
-  .subcat-pills::-webkit-scrollbar {
-    display: none;
+  .cust-dropdown__trigger:hover {
+    background: #e8e8e8;
+  }
+  .cust-dropdown.open .cust-dropdown__trigger {
+    background: #e8e8e8;
+    border-radius: 12px 12px 0 0;
   }
 
-  :global(.subcat-pill) {
-    flex-shrink: 0;
-    padding: 6px 14px;
-    border: 1.5px solid var(--color-border);
-    border-radius: 50px;
-    background: #f0f0f0;
-    font-size: 12px;
+  .cust-dropdown__value {
+    font-size: 14px;
     font-weight: 600;
     color: var(--color-muted);
-    cursor: pointer;
-    transition: all 0.15s;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
+    transition: color 0.15s;
   }
-  :global(.subcat-pill:hover) {
-    border-color: var(--color-text);
+  .cust-dropdown.selected .cust-dropdown__value {
     color: var(--color-text);
   }
-  :global(.subcat-pill.active) {
+
+  .cust-dropdown__chevron {
+    flex-shrink: 0;
+    color: var(--color-muted);
+    transition: transform 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .cust-dropdown.open .cust-dropdown__chevron {
+    transform: rotate(180deg);
+  }
+
+  .cust-dropdown__menu {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    background: #f0f0f0;
+    border-radius: 0 0 12px 12px;
+    overflow: hidden;
+    z-index: 100;
+    max-height: 0;
+    overflow-y: auto;
+    transition: max-height 0.14s cubic-bezier(0.4, 0, 0.2, 1);
+    scrollbar-width: none;
+  }
+  .cust-dropdown__menu::-webkit-scrollbar {
+    display: none;
+  }
+  .cust-dropdown.open .cust-dropdown__menu {
+    max-height: 280px;
+  }
+
+  :global(.dd-option) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: background 0.1s;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+  }
+  :global(.dd-option:first-child) {
+    border-top: none;
+  }
+  :global(.dd-option:hover) {
+    background: #e4e4e4;
+  }
+  :global(.dd-option.active) {
     background: var(--color-text);
-    border-color: var(--color-text);
     color: var(--color-bg);
+    font-weight: 700;
+  }
+  :global(.dd-option.active .dd-check) {
+    opacity: 1;
+  }
+  :global(.dd-check) {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    opacity: 0;
   }
 
   /* ══ STATE WRAPPERS ══ */
@@ -921,18 +956,17 @@ const configData = JSON.stringify({
     transform: scale(1);
   }
 
-  /* ══ MODAL ══ */
+  /* ══ MINI MODAL ══ */
   .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(10, 10, 10, 0.45);
-    backdrop-filter: blur(6px);
+    background: rgba(10, 10, 10, 0.35);
+    backdrop-filter: blur(4px);
     z-index: 1000;
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    animation: fadeIn 0.2s ease;
-    will-change: opacity;
+    animation: fadeIn 0.18s ease;
   }
   @media (min-width: 600px) {
     .modal-overlay {
@@ -941,51 +975,32 @@ const configData = JSON.stringify({
     }
   }
 
-  .modal {
+  .mini-modal {
+    position: relative;
     background: var(--color-bg);
     width: 100%;
-    max-width: 440px;
+    max-width: 400px;
     border-radius: 24px 24px 0 0;
-    overflow: hidden;
-    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 24px 20px 28px;
+    animation: slideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
   }
   @media (min-width: 600px) {
-    .modal {
+    .mini-modal {
       border-radius: 20px;
-      animation: scaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: scaleIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
   }
 
-  .modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px 20px 16px;
-    border-bottom: 1px solid var(--color-border);
-  }
-  .modal-header-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .modal-provider-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--color-border);
-    flex-shrink: 0;
-    transition: background 0.3s;
-  }
-  .modal-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--color-text);
-    margin: 0;
-  }
-  .modal-close {
-    width: 32px;
-    height: 32px;
-    border-radius: 9px;
+  .mini-modal__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
     border: 1.5px solid var(--color-border);
     background: var(--color-bg);
     color: var(--color-muted);
@@ -994,138 +1009,103 @@ const configData = JSON.stringify({
     align-items: center;
     justify-content: center;
     transition: background 0.15s;
-    flex-shrink: 0;
   }
-  .modal-close:hover {
-    background: var(--page-bg);
-  }
-
-  .modal-body {
-    padding: 16px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .modal-nominal-hero {
-    border-radius: 14px;
-    padding: 16px 18px;
+  .mini-modal__close:hover {
     background: #f0f0f0;
-    border: 1.5px solid var(--color-border);
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
   }
-  .modal-nominal-hero__label {
-    font-size: 10px;
-    font-weight: 600;
+
+  .mini-modal__eyebrow {
+    font-size: 11px;
+    font-weight: 700;
     color: var(--color-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
-  }
-  .modal-nominal-hero__value {
-    font-size: 28px;
-    font-weight: 900;
-    color: var(--color-text);
-    letter-spacing: -1px;
-    line-height: 1;
-  }
-  .modal-nominal-hero__provider {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--color-muted);
-    margin-top: 2px;
+    margin: 0;
   }
 
-  .order-card {
+  .mini-modal__product {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f0f0f0;
     border: 1.5px solid var(--color-border);
     border-radius: 14px;
-    overflow: hidden;
+    padding: 14px 16px;
   }
-  .order-row {
+
+  .mini-modal__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--color-border);
+    flex-shrink: 0;
+    transition: background 0.3s;
+  }
+
+  .mini-modal__info {
+    flex: 1;
+    min-width: 0;
+  }
+  .mini-modal__name {
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--color-text);
+    letter-spacing: -0.5px;
+    line-height: 1;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .mini-modal__desc {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--color-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .mini-modal__price {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--color-text);
+    letter-spacing: -0.3px;
+    flex-shrink: 0;
+    text-align: right;
+  }
+
+  .mini-modal__code-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 11px 16px;
-    gap: 16px;
+    padding: 0 2px;
   }
-  .order-row:not(:last-child) {
-    border-bottom: 1px solid var(--color-border);
-  }
-  .order-row--total {
-    background: #f0f0f0;
-  }
-  .order-label {
+  .mini-modal__code-label {
     font-size: 12px;
     font-weight: 500;
     color: var(--color-muted);
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    gap: 5px;
   }
-  .order-label--total {
-    font-weight: 700;
-    color: var(--color-text);
-  }
-  .order-value {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--color-text);
-    text-align: right;
-  }
-  .order-value--code {
+  .mini-modal__code {
     font-family: var(--font-mono);
     font-size: 12px;
     font-weight: 700;
-    letter-spacing: 0.4px;
-  }
-  .order-value--desc {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--color-muted);
-  }
-  .order-value--price {
-    font-size: 16px;
-    font-weight: 900;
-    letter-spacing: -0.5px;
     color: var(--color-text);
-  }
-
-  .wa-preview {
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1.5px solid #d4f0d8;
-    background: #f0faf1;
-  }
-  .wa-preview__header {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 12px;
-    background: #e4f7e6;
-    border-bottom: 1px solid #d4f0d8;
-    font-size: 10.5px;
-    font-weight: 600;
-    color: #2d7a3a;
+    letter-spacing: 0.4px;
     text-transform: uppercase;
-    letter-spacing: 0.3px;
-  }
-  .wa-preview__bubble {
-    font-size: 12.5px;
-    color: #1a3a1f;
-    line-height: 1.65;
-    padding: 10px 14px;
-    white-space: pre-line;
+    background: #f0f0f0;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--color-border);
   }
 
-  .modal-footer {
-    padding: 12px 20px 20px;
+  .mini-modal__actions {
     display: flex;
     gap: 8px;
+    padding-top: 2px;
   }
+
   .btn-cancel {
-    height: 46px;
+    height: 44px;
     padding: 0 18px;
     border: 1.5px solid var(--color-border);
     border-radius: 12px;
@@ -1140,34 +1120,46 @@ const configData = JSON.stringify({
     flex-shrink: 0;
   }
   .btn-cancel:hover {
-    background: var(--page-bg);
+    background: #f0f0f0;
     border-color: #c0c0c0;
   }
+
   .btn-order {
     flex: 1;
-    height: 46px;
-    background: #25d366;
+    height: 44px;
+    background: var(--color-text);
     border: none;
     border-radius: 12px;
     font-size: 13px;
     font-weight: 700;
-    color: white;
+    color: var(--color-bg);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 7px;
+    text-decoration: none;
     transition:
-      background 0.2s,
+      opacity 0.2s,
       transform 0.15s;
     letter-spacing: -0.1px;
   }
   .btn-order:hover {
-    background: #1dba58;
+    opacity: 0.85;
     transform: translateY(-1px);
   }
   .btn-order:active {
     transform: translateY(0);
+  }
+
+  /* ══ SEARCH DISABLED STATE ══ */
+  .search-input-wrap.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .search-hint.search-hint--locked {
+    color: var(--color-muted);
+    font-style: italic;
   }
 
   /* ══ FLOATING WA BUTTON ══ */
@@ -1404,11 +1396,14 @@ const configData = JSON.stringify({
     const provLabel = document.getElementById(
       "provider-selector-label",
     ) as HTMLParagraphElement;
-    const provGrid = document.getElementById("provider-grid") as HTMLDivElement;
+    const ddContainer = document.getElementById(
+      "provider-grid",
+    ) as HTMLDivElement; // dropdown wrapper
+    const prodGrid = document.getElementById("products-grid") as HTMLDivElement; // product cards target
+    const ddTrigger = document.getElementById("dd-trigger") as HTMLDivElement;
+    const ddMenu = document.getElementById("dd-menu") as HTMLDivElement;
+    const ddValue = document.getElementById("dd-value") as HTMLSpanElement;
     const subcatBar = document.getElementById("subcat-bar") as HTMLDivElement;
-    const subcatPills = document.getElementById(
-      "subcat-pills",
-    ) as HTMLDivElement;
     const stateEmpty = document.getElementById("state-empty") as HTMLDivElement;
     const stateSelProv = document.getElementById(
       "state-select-provider",
@@ -1426,7 +1421,6 @@ const configData = JSON.stringify({
     const phLogo = document.getElementById("ph-logo") as HTMLDivElement;
     const phTitle = document.getElementById("ph-title") as HTMLHeadingElement;
     const phCount = document.getElementById("ph-count") as HTMLParagraphElement;
-    const prodGrid = document.getElementById("products-grid") as HTMLDivElement;
     const modalOverlay = document.getElementById(
       "modal-overlay",
     ) as HTMLDivElement;
@@ -1436,7 +1430,7 @@ const configData = JSON.stringify({
     const btnCancel = document.getElementById(
       "btn-cancel",
     ) as HTMLButtonElement;
-    const btnOrder = document.getElementById("btn-order") as HTMLButtonElement;
+    const btnOrder = document.getElementById("btn-order") as HTMLAnchorElement;
     const mNominal = document.getElementById("m-nominal") as HTMLDivElement;
     const mProduct = document.getElementById("m-product") as HTMLDivElement;
     const mCode = document.getElementById("m-code") as HTMLSpanElement;
@@ -1466,15 +1460,51 @@ const configData = JSON.stringify({
       hide(stateSelProv);
       hide(stateNoRes);
       hide(prodWrap);
+      // provSel TIDAK disembunyikan di sini — dikelola langsung di renderProducts
+      // agar dropdown tidak flicker saat re-render
+    }
+
+    /* ── SEARCH LOCK: disable search sampai provider/layanan dipilih ── */
+    function setSearchLock(locked: boolean) {
+      if (locked) {
+        searchInp.parentElement!.classList.add("disabled");
+        searchInp.disabled = true;
+        const lockHints: Record<string, string> = {
+          pulsa: "Pilih operator dulu untuk mengaktifkan pencarian",
+          data: "Pilih operator dan jenis paket dulu",
+          ewallet: "Pilih brand e-wallet dulu untuk mengaktifkan pencarian",
+          token: "",
+          game: "Pilih game dulu untuk mengaktifkan pencarian",
+        };
+        searchHint.textContent =
+          lockHints[activeCat] ?? "Pilih dulu untuk mengaktifkan pencarian";
+        searchHint.classList.add("search-hint--locked");
+      } else {
+        searchInp.parentElement!.classList.remove("disabled");
+        searchInp.disabled = false;
+        if (!query) {
+          searchHint.textContent = "";
+          searchHint.classList.remove("search-hint--locked");
+        }
+      }
     }
 
     function getProviders(): Provider[] {
       return (cfg[activeCat] as Provider[]) ?? [];
     }
 
+    // Token PLN = tampil langsung tanpa pilih provider
+    function isDirectShow(): boolean {
+      return activeCat === "token";
+    }
+
+    // Pulsa, paket data, e-wallet, game = perlu pilih provider/layanan dulu
     function needsProviderSelect(): boolean {
       return (
-        activeCat === "pulsa" || activeCat === "data" || activeCat === "game"
+        activeCat === "pulsa" ||
+        activeCat === "data" ||
+        activeCat === "ewallet" ||
+        activeCat === "game"
       );
     }
 
@@ -1483,36 +1513,40 @@ const configData = JSON.stringify({
         pulsa: "operator",
         data: "operator",
         ewallet: "layanan",
-        token: "layanan",
+        token: "-",
         game: "game",
       };
       return labels[activeCat];
     }
 
-    /* ── RENDER PROVIDERS ── */
+    /* ── RENDER PROVIDERS (custom dropdown) ── */
     function renderProviders() {
       const provs = getProviders();
-      provGrid.innerHTML = provs
+      const selected = provs.find((p) => p.name === activeProv);
+      ddValue.textContent = selected ? selected.title : "Pilih...";
+      ddContainer.classList.toggle("selected", !!activeProv);
+      ddMenu.innerHTML = provs
         .map((p) => {
-          const active = p.name === activeProv ? " active" : "";
-          return `<button class="prov-btn${active}" data-prov="${p.name}">${p.title}</button>`;
+          const isActive = p.name === activeProv;
+          return `<div class="dd-option${isActive ? " active" : ""}" data-prov="${p.name}">
+          <span>${p.title}</span>
+          <svg class="dd-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>`;
         })
         .join("");
     }
 
-    /* ── RENDER SUBCATS (data only) ── */
-    function renderSubcats(prov: Provider) {
-      if (!prov.subCategories?.length) {
-        hide(subcatBar);
-        return;
-      }
-      subcatPills.innerHTML = prov.subCategories
-        .map((sc) => {
-          const active = sc.name === activeSubcat ? " active" : "";
-          return `<button class="subcat-pill${active}" data-subcat="${sc.name}">${sc.title}</button>`;
-        })
-        .join("");
-      show(subcatBar);
+    /* ── TOGGLE DROPDOWN ── */
+    function openDropdown() {
+      ddContainer.classList.add("open");
+      ddContainer.setAttribute("aria-expanded", "true");
+    }
+    function closeDropdown() {
+      ddContainer.classList.remove("open");
+      ddContainer.setAttribute("aria-expanded", "false");
+    }
+    function toggleDropdown() {
+      ddContainer.classList.contains("open") ? closeDropdown() : openDropdown();
     }
 
     /* ── BUILD PRODUCT CARD HTML ── */
@@ -1536,22 +1570,22 @@ const configData = JSON.stringify({
 
     /* ── RENDER PRODUCTS ── */
     function renderProducts() {
-      allStatesHide();
+      allStatesHide(); // hides all state panels and prodWrap
       const provs = getProviders();
 
-      if (!needsProviderSelect()) {
-        // ewallet / token — langsung tampilkan semua
+      /* ══ PATH 1: Token PLN — tampil langsung tanpa provider selector ══ */
+      if (isDirectShow()) {
+        hide(provSel);
+        setSearchLock(false);
         if (!provs.length) {
           show(stateEmpty);
           return;
         }
-
         let filtered: Array<{ prov: Provider; pkg: Pkg }> = [];
         for (const prov of provs) {
           for (const pkg of prov.packages ?? []) {
-            if (!query || matchQuery(pkg, prov.title)) {
+            if (!query || matchQuery(pkg, prov.title))
               filtered.push({ prov, pkg });
-            }
           }
         }
         if (!filtered.length) {
@@ -1559,77 +1593,51 @@ const configData = JSON.stringify({
           show(stateNoRes);
           return;
         }
-
         show(prodWrap);
-        phLogo.innerHTML = "";
-        phLogo.style.background = "transparent";
-        phTitle.textContent =
-          activeCat === "ewallet" ? "E-Wallet" : "Token PLN";
+        phLogo.style.background = "#1e8c4a";
+        phLogo.textContent = "PLN";
+        phTitle.textContent = "Token Listrik PLN";
         phCount.textContent = `${filtered.length} produk`;
-
-        // Group by provider
-        const groups = new Map<string, { prov: Provider; pkgs: Pkg[] }>();
-        for (const { prov, pkg } of filtered) {
-          if (!groups.has(prov.name)) groups.set(prov.name, { prov, pkgs: [] });
-          groups.get(prov.name)!.pkgs.push(pkg);
-        }
-
-        let html = "";
-        let delay = 0;
-        for (const [, { prov, pkgs }] of groups) {
-          html += `<div class="subcategory-header"><span class="subcategory-title">${prov.title}</span><div class="subcategory-line"></div></div>`;
-          html += `<div class="nominals-grid">`;
-          for (const pkg of pkgs) {
-            html += buildCard(pkg, delay);
-            delay += 30;
-          }
-          html += `</div>`;
-        }
+        let html = '<div class="nominals-grid">';
+        filtered.forEach((item, i) => {
+          html += buildCard(item.pkg, i * 30);
+        });
+        html += "</div>";
         prodGrid.innerHTML = html;
         return;
       }
 
-      // pulsa / data / game — perlu provider selection
+      /* ══ PATH 2: Pulsa, Paket Data, E-Wallet, Game — perlu pilih provider ══ */
+      const catDropdownLabels: Record<string, string> = {
+        pulsa: "Operator",
+        data: "Operator",
+        ewallet: "Brand",
+        game: "Game",
+        token: "",
+      };
+      const catStateTitles: Record<string, string> = {
+        pulsa: "Pilih operator",
+        data: "Pilih operator",
+        ewallet: "Pilih brand e-wallet",
+        game: "Pilih game",
+        token: "",
+      };
       show(provSel);
-      provLabel.textContent = `Pilih ${catLabel()}`;
-      stateSelProvTitle.textContent = `Pilih ${catLabel()}`;
+      provLabel.textContent = catDropdownLabels[activeCat] ?? "Pilih";
+      stateSelProvTitle.textContent = catStateTitles[activeCat] ?? "Pilih";
       renderProviders();
 
+      // Lock search sampai provider dipilih
       if (!activeProv) {
+        setSearchLock(true);
         show(stateSelProv);
         return;
       }
+      setSearchLock(false);
 
       const prov = provs.find((p) => p.name === activeProv);
       if (!prov) {
         show(stateSelProv);
-        return;
-      }
-
-      // data: subcategories
-      let packages: Pkg[] = [];
-      if (activeCat === "data" && prov.subCategories?.length) {
-        renderSubcats(prov);
-        const sc = activeSubcat
-          ? prov.subCategories.find((s) => s.name === activeSubcat)
-          : prov.subCategories[0];
-        if (!activeSubcat && prov.subCategories[0])
-          activeSubcat = prov.subCategories[0].name;
-        packages = sc?.packages ?? [];
-      } else {
-        hide(subcatBar);
-        packages = prov.packages ?? [];
-      }
-
-      const filtered = query
-        ? packages.filter((p) => matchQuery(p, prov.title))
-        : packages;
-
-      if (!filtered.length) {
-        stateNoResDesc.textContent = query
-          ? `Tidak ada hasil untuk "${query}" di ${prov.title}`
-          : `Belum ada produk untuk ${prov.title}`;
-        show(stateNoRes);
         return;
       }
 
@@ -1638,14 +1646,59 @@ const configData = JSON.stringify({
       phLogo.style.background = color;
       phLogo.textContent = prov.title.slice(0, 2).toUpperCase();
       phTitle.textContent = prov.title;
-      phCount.textContent = `${filtered.length} produk tersedia`;
 
-      let html = `<div class="nominals-grid">`;
-      filtered.forEach((pkg, i) => {
-        html += buildCard(pkg, i * 30);
-      });
-      html += `</div>`;
-      prodGrid.innerHTML = html;
+      if (activeCat === "data" && prov.subCategories?.length) {
+        // Paket data: tampilkan semua sub-kategori sekaligus, masing-masing dengan header
+        let totalPkgs = 0;
+        let html = "";
+        let delay = 0;
+        for (const sc of prov.subCategories) {
+          const pkgs = query
+            ? sc.packages.filter((p) => matchQuery(p, prov.title))
+            : sc.packages;
+          if (!pkgs.length) continue;
+          totalPkgs += pkgs.length;
+          html += `<div class="subcategory-header">
+            <span class="subcategory-title">${sc.title}</span>
+            <div class="subcategory-line"></div>
+          </div>`;
+          html += '<div class="nominals-grid">';
+          pkgs.forEach((pkg) => {
+            html += buildCard(pkg, delay);
+            delay += 20;
+          });
+          html += "</div>";
+        }
+        if (!totalPkgs) {
+          hide(prodWrap);
+          stateNoResDesc.textContent = `Tidak ada hasil untuk "${query}"`;
+          show(stateNoRes);
+          return;
+        }
+        phCount.textContent = `${totalPkgs} produk tersedia`;
+        prodGrid.innerHTML = html;
+      } else {
+        // Kategori lain: flat list
+        const packages = prov.packages ?? [];
+        const filtered = query
+          ? packages.filter((p) => matchQuery(p, prov.title))
+          : packages;
+        if (!filtered.length) {
+          hide(prodWrap);
+          stateNoResDesc.textContent = query
+            ? `Tidak ada hasil untuk "${query}" di ${prov.title}`
+            : `Belum ada produk untuk ${prov.title}`;
+          show(stateNoRes);
+          return;
+        }
+        phCount.textContent = `${filtered.length} produk tersedia`;
+        let html = '<div class="nominals-grid">';
+        filtered.forEach((pkg, i) => {
+          html += buildCard(pkg, i * 30);
+        });
+        html += "</div>";
+        prodGrid.innerHTML = html;
+      }
     }
 
     function matchQuery(pkg: Pkg, provTitle: string): boolean {
@@ -1659,7 +1712,7 @@ const configData = JSON.stringify({
       );
     }
 
-    /* ── OPEN MODAL ── */
+    /* ── MINI MODAL ── */
     function openModal(pkg: Pkg, prov: Provider) {
       selectedPkg = pkg;
       selectedProv = prov;
@@ -1667,15 +1720,11 @@ const configData = JSON.stringify({
       mNominal.textContent = pkg.name;
       mProduct.textContent = pkg.desc;
       mCode.textContent = pkg.code;
-      mDesc.textContent = pkg.desc;
       mPrice.textContent = fmt(pkg.price);
       modalDot.style.background = colorMap[prov.name] ?? "#0a0a0a";
 
-      mWaText.textContent =
-        `Halo min! 👋\n\n` +
-        `Saya mau order *${pkg.desc}* (${pkg.name})\n\n` +
-        `Detail:\n• Kode: ${pkg.code}\n• Harga: ${fmt(pkg.price)}\n\n` +
-        `Mohon diproses, terima kasih 🙏`;
+      // Arahkan tombol "Lihat & Order" ke halaman order (pakai # sementara)
+      btnOrder.setAttribute("href", "#");
 
       show(modalOverlay);
       document.body.style.overflow = "hidden";
@@ -1688,17 +1737,7 @@ const configData = JSON.stringify({
       selectedProv = null;
     }
 
-    function sendOrder() {
-      if (!selectedPkg || !selectedProv) return;
-      const msg = encodeURIComponent(
-        `Halo min! 👋\n\n` +
-          `Saya mau order *${selectedPkg.desc}* (${selectedPkg.name})\n\n` +
-          `Detail:\n• Kode: ${selectedPkg.code}\n• Harga: ${fmt(selectedPkg.price)}\n\n` +
-          `Mohon diproses, terima kasih 🙏`,
-      );
-      window.open(`https://wa.me/${cfg.wa}?text=${msg}`, "_blank");
-      closeModal();
-    }
+    /* sendOrder tidak lagi digunakan — navigasi ditangani langsung oleh <a href> */
 
     /* ── EVENT DELEGATION: products grid ── */
     prodGrid.addEventListener("click", (e) => {
@@ -1751,30 +1790,37 @@ const configData = JSON.stringify({
         searchInp.value = "";
         hide(searchClear);
         searchHint.textContent = "";
-        hide(subcatBar);
-        renderProducts();
+        if (ddContainer.classList.contains("open")) {
+          closeDropdown();
+          // Tunggu animasi close (14ms) sebelum re-render agar tidak glitch
+          setTimeout(() => renderProducts(), 15);
+        } else {
+          renderProducts();
+        }
       });
     });
 
-    /* ── EVENT: provider grid delegation ── */
-    provGrid.addEventListener("click", (e) => {
-      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>(
-        ".prov-btn",
-      );
-      if (!btn) return;
-      activeProv = btn.dataset.prov!;
-      activeSubcat = null;
-      renderProducts();
+    /* ── EVENT: custom dropdown ── */
+    ddTrigger.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleDropdown();
     });
 
-    /* ── EVENT: subcat pills delegation ── */
-    subcatPills.addEventListener("click", (e) => {
-      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>(
-        ".subcat-pill",
+    ddMenu.addEventListener("click", (e) => {
+      const opt = (e.target as HTMLElement).closest<HTMLDivElement>(
+        ".dd-option",
       );
-      if (!btn) return;
-      activeSubcat = btn.dataset.subcat!;
-      renderProducts();
+      if (!opt) return;
+      activeProv = opt.dataset.prov!;
+      activeSubcat = null;
+      // Tutup dulu, baru render setelah animasi close selesai (14ms)
+      closeDropdown();
+      requestAnimationFrame(() => renderProducts());
+    });
+
+    // Tutup dropdown jika klik di luar
+    document.addEventListener("click", (e) => {
+      if (!ddContainer.contains(e.target as Node)) closeDropdown();
     });
 
     /* ── EVENT: search ── */
@@ -1802,7 +1848,10 @@ const configData = JSON.stringify({
     /* ── EVENT: modal ── */
     modalClose.addEventListener("click", closeModal);
     btnCancel.addEventListener("click", closeModal);
-    btnOrder.addEventListener("click", sendOrder);
+    // btnOrder adalah <a> — navigasi terjadi secara natural; tutup modal setelahnya
+    btnOrder.addEventListener("click", () => {
+      setTimeout(closeModal, 120);
+    });
     modalOverlay.addEventListener("click", (e) => {
       if (e.target === modalOverlay) closeModal();
     });
