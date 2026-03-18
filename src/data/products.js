@@ -1320,10 +1320,7 @@ export const topupProducts = [
       { code: 'PLN15',   name: '15.000',    desc: 'Token PLN 15.000 [lambat]', price: 18100 },
       { code: 'PLN20',   name: '20.000',    desc: 'Token PLN 20.000',          price: 23150 },
       { code: 'PLN50',   name: '50.000',    desc: 'Token PLN 50.000',          price: 53300 },
-      { code: 'PLN100',  name: '100.000',   desc: 'Token PLN 100.000',         price: 103700 },
-      { code: 'PLN200',  name: '200.000',   desc: 'Token PLN 200.000',         price: 204500 },
-      { code: 'PLN500',  name: '500.000',   desc: 'Token PLN 500.000',         price: 505500 },
-      { code: 'PLN1000', name: '1.000.000', desc: 'Token PLN 1.000.000',       price: 1009100 },
+      { code: 'PLN100',  name: '100.000',   desc: 'Token PLN 100.000',         price: 103700 }
     ],
   },
   {

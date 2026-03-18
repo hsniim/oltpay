@@ -66,7 +66,7 @@ const configData = JSON.stringify({
 
 <BaseLayout
   title="Cek Harga | Oltpay"
-  description="Cek harga pulsa, paket data, e-wallet, token PLN, dan voucher game semua operator."
+  description="Cek harga pulsa, paket data, e-wallet, token PLN, dan voucher game."
 >
   <Navbar />
 
@@ -228,7 +228,7 @@ const configData = JSON.stringify({
               class="search-icon"><use href="#icon-search"></use></svg
             >
             <input
-              type="search"
+              type="text"
               id="search-input"
               placeholder="Cari nominal, nama paket, atau kode..."
               autocomplete="off"
@@ -252,7 +252,7 @@ const configData = JSON.stringify({
       <section class="products-section" id="products-section">
         <!-- Custom dropdown selector -->
         <div class="selector-row hidden" id="provider-selector">
-          <p class="selector-label" id="provider-selector-label">Operator</p>
+          <p class="selector-label" id="provider-selector-label">Provider</p>
           <div
             class="cust-dropdown"
             id="provider-grid"
@@ -297,9 +297,9 @@ const configData = JSON.stringify({
             >
           </div>
           <p class="state-title" id="state-select-provider-title">
-            Pilih operator
+            Pilih provider
           </p>
-          <p class="state-desc">Tap salah satu operator untuk melihat harga</p>
+          <p class="state-desc">Tap salah satu provider untuk melihat harga</p>
         </div>
 
         <div class="state-wrap hidden" id="state-no-result">
@@ -358,7 +358,7 @@ const configData = JSON.stringify({
       </div>
 
       <div class="mini-modal__code-row">
-        <span class="mini-modal__code-label">Kode</span>
+        <span class="mini-modal__code-label">Kode Produk</span>
         <span class="mini-modal__code" id="m-code">—</span>
       </div>
 
@@ -1378,6 +1378,76 @@ const configData = JSON.stringify({
       garena: "#e53e3e",
     };
 
+    /* ── PROVIDER LOGO MAP (gambar SVG, sama seperti page paket data) ── */
+    const providerLogos: Record<string, string> = {
+      "telkomsel-pulsa": "/logos/telkomsel_logo.svg",
+      "indosat-pulsa": "/logos/indosat_logo.svg",
+      "xl-pulsa": "/logos/xl_logo.svg",
+      "tri-pulsa": "/logos/tri_logo.svg",
+      "axis-pulsa": "/logos/axis_logo.svg",
+      "smartfren-pulsa": "/logos/smartfren_logo.svg",
+      "telkomsel-data": "/logos/telkomsel_logo.svg",
+      "indosat-data": "/logos/indosat_logo.svg",
+      "xl-data": "/logos/xl_logo.svg",
+      "tri-data": "/logos/tri_logo.svg",
+      "axis-data": "/logos/axis_logo.svg",
+      "smartfren-data": "/logos/smartfren_logo.svg",
+      gopay: "/logos/gopay_logo.svg",
+      ovo: "/logos/ovo_logo.svg",
+      dana: "/logos/dana_logo.svg",
+      spay: "/logos/spay_logo.svg",
+      linkaja: "/logos/linkaja_logo.svg",
+      gojekdriv: "/logos/gojek_logo.svg",
+      grabdriv: "/logos/grab_logo.svg",
+      maximdriv: "/logos/maxim_logo.svg",
+      plntoken: "/logos/pln_logo.svg",
+    };
+
+    const providerColors: Record<string, string> = {
+      "telkomsel-pulsa": "linear-gradient(135deg,#e53e3e,#c53030)",
+      "indosat-pulsa": "linear-gradient(135deg,#d97706,#b45309)",
+      "xl-pulsa": "linear-gradient(135deg,#2b6cb0,#2c5282)",
+      "tri-pulsa": "linear-gradient(135deg,#553c9a,#44337a)",
+      "axis-pulsa": "linear-gradient(135deg,#276749,#22543d)",
+      "smartfren-pulsa": "linear-gradient(135deg,#e53e3e,#805ad5)",
+      "telkomsel-data": "linear-gradient(135deg,#e53e3e,#c53030)",
+      "indosat-data": "linear-gradient(135deg,#d97706,#b45309)",
+      "xl-data": "linear-gradient(135deg,#2b6cb0,#2c5282)",
+      "tri-data": "linear-gradient(135deg,#553c9a,#44337a)",
+      "axis-data": "linear-gradient(135deg,#276749,#22543d)",
+      "smartfren-data": "linear-gradient(135deg,#e53e3e,#805ad5)",
+      gopay: "linear-gradient(135deg,#00aed6,#007ea0)",
+      ovo: "linear-gradient(135deg,#4c3494,#3a2770)",
+      dana: "linear-gradient(135deg,#1587c8,#0f6499)",
+      spay: "linear-gradient(135deg,#e53e3e,#b83030)",
+      linkaja: "linear-gradient(135deg,#e53e3e,#c53030)",
+      gojekdriv: "linear-gradient(135deg,#276749,#1e5c3e)",
+      grabdriv: "linear-gradient(135deg,#276749,#1e5c3e)",
+      maximdriv: "linear-gradient(135deg,#e53e3e,#c53030)",
+      plntoken: "linear-gradient(135deg,#1e8c4a,#166038)",
+    };
+
+    const providerInitials: Record<string, string> = {
+      "telkomsel-pulsa": "TEL",
+      "indosat-pulsa": "IM3",
+      "xl-pulsa": "XL",
+      "tri-pulsa": "3",
+      "axis-pulsa": "AX",
+      "smartfren-pulsa": "SF",
+      "telkomsel-data": "TEL",
+      "indosat-data": "IM3",
+      "xl-data": "XL",
+      "tri-data": "3",
+      "axis-data": "AX",
+      "smartfren-data": "SF",
+      gopay: "GP",
+      ovo: "OVO",
+      dana: "DNA",
+      spay: "SP",
+      linkaja: "LJA",
+      plntoken: "PLN",
+    };
+
     /* ── DOM ── */
     const catBtns =
       document.querySelectorAll<HTMLButtonElement>(".cat-tab-btn");
@@ -1470,8 +1540,8 @@ const configData = JSON.stringify({
         searchInp.parentElement!.classList.add("disabled");
         searchInp.disabled = true;
         const lockHints: Record<string, string> = {
-          pulsa: "Pilih operator dulu untuk mengaktifkan pencarian",
-          data: "Pilih operator dan jenis paket dulu",
+          pulsa: "Pilih provider dulu untuk mengaktifkan pencarian",
+          data: "Pilih provider dulu",
           ewallet: "Pilih brand e-wallet dulu untuk mengaktifkan pencarian",
           token: "",
           game: "Pilih game dulu untuk mengaktifkan pencarian",
@@ -1563,7 +1633,7 @@ const configData = JSON.stringify({
               <div class="nominal-btn__price-label">Harga</div>
               <div class="nominal-btn__price">${fmt(pkg.price)}</div>
             </div>
-            <div class="nominal-btn__cta">+</div>
+            <div class="nominal-btn__cta">›</div>
           </div>
         </button>`;
     }
@@ -1594,8 +1664,27 @@ const configData = JSON.stringify({
           return;
         }
         show(prodWrap);
-        phLogo.style.background = "#1e8c4a";
-        phLogo.textContent = "PLN";
+        // Logo PLN pakai gambar
+        const plnLogoUrl = providerLogos["plntoken"];
+        phLogo.innerHTML = "";
+        if (plnLogoUrl) {
+          phLogo.style.cssText =
+            "background:transparent;border:none;border-radius:0";
+          const img = document.createElement("img");
+          img.src = plnLogoUrl;
+          img.alt = "PLN";
+          img.onerror = () => {
+            phLogo.innerHTML = "";
+            phLogo.textContent = "PLN";
+            phLogo.style.cssText =
+              "background:linear-gradient(135deg,#1e8c4a,#166038);border-radius:14px;border:none";
+          };
+          phLogo.appendChild(img);
+        } else {
+          phLogo.textContent = "PLN";
+          phLogo.style.cssText =
+            "background:linear-gradient(135deg,#1e8c4a,#166038);border-radius:14px;border:none";
+        }
         phTitle.textContent = "Token Listrik PLN";
         phCount.textContent = `${filtered.length} produk`;
         let html = '<div class="nominals-grid">';
@@ -1609,15 +1698,15 @@ const configData = JSON.stringify({
 
       /* ══ PATH 2: Pulsa, Paket Data, E-Wallet, Game — perlu pilih provider ══ */
       const catDropdownLabels: Record<string, string> = {
-        pulsa: "Operator",
-        data: "Operator",
+        pulsa: "Provider",
+        data: "Provider",
         ewallet: "Brand",
         game: "Game",
         token: "",
       };
       const catStateTitles: Record<string, string> = {
-        pulsa: "Pilih operator",
-        data: "Pilih operator",
+        pulsa: "Pilih provider",
+        data: "Pilih provider",
         ewallet: "Pilih brand e-wallet",
         game: "Pilih game",
         token: "",
@@ -1642,9 +1731,27 @@ const configData = JSON.stringify({
       }
 
       show(prodWrap);
-      const color = colorMap[prov.name] ?? "#0a0a0a";
-      phLogo.style.background = color;
-      phLogo.textContent = prov.title.slice(0, 2).toUpperCase();
+      // Logo provider pakai gambar (sama seperti page paket data)
+      const logoUrl = providerLogos[prov.name];
+      phLogo.innerHTML = "";
+      if (logoUrl) {
+        phLogo.style.cssText =
+          "background:transparent;border:none;border-radius:0";
+        const img = document.createElement("img");
+        img.src = logoUrl;
+        img.alt = prov.title;
+        img.onerror = () => {
+          phLogo.innerHTML = "";
+          phLogo.textContent =
+            providerInitials[prov.name] ?? prov.title.slice(0, 2).toUpperCase();
+          phLogo.style.cssText = `background:${providerColors[prov.name] ?? "linear-gradient(135deg,#0a0a0a,#333)"};border-radius:14px;border:none`;
+        };
+        phLogo.appendChild(img);
+      } else {
+        phLogo.textContent =
+          providerInitials[prov.name] ?? prov.title.slice(0, 2).toUpperCase();
+        phLogo.style.cssText = `background:${providerColors[prov.name] ?? "linear-gradient(135deg,#0a0a0a,#333)"};border-radius:14px;border:none`;
+      }
       phTitle.textContent = prov.title;
 
       if (activeCat === "data" && prov.subCategories?.length) {
@@ -1859,7 +1966,29 @@ const configData = JSON.stringify({
       if (e.key === "Escape") closeModal();
     });
 
-    /* ── INIT ── */
+    /* ── INIT: baca ?tab= dari URL dan aktifkan tab yang sesuai ── */
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const tabParam = params.get("tab");
+      const validTabs = ["pulsa", "data", "ewallet", "token", "game"];
+      if (tabParam && validTabs.includes(tabParam)) {
+        const targetBtn = Array.from(catBtns).find(
+          (b) => b.dataset.cat === tabParam,
+        );
+        if (targetBtn && !targetBtn.classList.contains("active")) {
+          catBtns.forEach((b) => {
+            b.classList.remove("active");
+            b.setAttribute("aria-selected", "false");
+          });
+          targetBtn.classList.add("active");
+          targetBtn.setAttribute("aria-selected", "true");
+          activeCat = tabParam as CatKey;
+          activeProv = null;
+          activeSubcat = null;
+        }
+      }
+    })();
+
     renderProducts();
 
     /* ── FLOATING WA BUTTON: collapse on scroll ── */

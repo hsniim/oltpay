@@ -56,6 +56,15 @@ const inputPlaceholder = isPhoneInput
   ? "8xx xxxx xxxx"
   : `Masukkan ${inputLabel.toLowerCase()}`;
 
+// Minimum panjang ID per game sebelum produk ditampilkan
+const minLengthMap: Record<string, number> = {
+  ml: 9, // User ID MLBB: format 9-12 digit
+  ff: 9, // User ID FF: minimal 9 digit
+  pubgm: 8, // User ID PUBG: minimal 8 digit
+  garena: 10, // Nomor HP: dihandle isPhoneInput
+};
+const inputMinLength = minLengthMap[name] ?? 6;
+
 const configData = JSON.stringify({
   wa: waNumber,
   name,
@@ -64,6 +73,7 @@ const configData = JSON.stringify({
   isPhoneInput,
   accent,
   unit,
+  inputMinLength,
   packages,
 });
 ---
@@ -666,7 +676,12 @@ const configData = JSON.stringify({
     line-height: 1.4;
   }
 
-  /* ── Nilai nominal game: tampil besar tanpa "Rp" prefix ── */
+  :global(.nominal-btn__value-row) {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    line-height: 1;
+  }
   :global(.nominal-btn__value) {
     font-size: 18px;
     font-weight: 900;
@@ -678,7 +693,7 @@ const configData = JSON.stringify({
     font-size: 11px;
     font-weight: 600;
     color: var(--color-muted);
-    margin-top: 1px;
+    line-height: 1;
   }
 
   :global(.nominal-btn__desc) {
@@ -1162,6 +1177,7 @@ const configData = JSON.stringify({
       isPhoneInput,
       accent,
       unit,
+      inputMinLength,
       packages,
     } = cfg;
 
@@ -1213,7 +1229,8 @@ const configData = JSON.stringify({
 
     function isInputValid(raw: string) {
       if (isPhoneInput) return normalizePhone(raw).length >= 10;
-      return raw.trim().length >= 1;
+      // ID game: harus minimal inputMinLength digit sebelum produk tampil
+      return raw.trim().replace(/\D/g, "").length >= inputMinLength;
     }
 
     // ── RENDER ──────────────────────────────────────────────────────────────
@@ -1224,20 +1241,20 @@ const configData = JSON.stringify({
       // Dot warna brand di modal
       ($("modal-provider-dot") as HTMLElement).style.background = accent;
 
-      // Logo: coba /logos/{name}_logo.svg, fallback inisial berwarna
-      const img = document.createElement("img");
-      img.src = `/logos/${cfg.name}_logo.svg`;
-      img.alt = gameTitle;
-      img.onload = () => {
-        productsLogoEl.style.cssText =
-          "background:transparent;border:none;border-radius:0";
+      // Logo: sama persis dengan page paket data
+      // → langsung append img, onerror fallback ke inisial berwarna
+      const logoImg = document.createElement("img");
+      logoImg.src = `/logos/${cfg.name}_logo.svg`;
+      logoImg.alt = gameTitle;
+      productsLogoEl.innerHTML = "";
+      productsLogoEl.style.cssText =
+        "background:transparent;border:none;border-radius:0";
+      logoImg.onerror = () => {
         productsLogoEl.innerHTML = "";
-        productsLogoEl.appendChild(img);
-      };
-      img.onerror = () => {
         productsLogoEl.textContent = gameTitle.slice(0, 2).toUpperCase();
         productsLogoEl.style.cssText = `background:${accent};border-radius:14px;border:none`;
       };
+      productsLogoEl.appendChild(logoImg);
 
       // Render kartu nominal
       const frag = document.createDocumentFragment();
@@ -1264,8 +1281,10 @@ const configData = JSON.stringify({
             <span class="nominal-btn__code">${pkg.code}</span>
             <span class="nominal-btn__badge">${gameTitle}</span>
           </div>
-          <div class="nominal-btn__value">${nameNumber}</div>
-          <div class="nominal-btn__unit">${nameUnit || unit}</div>
+          <div class="nominal-btn__value-row">
+            <div class="nominal-btn__value">${nameNumber}</div>
+            <div class="nominal-btn__unit">${nameUnit || unit}</div>
+          </div>
           <span class="nominal-btn__desc">${pkg.desc}</span>
           <div class="nominal-btn__footer">
             <div>
@@ -1306,7 +1325,7 @@ const configData = JSON.stringify({
       if (!isInputValid(raw)) {
         inputHint.textContent = isPhoneInput
           ? "Lanjutkan mengetik nomor HP Anda…"
-          : "Lanjutkan mengisi ID…";
+          : `Lanjutkan mengisi ID… (min. ${inputMinLength} digit)`;
         inputHint.className = "input-hint";
         setMode("empty");
         return;
