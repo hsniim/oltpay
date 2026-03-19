@@ -1,0 +1,1736 @@
+---
+import Navbar from "../../../../components/Navbar.astro";
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import { pulsaProviders } from "../../../../data/products.js";
+
+const waNumber = "6289501450667";
+
+const configData = JSON.stringify({
+  wa: waNumber,
+  providers: pulsaProviders.map((p) => ({
+    name: p.name,
+    title: p.title,
+    prefixes: p.prefixes,
+    packages: p.packages,
+  })),
+});
+---
+
+<BaseLayout>
+  <Navbar />
+
+  <div class="page-wrapper">
+    <main>
+      <!-- ══ INPUT SECTION ══ -->
+      <section class="input-section">
+        <!-- Page title row -->
+        <div class="page-title-row">
+          <div class="page-title-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"
+              ><use href="#icon-phone"></use></svg
+            >
+          </div>
+          <div>
+            <h1 class="page-title">Beli Pulsa</h1>
+            <p class="page-subtitle">
+              Isi pulsa semua operator, harga terbaik &amp; proses cepat
+            </p>
+          </div>
+        </div>
+
+        <!-- Phone input card -->
+        <div class="input-card">
+          <label class="input-label" for="phone-input">Nomor HP Tujuan</label>
+          <div class="input-row">
+            <div class="input-wrap" id="input-wrap">
+              <span class="input-prefix">+62</span>
+              <input
+                type="tel"
+                id="phone-input"
+                placeholder="8xx xxxx xxxx"
+                autocomplete="tel"
+                inputmode="numeric"
+                maxlength="13"
+              />
+              <div class="provider-pill" id="provider-pill">
+                <span id="provider-name">Operator</span>
+              </div>
+            </div>
+          </div>
+          <p class="input-hint" id="input-hint">Ketik nomor handphone</p>
+        </div>
+      </section>
+
+      <!-- ══ PRODUCTS SECTION ══ -->
+      <section class="products-section" id="products-section">
+        <!-- Empty state -->
+        <div class="state-wrap" id="empty-state">
+          <div class="state-icon">
+            <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"
+              ><use href="#icon-phone"></use></svg
+            >
+          </div>
+          <p class="state-title">Masukkan nomor HP</p>
+          <p class="state-desc">
+            Pilihan pulsa akan muncul setelah operator terdeteksi
+          </p>
+        </div>
+
+        <!-- Unknown provider -->
+        <div class="state-wrap hidden" id="unknown-state">
+          <div class="state-icon state-icon--warn">
+            <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"
+              ><use href="#icon-alert"></use></svg
+            >
+          </div>
+          <p class="state-title">Operator tidak dikenali</p>
+          <p class="state-desc">
+            Pastikan nomor HP yang Anda masukkan sudah benar
+          </p>
+        </div>
+
+        <!-- Products -->
+        <div class="hidden" id="products-container">
+          <div class="products-header">
+            <div class="products-header-left">
+              <div class="provider-logo" id="products-provider-logo"></div>
+              <div>
+                <h2 class="products-title" id="products-title">
+                  Pilih Nominal
+                </h2>
+                <p class="products-count" id="products-count"></p>
+              </div>
+            </div>
+          </div>
+          <div class="nominals-grid" id="products-grid"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ══ DETAIL MODAL ══ -->
+  <div class="modal-overlay hidden" id="modal-overlay">
+    <div class="modal" id="modal">
+      <!-- Header -->
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-provider-dot" id="modal-provider-dot"></div>
+          <h3 class="modal-title">Konfirmasi Pesanan</h3>
+        </div>
+        <button class="modal-close" id="modal-close" aria-label="Tutup">
+          <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"
+            ><use href="#icon-close"></use></svg
+          >
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Nominal highlight -->
+        <div class="modal-nominal-hero" id="modal-nominal-hero">
+          <div class="modal-nominal-hero__label">Pulsa yang dibeli</div>
+          <div class="modal-nominal-hero__value" id="detail-nominal">—</div>
+          <div class="modal-nominal-hero__provider" id="detail-product">—</div>
+        </div>
+
+        <!-- Detail rows -->
+        <div class="order-card">
+          <div class="order-row">
+            <span class="order-label">
+              <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"
+                ><use href="#icon-phone"></use></svg
+              >
+              Nomor Tujuan
+            </span>
+            <span class="order-value order-value--phone" id="detail-phone"
+              >—</span
+            >
+          </div>
+          <div class="order-row">
+            <span class="order-label">
+              <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"
+                ><use href="#icon-clock"></use></svg
+              >
+              Keterangan
+            </span>
+            <span class="order-value order-value--desc" id="detail-desc">—</span
+            >
+          </div>
+          <div class="order-row order-row--total">
+            <span class="order-label order-label--total">Total Bayar</span>
+            <span class="order-value order-value--price" id="detail-price"
+              >—</span
+            >
+          </div>
+        </div>
+
+        <!-- WA message preview -->
+        <div class="wa-preview">
+          <div class="wa-preview__header">
+            <svg
+              viewBox="0 0 24 24"
+              fill="#25d366"
+              width="14"
+              height="14"
+              aria-hidden="true"><use href="#icon-wa"></use></svg
+            >
+            <span>Pesan yang akan dikirim</span>
+          </div>
+          <div class="wa-preview__bubble" id="wa-preview-text">—</div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel" id="btn-cancel">Batal</button>
+        <button class="btn-order" id="btn-order">
+          <svg
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            width="17"
+            height="17"
+            aria-hidden="true"><use href="#icon-wa"></use></svg
+          >
+          Chat WhatsApp Sekarang
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Config data via JSON script (avoids large HTML attribute, parsed faster) -->
+  <script id="config" type="application/json" set:html={configData} />
+
+  <!-- Shared SVG symbols — defined once, reused everywhere via <use> -->
+  <svg
+    aria-hidden="true"
+    style="display:none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <symbol
+      id="icon-phone"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+      <line x1="12" y1="18" x2="12.01" y2="18"></line>
+    </symbol>
+    <symbol
+      id="icon-alert"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" y1="8" x2="12" y2="12"></line>
+      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+    </symbol>
+    <symbol
+      id="icon-close"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </symbol>
+    <symbol
+      id="icon-clock"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path>
+    </symbol>
+    <symbol id="icon-wa" viewBox="0 0 24 24" fill="currentColor">
+      <path
+        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"
+      ></path>
+      <path
+        d="M11.99 0C5.374 0 0 5.373 0 11.988c0 2.114.549 4.099 1.504 5.83L0 24l6.335-1.652A11.939 11.939 0 0 0 11.99 24C18.626 24 24 18.626 24 12.012 24 5.373 18.626 0 11.99 0zm0 21.785a9.796 9.796 0 0 1-4.994-1.365l-.357-.212-3.758.98.999-3.647-.233-.374A9.722 9.722 0 0 1 2.203 12c0-5.398 4.394-9.791 9.787-9.791 5.394 0 9.788 4.393 9.788 9.791 0 5.398-4.394 9.785-9.788 9.785z"
+      ></path>
+    </symbol>
+  </svg>
+
+  <!-- ══ FLOATING WA BUTTON ══ -->
+  <div class="wa-fab-wrap" id="wa-fab-wrap">
+    <a
+      href="https://wa.me/6289501450677"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="wa-fab"
+      id="wa-fab"
+      aria-label="Chat WhatsApp Admin"
+    >
+      <svg class="wa-fab__icon" aria-hidden="true"
+        ><use href="#icon-wa"></use></svg
+      >
+      <span class="wa-fab__label">Butuh bantuan?</span>
+    </a>
+  </div>
+</BaseLayout>
+
+<style>
+  /* ══ LAYOUT ══ */
+  /* Tokens & .hidden & .page-wrapper sudah ada di global.css */
+
+  main {
+    max-width: var(--content-max);
+    margin: 0 auto;
+    padding: 32px var(--content-px) 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  @media (max-width: 640px) {
+    main {
+      padding: 20px 12px 80px;
+    }
+  }
+
+  /* ══ INPUT SECTION ══ */
+  .input-section {
+    background: var(--color-bg);
+    border-radius: 20px;
+    padding: 28px 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .page-title-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .page-title-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .page-title-icon svg {
+    width: 24px;
+    height: 24px;
+    color: var(--color-text);
+  }
+
+  .page-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--color-text);
+    margin: 0 0 3px;
+    letter-spacing: -0.3px;
+  }
+
+  .page-subtitle {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    margin: 0;
+  }
+
+  .input-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .input-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .input-row {
+    display: flex;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .input-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    border: 1.5px solid var(--color-border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--color-bg);
+    transition: border-color 0.2s;
+  }
+
+  .input-wrap:focus-within {
+    border-color: var(--color-text);
+  }
+
+  .input-wrap.error {
+    border-color: #e53e3e;
+  }
+
+  .input-prefix {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-muted);
+    background: #f0f0f0;
+    padding: 0 16px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    border-right: 1.5px solid var(--color-border);
+    flex-shrink: 0;
+  }
+
+  .input-wrap input {
+    flex: 1;
+    height: 52px;
+    padding: 0 16px;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text);
+    background: transparent;
+    letter-spacing: 0.3px;
+  }
+
+  .input-wrap input::placeholder {
+    color: #c4c4c4;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  .provider-pill {
+    padding: 0 14px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    border-left: 1.5px solid var(--color-border);
+  }
+
+  .provider-pill span {
+    font-size: 12px;
+    font-weight: 700;
+    color: #b0b0b0;
+    background: #f0f0f0;
+    padding: 4px 12px;
+    border-radius: 10px;
+    white-space: nowrap;
+    transition: all 0.25s;
+  }
+
+  .provider-pill.detected span {
+    color: var(--color-bg);
+    background: var(--color-text);
+  }
+
+  .input-hint {
+    font-size: 12px;
+    color: #b0b0b0;
+    margin: 0;
+    transition: color 0.2s;
+  }
+
+  .input-hint.success {
+    color: #22863a;
+  }
+  .input-hint.error {
+    color: #e53e3e;
+  }
+
+  /* ══ PRODUCTS SECTION ══ */
+  .products-section {
+    background: var(--color-bg);
+    border-radius: 20px;
+    overflow: hidden;
+    min-height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    contain: layout style;
+  }
+
+  .state-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 56px 24px;
+    text-align: center;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .state-icon {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+  }
+
+  .state-icon svg {
+    width: 26px;
+    height: 26px;
+    color: #000000;
+  }
+
+  .state-icon--warn svg {
+    color: #d97706;
+  }
+
+  .state-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .state-desc {
+    font-size: 13px;
+    color: var(--color-muted);
+    margin: 0;
+    max-width: 280px;
+    line-height: 1.5;
+  }
+
+  /* Products container */
+  #products-container {
+    width: 100%;
+    padding: 28px 28px 32px;
+  }
+
+  .products-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 24px;
+  }
+
+  .products-header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .provider-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 900;
+    color: white;
+    flex-shrink: 0;
+    letter-spacing: -0.5px;
+    overflow: hidden;
+    background: transparent;
+  }
+
+  .provider-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .products-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 2px;
+  }
+
+  .products-count {
+    font-size: 12px;
+    color: var(--color-muted);
+    margin: 0;
+  }
+
+  /* ══ NOMINALS GRID — compact card grid ══ */
+  /* .nominals-grid is in the static HTML so normal scoping works */
+  .nominals-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  @media (max-width: 700px) {
+    .nominals-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 7px;
+    }
+  }
+
+  /* All .nominal-btn* classes are injected via JS innerHTML,
+     so they need :global() to bypass Astro's CSS scoping */
+  :global(.nominal-btn) {
+    background: #f0f0f0;
+    border: 1.5px solid var(--color-border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition:
+      border-color 0.15s,
+      box-shadow 0.15s,
+      transform 0.12s,
+      background 0.15s;
+    animation: cardIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    text-align: left;
+    position: relative;
+  }
+
+  :global(.nominal-btn:hover) {
+    border-color: var(--color-text);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
+    background: #ffffff;
+  }
+
+  :global(.nominal-btn:active) {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+  :global(.nominal-btn__top) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+  }
+
+  :global(.nominal-btn__code) {
+    font-size: 10px;
+    font-weight: 700;
+    color: #a0a0a0;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    font-family: "Courier New", monospace;
+    line-height: 1;
+  }
+
+  :global(.nominal-btn__badge) {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--color-muted);
+    background: var(--color-border);
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    line-height: 1.4;
+  }
+
+  :global(.nominal-btn__value) {
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--color-text);
+    letter-spacing: -0.5px;
+    line-height: 1;
+  }
+
+  :global(.nominal-btn__value-prefix) {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0;
+    vertical-align: top;
+    line-height: 1.55;
+    color: var(--color-muted);
+  }
+
+  :global(.nominal-btn__desc) {
+    font-size: 10.5px;
+    color: var(--color-muted);
+    font-weight: 500;
+    white-space: normal;
+    overflow: visible;
+    line-height: 1.4;
+    word-break: break-word;
+  }
+
+  :global(.nominal-btn__footer) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 8px;
+    border-top: 1px solid var(--color-border);
+    margin-top: 2px;
+  }
+
+  :global(.nominal-btn__price-label) {
+    font-size: 9px;
+    font-weight: 600;
+    color: #b0b0b0;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+
+  :global(.nominal-btn__price) {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--color-text);
+    letter-spacing: -0.3px;
+    line-height: 1;
+  }
+
+  :global(.nominal-btn__cta) {
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    background: var(--color-text);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-bg);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1;
+    opacity: 0;
+    transform: scale(0.85);
+    transition:
+      opacity 0.15s,
+      transform 0.15s;
+  }
+
+  :global(.nominal-btn:hover .nominal-btn__cta) {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* ══ MODAL ══ */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 10, 10, 0.45);
+    backdrop-filter: blur(6px);
+    z-index: 1000;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    animation: fadeIn 0.2s ease;
+    will-change: opacity;
+  }
+
+  @media (min-width: 600px) {
+    .modal-overlay {
+      align-items: center;
+      padding: 24px;
+    }
+  }
+
+  .modal {
+    background: var(--color-bg);
+    width: 100%;
+    max-width: 440px;
+    border-radius: 24px 24px 0 0;
+    overflow: hidden;
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @media (min-width: 600px) {
+    .modal {
+      border-radius: 20px;
+      animation: scaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+  }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px 16px;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .modal-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .modal-provider-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-border);
+    flex-shrink: 0;
+    transition: background 0.3s;
+  }
+
+  .modal-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .modal-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    border: 1.5px solid var(--color-border);
+    background: var(--color-bg);
+    color: var(--color-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+    flex-shrink: 0;
+  }
+
+  .modal-close svg {
+    width: 13px;
+    height: 13px;
+  }
+  .modal-close:hover {
+    background: var(--page-bg);
+  }
+
+  .modal-body {
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* Nominal hero block */
+  .modal-nominal-hero {
+    border-radius: 14px;
+    padding: 16px 18px;
+    background: #f0f0f0;
+    border: 1.5px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .modal-nominal-hero__label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .modal-nominal-hero__value {
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--color-text);
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+
+  .modal-nominal-hero__provider {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-muted);
+    margin-top: 2px;
+  }
+
+  /* Detail rows */
+  .order-card {
+    border: 1.5px solid var(--color-border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .order-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 16px;
+    gap: 16px;
+  }
+
+  .order-row:not(:last-child) {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .order-row--total {
+    background: #f0f0f0;
+  }
+
+  .order-divider {
+    height: 5px;
+    background: var(--page-bg);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .order-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-muted);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .order-label--total {
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .order-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text);
+    text-align: right;
+  }
+
+  .order-value--desc {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-muted);
+  }
+
+  .order-value--phone {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .order-value--price {
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    color: var(--color-text);
+  }
+
+  /* WA message preview */
+  .wa-preview {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1.5px solid #d4f0d8;
+    background: #f0faf1;
+  }
+
+  .wa-preview__header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: #e4f7e6;
+    border-bottom: 1px solid #d4f0d8;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: #2d7a3a;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .wa-preview__bubble {
+    font-size: 12.5px;
+    color: #1a3a1f;
+    line-height: 1.65;
+    padding: 10px 14px;
+    white-space: pre-line;
+  }
+
+  /* Footer */
+  .modal-footer {
+    padding: 12px 20px 20px;
+    display: flex;
+    gap: 8px;
+  }
+
+  .btn-cancel {
+    height: 46px;
+    padding: 0 18px;
+    border: 1.5px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-bg);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-muted);
+    cursor: pointer;
+    transition:
+      background 0.15s,
+      border-color 0.15s;
+    flex-shrink: 0;
+  }
+
+  .btn-cancel:hover {
+    background: var(--page-bg);
+    border-color: #c0c0c0;
+  }
+
+  .btn-order {
+    flex: 1;
+    height: 46px;
+    background: #25d366;
+    border: none;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    transition:
+      background 0.2s,
+      transform 0.15s;
+    letter-spacing: -0.1px;
+  }
+
+  .btn-order:hover {
+    background: #1dba58;
+    transform: translateY(-1px);
+  }
+
+  .btn-order:active {
+    transform: translateY(0);
+  }
+
+  /* ══ FLOATING WA BUTTON ══ */
+  .wa-fab-wrap {
+    position: fixed;
+    bottom: 28px;
+    right: 24px;
+    z-index: 900;
+    animation: fabIn 0.5s 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    touch-action: none;
+    user-select: none;
+    will-change: transform;
+  }
+
+  @keyframes fabIn {
+    from {
+      opacity: 0;
+      transform: translateY(16px) scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* Expanded pill state */
+  .wa-fab {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #25d366;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 50px;
+    padding: 13px 20px 13px 15px;
+    box-shadow:
+      0 4px 20px rgba(37, 211, 102, 0.4),
+      0 2px 8px rgba(0, 0, 0, 0.12);
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    /* Only animate properties that don't cause layout jank */
+    transition:
+      background 0.2s ease,
+      box-shadow 0.2s ease,
+      border-radius 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+      padding 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+      gap 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .wa-fab:hover {
+    background: #1dba58;
+    box-shadow:
+      0 8px 28px rgba(37, 211, 102, 0.45),
+      0 4px 12px rgba(0, 0, 0, 0.14);
+  }
+
+  .wa-fab__icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  /* Label — animate via max-width for smooth text collapse */
+  .wa-fab__label {
+    display: inline-block;
+    max-width: 160px;
+    overflow: hidden;
+    opacity: 1;
+    transition:
+      max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.2s ease,
+      margin 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    line-height: 1;
+  }
+
+  /* Collapsed = perfect circle — shrink label, adjust padding */
+  .wa-fab-wrap.collapsed .wa-fab {
+    border-radius: 50%;
+    padding: 15px;
+    gap: 0;
+  }
+
+  .wa-fab-wrap.collapsed .wa-fab__label {
+    max-width: 0;
+    opacity: 0;
+    margin: 0;
+  }
+
+  /* Dragging state */
+  .wa-fab-wrap.dragging {
+    transition: none;
+    cursor: grabbing;
+  }
+
+  .wa-fab-wrap.dragging .wa-fab {
+    opacity: 0.9;
+    transform: scale(1.06);
+    box-shadow:
+      0 12px 32px rgba(37, 211, 102, 0.45),
+      0 6px 16px rgba(0, 0, 0, 0.18);
+  }
+
+  @media (max-width: 480px) {
+    .wa-fab-wrap {
+      bottom: 20px;
+      right: 16px;
+    }
+    /* Always a perfect circle on mobile — never changes */
+    .wa-fab {
+      width: 52px;
+      height: 52px;
+      padding: 0 !important;
+      border-radius: 50% !important;
+      justify-content: center;
+      gap: 0 !important;
+    }
+    .wa-fab__label {
+      display: none !important;
+    }
+  }
+
+  /* ══ ANIMATIONS ══ */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  @keyframes scaleIn {
+    from {
+      transform: scale(0.96);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  @keyframes cardIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    /* ── CONFIG — read from <script type="application/json"> ── */
+    const configEl = document.getElementById("config") as HTMLScriptElement;
+    const config: {
+      wa: string;
+      providers: Array<{
+        name: string;
+        title: string;
+        prefixes: string[];
+        packages: Array<{
+          code: string;
+          name: string;
+          desc: string;
+          price: number;
+        }>;
+      }>;
+    } = JSON.parse(configEl.textContent!);
+    const waNumber = config.wa;
+    const providers = config.providers;
+
+    /* ── STATE ── */
+    let currentProvider: (typeof providers)[0] | null = null;
+    let selectedPkg: (typeof providers)[0]["packages"][0] | null = null;
+
+    /* ── DOM ── */
+    const phoneInput = document.getElementById(
+      "phone-input",
+    ) as HTMLInputElement;
+    const inputWrap = document.getElementById("input-wrap")!;
+    const providerPill = document.getElementById("provider-pill")!;
+    const providerNameEl = document.getElementById("provider-name")!;
+    const inputHint = document.getElementById("input-hint")!;
+
+    const emptyState = document.getElementById("empty-state")!;
+    const unknownState = document.getElementById("unknown-state")!;
+    const productsContainer = document.getElementById("products-container")!;
+    const productsGrid = document.getElementById("products-grid")!;
+    const productsTitleEl = document.getElementById("products-title")!;
+    const productsCountEl = document.getElementById("products-count")!;
+    const productsLogoEl = document.getElementById("products-provider-logo")!;
+    const productsSection = document.getElementById("products-section")!;
+
+    const modalOverlay = document.getElementById("modal-overlay")!;
+    const modalClose = document.getElementById("modal-close")!;
+    const btnCancel = document.getElementById("btn-cancel")!;
+    const btnOrder = document.getElementById("btn-order")!;
+
+    const detailProduct = document.getElementById("detail-product")!;
+    const detailNominal = document.getElementById("detail-nominal")!;
+    const detailDesc = document.getElementById("detail-desc")!;
+    const detailPhone = document.getElementById("detail-phone")!;
+    const detailPrice = document.getElementById("detail-price")!;
+
+    /* ── PROVIDER LOGOS ── */
+    const providerLogos: Record<string, string> = {
+      "telkomsel-pulsa": "/logos/telkomsel_logo.svg",
+      "indosat-pulsa": "/logos/indosat_logo.svg",
+      "xl-pulsa": "/logos/xl_logo.svg",
+      "tri-pulsa": "/logos/tri_logo.svg",
+      "axis-pulsa": "/logos/axis_logo.svg",
+      "smartfren-pulsa": "/logos/smartfren_logo.svg",
+    };
+
+    const providerColors: Record<string, string> = {
+      "telkomsel-pulsa": "linear-gradient(135deg,#e53e3e,#c53030)",
+      "indosat-pulsa": "linear-gradient(135deg,#d97706,#b45309)",
+      "xl-pulsa": "linear-gradient(135deg,#2b6cb0,#2c5282)",
+      "tri-pulsa": "linear-gradient(135deg,#553c9a,#44337a)",
+      "axis-pulsa": "linear-gradient(135deg,#276749,#22543d)",
+      "smartfren-pulsa": "linear-gradient(135deg,#e53e3e,#805ad5)",
+    };
+
+    const providerInitials: Record<string, string> = {
+      "telkomsel-pulsa": "TEL",
+      "indosat-pulsa": "IM3",
+      "xl-pulsa": "XL",
+      "tri-pulsa": "3",
+      "axis-pulsa": "AX",
+      "smartfren-pulsa": "SF",
+    };
+
+    /* ── HELPERS ── */
+    // Cache formatter — avoid re-creating on every card render
+    const rpFormatter = new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    });
+    function formatRp(n: number) {
+      return rpFormatter.format(n);
+    }
+
+    function normalizePhone(val: string): string {
+      let n = val.replace(/\D/g, "");
+      if (n.startsWith("62")) n = "0" + n.slice(2);
+      if (n.startsWith("8")) n = "0" + n;
+      return n;
+    }
+
+    // Semua prefix operator Indonesia yang valid (4 digit pertama)
+    const VALID_PREFIXES = new Set([
+      // Telkomsel
+      "0811",
+      "0812",
+      "0813",
+      "0821",
+      "0822",
+      "0823",
+      "0851",
+      "0852",
+      "0853",
+      // Indosat
+      "0814",
+      "0815",
+      "0816",
+      "0855",
+      "0856",
+      "0857",
+      "0858",
+      // XL Axiata
+      "0817",
+      "0818",
+      "0819",
+      "0859",
+      "0877",
+      "0878",
+      // Axis
+      "0831",
+      "0832",
+      "0833",
+      "0838",
+      // Tri
+      "0895",
+      "0896",
+      "0897",
+      "0898",
+      "0899",
+      // Smartfren
+      "0881",
+      "0882",
+      "0883",
+      "0884",
+      "0885",
+      "0886",
+      "0887",
+      "0888",
+      "0889",
+    ]);
+
+    // Status validasi bertahap
+    function phoneStatus(
+      raw: string,
+    ): "empty" | "typing" | "invalid_prefix" | "valid" {
+      const n = normalizePhone(raw);
+      if (!n) return "empty";
+      if (n.length < 4) return "typing";
+      if (!VALID_PREFIXES.has(n.slice(0, 4))) return "invalid_prefix";
+      if (n.length < 10) return "typing";
+      return "valid";
+    }
+
+    function detectProvider(raw: string) {
+      const n = normalizePhone(raw);
+      if (n.length < 5) return null;
+      return providers.find((p) => p.prefixes.includes(n.slice(0, 4))) ?? null;
+    }
+
+    /* ── RENDER PRODUCTS ── */
+    function renderProducts(provider: (typeof providers)[0]) {
+      productsTitleEl.textContent = `Pulsa ${provider.title}`;
+      productsCountEl.textContent = `${provider.packages.length} pilihan tersedia`;
+      const logoUrl = providerLogos[provider.name];
+      productsLogoEl.innerHTML = "";
+      productsLogoEl.style.background = "transparent";
+      productsLogoEl.style.border = "none";
+      productsLogoEl.style.borderRadius = "0";
+      if (logoUrl) {
+        const img = document.createElement("img");
+        img.src = logoUrl;
+        img.alt = provider.title;
+        img.onerror = () => {
+          productsLogoEl.innerHTML =
+            providerInitials[provider.name] ??
+            provider.title.slice(0, 3).toUpperCase();
+          productsLogoEl.style.background =
+            providerColors[provider.name] ??
+            "linear-gradient(135deg,#0a0a0a,#333)";
+          productsLogoEl.style.borderRadius = "14px";
+          productsLogoEl.style.border = "none";
+        };
+        productsLogoEl.appendChild(img);
+      } else {
+        productsLogoEl.textContent =
+          providerInitials[provider.name] ??
+          provider.title.slice(0, 3).toUpperCase();
+        productsLogoEl.style.background =
+          providerColors[provider.name] ??
+          "linear-gradient(135deg,#0a0a0a,#333)";
+        productsLogoEl.style.borderRadius = "14px";
+        productsLogoEl.style.border = "none";
+      }
+
+      // Use DocumentFragment to batch DOM insertions (single reflow)
+      const frag = document.createDocumentFragment();
+      provider.packages.forEach((pkg, i) => {
+        const btn = document.createElement("button");
+        btn.className = "nominal-btn";
+        btn.style.animationDelay = `${i * 30}ms`;
+        btn.innerHTML = `
+          <div class="nominal-btn__top">
+            <span class="nominal-btn__code">${pkg.code}</span>
+            <span class="nominal-btn__badge">Pulsa</span>
+          </div>
+          <div class="nominal-btn__value">${pkg.name}</div>
+          <span class="nominal-btn__desc">${pkg.desc}</span>
+          <div class="nominal-btn__footer">
+            <div>
+              <div class="nominal-btn__price-label">Harga</div>
+              <div class="nominal-btn__price">${formatRp(pkg.price)}</div>
+            </div>
+            <div class="nominal-btn__cta">›</div>
+          </div>`;
+        btn.addEventListener("click", () => openModal(pkg, provider));
+        frag.appendChild(btn);
+      });
+      productsGrid.innerHTML = "";
+      productsGrid.appendChild(frag);
+    }
+
+    /* ── UI STATE ── */
+    function setMode(mode: "empty" | "unknown" | "products") {
+      productsSection.style.alignItems =
+        mode === "products" ? "flex-start" : "center";
+      emptyState.classList.toggle("hidden", mode !== "empty");
+      unknownState.classList.toggle("hidden", mode !== "unknown");
+      productsContainer.classList.toggle("hidden", mode !== "products");
+    }
+
+    // Debounce helper — avoid re-running detection on every keystroke
+    function debounce<T extends (...args: unknown[]) => void>(
+      fn: T,
+      ms: number,
+    ) {
+      let t: ReturnType<typeof setTimeout>;
+      return (...args: Parameters<T>) => {
+        clearTimeout(t);
+        t = setTimeout(() => fn(...args), ms);
+      };
+    }
+
+    function updateUI() {
+      const raw = phoneInput.value.trim();
+
+      if (!raw) {
+        currentProvider = null;
+        providerPill.classList.remove("detected");
+        providerNameEl.textContent = "Operator";
+        inputHint.textContent = "Ketik nomor handphone";
+        inputHint.className = "input-hint";
+        inputWrap.classList.remove("error");
+        setMode("empty");
+        return;
+      }
+
+      const status = phoneStatus(raw);
+
+      // Prefix tidak valid → tolak langsung tanpa perlu menunggu 10 digit
+      if (status === "invalid_prefix") {
+        currentProvider = null;
+        providerPill.classList.remove("detected");
+        providerNameEl.textContent = "Operator";
+        inputHint.textContent =
+          "Nomor tidak dikenali — pastikan nomor HP Indonesia yang valid";
+        inputHint.className = "input-hint error";
+        inputWrap.classList.add("error");
+        setMode("unknown");
+        return;
+      }
+
+      if (status === "typing") {
+        providerPill.classList.remove("detected");
+        providerNameEl.textContent = "Operator";
+        inputHint.textContent = "Lanjutkan mengetik nomor HP Anda…";
+        inputHint.className = "input-hint";
+        inputWrap.classList.remove("error");
+        setMode("empty");
+        return;
+      }
+
+      // status === "valid" → cek provider
+      const provider = detectProvider(raw);
+
+      if (provider) {
+        providerPill.classList.add("detected");
+        providerNameEl.textContent = provider.title;
+        inputHint.textContent = `✓ Terdeteksi sebagai nomor ${provider.title}`;
+        inputHint.className = "input-hint success";
+        inputWrap.classList.remove("error");
+
+        if (currentProvider?.name !== provider.name) {
+          currentProvider = provider;
+          setMode("products");
+          renderProducts(provider);
+        } else {
+          setMode("products");
+        }
+      } else {
+        currentProvider = null;
+        providerPill.classList.remove("detected");
+        providerNameEl.textContent = "Operator";
+        inputHint.textContent =
+          "Operator tidak dikenali — periksa kembali nomor HP Anda";
+        inputHint.className = "input-hint error";
+        inputWrap.classList.add("error");
+        setMode("unknown");
+      }
+    }
+
+    /* ── MODAL ── */
+    function openModal(
+      pkg: (typeof providers)[0]["packages"][0],
+      provider: (typeof providers)[0],
+    ) {
+      const phone = normalizePhone(phoneInput.value.trim());
+      if (phone.length < 10) {
+        inputWrap.classList.add("error");
+        inputHint.textContent = "Masukkan nomor HP yang valid terlebih dahulu!";
+        inputHint.className = "input-hint error";
+        phoneInput.focus();
+        return;
+      }
+
+      selectedPkg = pkg;
+
+      detailProduct.textContent = `Pulsa ${provider.title} — ${pkg.desc}`;
+      detailNominal.textContent = pkg.name;
+      detailDesc.textContent = pkg.desc;
+      detailPhone.textContent = `+62 ${phone.slice(1)}`;
+      detailPrice.textContent = formatRp(pkg.price);
+
+      const dot = document.getElementById("modal-provider-dot")!;
+      const colorMap: Record<string, string> = {
+        "telkomsel-pulsa": "#e53e3e",
+        "indosat-pulsa": "#d97706",
+        "xl-pulsa": "#2b6cb0",
+        "tri-pulsa": "#553c9a",
+        "axis-pulsa": "#276749",
+        "smartfren-pulsa": "#805ad5",
+      };
+      dot.style.background = colorMap[provider.name] ?? "#0a0a0a";
+
+      const waMsg =
+        `Halo min! 👋\n\n` +
+        `Saya mau beli *Pulsa ${provider.title} Rp ${pkg.name}*, ` +
+        `kirim ke nomor *${phone}* ya!\n\n` +
+        `Detail:\n` +
+        `• Produk: ${pkg.desc}\n` +
+        `• Harga: ${formatRp(pkg.price)}\n\n` +
+        `Mohon diproses, terima kasih 🙏`;
+
+      document.getElementById("wa-preview-text")!.textContent = waMsg;
+
+      modalOverlay.classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal() {
+      modalOverlay.classList.add("hidden");
+      document.body.style.overflow = "";
+      selectedPkg = null;
+    }
+
+    /* ── WHATSAPP ── */
+    function sendOrder() {
+      if (!selectedPkg || !currentProvider) return;
+      const phone = normalizePhone(phoneInput.value.trim());
+
+      const msg = encodeURIComponent(
+        `Halo min! 👋\n\n` +
+          `Saya mau beli *Pulsa ${currentProvider.title} Rp ${selectedPkg.name}*, ` +
+          `kirim ke nomor *${phone}* ya!\n\n` +
+          `Detail:\n` +
+          `• Produk: ${selectedPkg.desc}\n` +
+          `• Harga: ${formatRp(selectedPkg.price)}\n\n` +
+          `Mohon diproses, terima kasih 🙏`,
+      );
+
+      window.open(`https://wa.me/${waNumber}?text=${msg}`, "_blank");
+      closeModal();
+    }
+
+    /* ── EVENTS ── */
+    const debouncedUpdateUI = debounce(updateUI, 120);
+    phoneInput.addEventListener("input", debouncedUpdateUI, { passive: true });
+
+    // Hanya angka yang diizinkan — blokir keydown & sanitasi paste
+    phoneInput.addEventListener("keydown", (e) => {
+      const allowed = [
+        "Backspace",
+        "Delete",
+        "ArrowLeft",
+        "ArrowRight",
+        "ArrowUp",
+        "ArrowDown",
+        "Tab",
+        "Enter",
+        "Home",
+        "End",
+      ];
+      if (allowed.includes(e.key)) return;
+      if (!/^\d$/.test(e.key)) e.preventDefault();
+    });
+    phoneInput.addEventListener("paste", (e) => {
+      e.preventDefault();
+      const text =
+        (e.clipboardData ?? (window as any).clipboardData)?.getData("text") ??
+        "";
+      const digits = text.replace(/\D/g, "");
+      document.execCommand("insertText", false, digits);
+    });
+    modalClose.addEventListener("click", closeModal);
+    btnCancel.addEventListener("click", closeModal);
+    btnOrder.addEventListener("click", sendOrder);
+    modalOverlay.addEventListener("click", (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+  })();
+</script>
+
+<script>
+  /* ── FLOATING WA BUTTON — drag + collapse ── */
+  (function () {
+    const wrap = document.getElementById("wa-fab-wrap") as HTMLElement;
+    const fab = document.getElementById("wa-fab") as HTMLAnchorElement;
+    if (!wrap || !fab) return;
+
+    /* ── COLLAPSE ON SCROLL (desktop only) ── */
+    let collapsed = false;
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (window.innerWidth <= 480) return; // mobile always circle via CSS
+        const y = window.scrollY;
+        if (y > 80 && !collapsed) {
+          collapsed = true;
+          wrap.classList.add("collapsed");
+        } else if (y <= 80 && collapsed) {
+          collapsed = false;
+          wrap.classList.remove("collapsed");
+        }
+      },
+      { passive: true },
+    );
+
+    /* ── DRAG TO MOVE ── */
+    let isDragging = false;
+    let didDrag = false;
+    let startX = 0,
+      startY = 0;
+    let origLeft = 0,
+      origTop = 0;
+
+    function getPos() {
+      const rect = wrap.getBoundingClientRect();
+      return { left: rect.left, top: rect.top };
+    }
+
+    function startDrag(clientX: number, clientY: number) {
+      isDragging = true;
+      didDrag = false;
+      const pos = getPos();
+      origLeft = pos.left;
+      origTop = pos.top;
+      startX = clientX;
+      startY = clientY;
+
+      // Switch from bottom/right anchoring to top/left absolute
+      wrap.style.right = "auto";
+      wrap.style.bottom = "auto";
+      wrap.style.left = origLeft + "px";
+      wrap.style.top = origTop + "px";
+      wrap.classList.add("dragging");
+    }
+
+    function moveDrag(clientX: number, clientY: number) {
+      if (!isDragging) return;
+      const dx = clientX - startX;
+      const dy = clientY - startY;
+      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) didDrag = true;
+
+      const newLeft = Math.max(
+        8,
+        Math.min(window.innerWidth - wrap.offsetWidth - 8, origLeft + dx),
+      );
+      const newTop = Math.max(
+        8,
+        Math.min(window.innerHeight - wrap.offsetHeight - 8, origTop + dy),
+      );
+      wrap.style.left = newLeft + "px";
+      wrap.style.top = newTop + "px";
+    }
+
+    function endDrag(e: Event) {
+      if (!isDragging) return;
+      isDragging = false;
+      wrap.classList.remove("dragging");
+
+      // If barely moved → treat as click (let the <a> navigate)
+      if (!didDrag) return;
+
+      // Snap to nearest horizontal edge
+      const rect = wrap.getBoundingClientRect();
+      const midX = rect.left + rect.width / 2;
+      const snapLeft = midX < window.innerWidth / 2;
+      const margin = 20;
+
+      wrap.style.left = "auto";
+      wrap.style.right = "auto";
+      wrap.style.top = rect.top + "px";
+      wrap.style.bottom = "auto";
+
+      if (snapLeft) {
+        wrap.style.left = margin + "px";
+      } else {
+        wrap.style.right = margin + "px";
+      }
+
+      // Prevent the click from opening WA when we were dragging
+      e.preventDefault();
+    }
+
+    // Mouse events
+    wrap.addEventListener("mousedown", (e) => startDrag(e.clientX, e.clientY));
+    window.addEventListener("mousemove", (e) => moveDrag(e.clientX, e.clientY));
+    window.addEventListener("mouseup", (e) => endDrag(e));
+
+    // Touch events
+    wrap.addEventListener(
+      "touchstart",
+      (e) => {
+        const t = e.touches[0];
+        startDrag(t.clientX, t.clientY);
+      },
+      { passive: true },
+    );
+    window.addEventListener(
+      "touchmove",
+      (e) => {
+        const t = e.touches[0];
+        moveDrag(t.clientX, t.clientY);
+      },
+      { passive: true },
+    );
+    window.addEventListener("touchend", (e) => endDrag(e));
+  })();
+</script>

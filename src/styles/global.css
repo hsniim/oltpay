@@ -1,19 +1,94 @@
+/* ══ FONTS — harus di luar @layer ══ */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono&display=swap');
+
 @import "tailwindcss";
 
+/* ══ DESIGN TOKENS ══ */
 @theme {
-  --color-primary: #0ea5e9;     /* sky-500 — warna utama biru cerah */
-  --color-accent:  #10b981;     /* emerald-500 — warna aksen hijau */
-  --color-dark:    #0f172a;     /* slate-950 — teks gelap */
+  /* Warna Identitas PPOB */
+  --color-primary:   #0ea5e9;   /* Sky-500: Terpercaya & Bersih */
+  --color-accent:    #10b981;   /* Emerald-500: Simbol Sukses/Cuan */
+  --color-warning:   #f59e0b;   /* Amber-500: Status pending/warning */
+  --color-dark:      #0f172a;   /* Slate-950: Teks kontras tinggi */
+  --color-page-bg:   #f8fafc;   /* Background dasar semua halaman */
+
+  /* Font Family */
+  --font-sans:    "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-display: "Plus Jakarta Sans", sans-serif;
+  --font-mono:    "JetBrains Mono", "Roboto Mono", monospace;
 }
 
-/* Opsional: atur base style supaya lebih rapi */
+/* ══ SHARED PAGE TOKENS — dipakai di seluruh halaman ══ */
+:root {
+  --navbar-height: 80px;
+  --content-max:   1300px;
+  --content-px:    2.5rem;
+
+  /* Warna komponen umum */
+  --color-bg:     #ffffff;
+  --color-text:   #0a0a0a;
+  --color-muted:  #6b6b6b;
+  --color-border: #e8e8e8;
+  --page-bg:      #f2f2ed;
+}
+
+/* ══ BASE STYLES ══ */
 @layer base {
   body {
-    @apply bg-white text-slate-900 antialiased;
-    font-family: system-ui, -apple-system, sans-serif;
+    background-color: var(--color-page-bg);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    @apply text-slate-900 antialiased;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-bold tracking-tight;
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    @apply font-bold tracking-tight text-slate-950;
   }
+
+  /* Angka transaksi / token */
+  .token-code,
+  .price-tag {
+    font-family: var(--font-mono);
+    @apply tracking-wider font-medium;
+  }
+}
+
+/* ══ REUSABLE COMPONENTS ══ */
+@layer components {
+  .nav-link {
+    @apply px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary transition-colors;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-sky-600 transition-all shadow-sm;
+  }
+
+  .btn-accent {
+    @apply bg-accent text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-emerald-600 transition-all shadow-sm;
+  }
+}
+
+/* ══ SHARED UTILITIES ══ */
+@layer utilities {
+  /* Dipakai di banyak halaman — definisikan sekali di sini */
+  .hidden {
+    display: none !important;
+  }
+
+  .content-wrap {
+    max-width: var(--content-max);
+    margin-inline: auto;
+    padding-inline: var(--content-px);
+  }
+}
+
+/* ══ PAGE OFFSET — di luar @layer agar tidak tertimpa Tailwind v4 ══ */
+/* Pastikan anchor links tidak tertutup navbar */
+html {
+  scroll-padding-top: var(--navbar-height);
+}
+
+.page-wrapper {
+  padding-top: var(--navbar-height);
 }

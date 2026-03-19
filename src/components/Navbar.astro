@@ -1,916 +1,865 @@
 ---
-// Navbar.astro
-// Converted from Next.js React component to Astro v5
+// Navbar.astro — Oltpay
+// ✅ Pure inline CSS + vanilla JS, no dependencies
 ---
 
-<nav
-  id="navbar"
-  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white"
->
-  <div class="container mx-auto max-w-7xl px-6 lg:px-8">
-    <div class="flex items-center justify-between h-16 lg:h-20">
-      <!-- Logo -->
-      <a href="/" class="flex items-center z-50">
-        <img
-          src="/logos/barcomp_primarylogo-blacktransp.svg"
-          alt="Barcomp Logo"
-          width="40"
-          height="40"
-          class="w-12 h-12 object-contain"
-        />
-        <h2 class="text-3xl font-semibold text-gray-900">Barcomp</h2>
-      </a>
+<style is:global>
+  @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
 
-      <!-- Desktop center navbar -->
-      <div class="hidden lg:flex items-center gap-5 space-x-1">
-        <a
-          href="/"
-          class="inline-block px-4 py-2 text-gray-700 hover:text-indigo-600 font-medium transition-colors duration-200"
+  :root {
+    --navbar-height: 80px;
+    --font-display: "Plus Jakarta Sans", sans-serif;
+    --font-body: "Plus Jakarta Sans", sans-serif;
+    --color-bg: #ffffff;
+    --color-text: #0a0a0a;
+    --color-muted: #6b6b6b;
+    --color-border: #e8e8e8;
+    --color-hover-bg: #f5f5f5;
+    --color-dropdown-bg: #ffffff;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* ── NAVBAR ── */
+  #navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: var(--color-bg);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease;
+    font-family: var(--font-display);
+  }
+  #navbar.scrolled {
+    border-bottom-color: var(--color-border);
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .nav-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--navbar-height);
+  }
+
+  @media (max-width: 640px) {
+    .nav-inner {
+      padding: 0 20px;
+    }
+  }
+
+  /* ── LOGO ── */
+  .nav-logo {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0rem;
+    flex-shrink: 0;
+  }
+
+  .nav-logo img {
+    width: 50px;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .nav-logo-text {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+  }
+
+  /* ── DESKTOP LINKS ── */
+  .nav-links {
+    display: none;
+    align-items: center;
+    gap: 0;
+  }
+  @media (min-width: 1024px) {
+    .nav-links {
+      display: flex;
+    }
+  }
+
+  .nav-link {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 500;
+    color: var(--color-text);
+    text-decoration: none;
+    padding: 0.5rem 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    white-space: nowrap;
+    letter-spacing: 0em;
+  }
+  .nav-link.active svg {
+    transform: rotate(180deg);
+  }
+
+  .nav-link svg {
+    width: 0.9rem;
+    height: 0.9rem;
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+  }
+
+  /* ── RIGHT: KONTAK ── */
+  .nav-right {
+    display: none;
+    align-items: center;
+  }
+  @media (min-width: 1024px) {
+    .nav-right {
+      display: flex;
+    }
+  }
+
+  .nav-kontak {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 500;
+    color: var(--color-text);
+    text-decoration: none;
+    padding: 0.5rem 1.5rem;
+    letter-spacing: -0.01em;
+    transition: opacity 0.15s;
+  }
+  .nav-kontak:hover {
+    opacity: 0.55;
+  }
+
+  /* ── HAMBURGER ── */
+  .nav-mobile-btn {
+    display: flex;
+    z-index: 110;
+  }
+  @media (min-width: 1024px) {
+    .nav-mobile-btn {
+      display: none;
+    }
+  }
+
+  .hamburger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+    color: var(--color-text);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: var(--color-text);
+    transition: all 0.25s ease;
+    transform-origin: center;
+  }
+  .hamburger.open span:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+  }
+  .hamburger.open span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  .hamburger.open span:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+  }
+
+  /* ══════════════════════════════════════
+     MEGA DROPDOWN
+  ══════════════════════════════════════ */
+  #dd-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    display: none;
+  }
+
+  #dd-panel {
+    position: fixed;
+    top: var(--navbar-height);
+    left: 0;
+    right: 0;
+    z-index: 95;
+    background: var(--color-dropdown-bg);
+    border-bottom: 1px solid var(--color-border);
+    display: none;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition:
+      opacity 0.22s ease,
+      transform 0.22s ease;
+  }
+  #dd-panel.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .dd-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 2.5rem 2.5rem 2rem;
+  }
+
+  .dd-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0 3rem;
+  }
+
+  .dd-col-label {
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-muted);
+    letter-spacing: 0.02em;
+    margin-bottom: 1rem;
+    padding-bottom: 0;
+  }
+
+  .dd-col-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .dd-item {
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: var(--color-text);
+    text-decoration: none;
+    display: block;
+    padding: 0.35rem 0;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    position: relative;
+    transition: color 0.15s;
+  }
+  /* Dim-others effect: ketika grid di-hover, semua item jadi abu-abu */
+  .dd-grid:hover .dd-item,
+  .dd-grid-2:hover .dd-item {
+    color: #b0b0b0;
+    transition: color 0.15s;
+  }
+  /* Item yang sedang di-hover balik ke hitam */
+  .dd-grid .dd-item:hover,
+  .dd-grid-2 .dd-item:hover {
+    color: var(--color-text);
+  }
+
+  .dd-divider {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 1.75rem 0 1.25rem;
+  }
+
+  .dd-footer-row {
+    display: flex;
+    align-items: center;
+  }
+  .dd-footer-help {
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-muted);
+  }
+  .dd-footer-help a {
+    color: var(--color-text);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    margin-left: 0.3rem;
+  }
+  .dd-footer-help a:hover {
+    opacity: 0.5;
+  }
+
+  .dd-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #dd-panel-harga {
+    position: fixed;
+    top: var(--navbar-height);
+    left: 0;
+    right: 0;
+    z-index: 95;
+    background: var(--color-dropdown-bg);
+    border-bottom: 1px solid var(--color-border);
+    display: none;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition:
+      opacity 0.22s ease,
+      transform 0.22s ease;
+  }
+  #dd-panel-harga.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .dd-col {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 0.25s ease,
+      transform 0.25s ease;
+  }
+  .dd-col.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .dd-col:nth-child(1) {
+    transition-delay: 0ms;
+  }
+  .dd-col:nth-child(2) {
+    transition-delay: 50ms;
+  }
+  .dd-col:nth-child(3) {
+    transition-delay: 100ms;
+  }
+
+  /* ══════════════════════════════════════
+     MOBILE MENU
+  ══════════════════════════════════════ */
+  #mobile-menu {
+    position: fixed;
+    inset: 0;
+    top: var(--navbar-height);
+    background: white;
+    z-index: 99;
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    padding: 2rem 2rem 3rem;
+    font-family: var(--font-display);
+  }
+  #mobile-menu.open {
+    transform: translateX(0);
+  }
+
+  .mob-link {
+    display: block;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+    text-decoration: none;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--color-border);
+    letter-spacing: -0.03em;
+  }
+
+  .mob-acc-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    padding: 0.85rem 0;
+    cursor: pointer;
+    font-family: var(--font-display);
+    letter-spacing: -0.03em;
+    text-align: left;
+  }
+  .mob-acc-btn svg {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    transition: transform 0.2s;
+  }
+  .mob-acc-btn.open svg {
+    transform: rotate(180deg);
+  }
+
+  .mob-sub-panel {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.25s ease;
+  }
+
+  .mob-sub-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-muted);
+    margin: 1rem 0 0.5rem;
+    letter-spacing: 0.03em;
+  }
+
+  .mob-sub-link {
+    display: block;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-text);
+    text-decoration: none;
+    padding: 0.4rem 0;
+    letter-spacing: -0.02em;
+  }
+  .mob-sub-link:hover {
+    opacity: 0.5;
+  }
+
+  .mob-kontak {
+    display: block;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+    text-decoration: none;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--color-border);
+    letter-spacing: -0.03em;
+  }
+</style>
+
+<!-- ══════════════ NAVBAR ══════════════ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <img src="/logos/oltpay_logoblack.svg" alt="Oltpay Logo" />
+      <span class="nav-logo-text">Oltpay</span>
+    </a>
+
+    <!-- Desktop Nav (semua link di kanan) -->
+    <div class="nav-links">
+      <a href="/" class="nav-link">Beranda</a>
+
+      <button class="nav-link" id="btn-produk" aria-expanded="false">
+        Produk &amp; Layanan
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2.5"
         >
-          Beranda
-        </a>
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </button>
 
-        <div class="relative">
-          <button
-            id="dropdown-btn-about"
-            data-dropdown="about"
-            class="group flex items-center gap-1 px-4 py-2 font-medium transition-colors duration-200 text-gray-700 hover:text-indigo-600"
-          >
-            Tentang Kami
-            <svg
-              id="chevron-about"
-              class="w-4 h-4 transition-transform duration-200"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </button>
-        </div>
-
-        <div class="relative">
-          <button
-            id="dropdown-btn-services"
-            data-dropdown="services"
-            class="group flex items-center gap-1 px-4 py-2 font-medium transition-colors duration-200 text-gray-700 hover:text-indigo-600"
-          >
-            Layanan
-            <svg
-              id="chevron-services"
-              class="w-4 h-4 transition-transform duration-200"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </button>
-        </div>
-
-        <div class="relative">
-          <button
-            id="dropdown-btn-resources"
-            data-dropdown="resources"
-            class="group flex items-center gap-1 px-4 py-2 font-medium transition-colors duration-200 text-gray-700 hover:text-indigo-600"
-          >
-            Media
-            <svg
-              id="chevron-resources"
-              class="w-4 h-4 transition-transform duration-200"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- Desktop right navbar -->
-      <div class="hidden lg:flex items-center gap-4">
-        <a href="/contact">
-          <button
-            class="bg-blue-600 hover:bg-indigo-700 text-white font-medium px-6 h-10 rounded-md transition-colors duration-200"
-          >
-            Kontak
-          </button>
-        </a>
-
-        <!-- User Menu (hidden by default, shown via JS when authenticated) -->
-        <div id="user-menu-container" class="relative hidden">
-          <button
-            id="user-menu-btn"
-            class="flex items-center gap-2 hover:opacity-80 transition-opacity"
-          >
-            <div
-              id="user-avatar"
-              class="w-10 h-10 rounded-full bg-gradient-to-br from-[#0066FF] to-[#0052CC] flex items-center justify-center text-white font-semibold overflow-hidden"
-            >
-            </div>
-            <svg
-              id="user-chevron"
-              class="w-4 h-4 transition-transform duration-200"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </button>
-
-          <!-- User Dropdown -->
-          <div
-            id="user-dropdown"
-            class="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-40 hidden opacity-0 -translate-y-2.5 transition-all duration-200"
-          >
-            <div class="px-4 py-3 border-b border-gray-100">
-              <p id="user-fullname" class="text-sm font-semibold text-gray-900">
-              </p>
-              <p id="user-email" class="text-xs text-gray-500"></p>
-              <span
-                id="user-role-badge"
-                class="hidden mt-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-blue-100 text-blue-700 uppercase"
-              ></span>
-            </div>
-            <div class="py-1">
-              <a
-                href="/profile"
-                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-              >
-                <!-- UserCircle icon -->
-                <svg
-                  class="w-4 h-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M18 20a6 6 0 0 0-12 0"></path><circle
-                    cx="12"
-                    cy="10"
-                    r="4"></circle><circle cx="12" cy="12" r="10"></circle>
-                </svg>
-                Profil Saya
-              </a>
-              <a
-                href="/admin/dashboard"
-                id="admin-panel-link"
-                class="hidden flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-              >
-                <!-- LayoutDashboard icon -->
-                <svg
-                  class="w-4 h-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <rect x="3" y="3" width="7" height="7"></rect><rect
-                    x="14"
-                    y="3"
-                    width="7"
-                    height="7"></rect><rect x="14" y="14" width="7" height="7"
-                  ></rect><rect x="3" y="14" width="7" height="7"></rect>
-                </svg>
-                Admin Panel
-              </a>
-              <a
-                href="/settings"
-                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-              >
-                <!-- Settings icon -->
-                <svg
-                  class="w-4 h-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <circle cx="12" cy="12" r="3"></circle><path
-                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"
-                  ></path>
-                </svg>
-                Pengaturan
-              </a>
-            </div>
-            <div class="border-t border-gray-100 py-1">
-              <button
-                id="logout-btn"
-                class="flex items-center gap-3 w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50"
-              >
-                <!-- LogOut icon -->
-                <svg
-                  class="w-4 h-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"
-                  ></path><polyline points="16 17 21 12 16 7"></polyline><line
-                    x1="21"
-                    y1="12"
-                    x2="9"
-                    y2="12"></line>
-                </svg>
-                Keluar
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Mobile menu button -->
-      <div class="lg:hidden flex items-center gap-3 z-50">
-        <button
-          id="mobile-menu-btn"
-          class="p-2 text-gray-900"
-          aria-label="Open menu"
+      <button class="nav-link" id="btn-harga" aria-expanded="false">
+        Cek Harga
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2.5"
         >
-          <!-- Menu icon -->
-          <svg
-            id="icon-menu"
-            class="h-6 w-6"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <line x1="3" y1="12" x2="21" y2="12"></line><line
-              x1="3"
-              y1="6"
-              x2="21"
-              y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-          <!-- X icon -->
-          <svg
-            id="icon-close"
-            class="h-6 w-6 hidden"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <line x1="18" y1="6" x2="6" y2="18"></line><line
-              x1="6"
-              y1="6"
-              x2="18"
-              y2="18"></line>
-          </svg>
-        </button>
-      </div>
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </button>
+
+      <a href="/contact" class="nav-link">Kontak</a>
+    </div>
+
+    <!-- Mobile Toggle -->
+    <div class="nav-mobile-btn">
+      <button id="mob-toggle" class="hamburger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </div>
 </nav>
 
-<!-- Desktop dropdown overlay backdrop -->
-<div
-  id="dropdown-backdrop"
-  class="fixed inset-0 bg-black/20 z-40 hidden lg:hidden"
-  style="display: none;"
->
-</div>
-
-<!-- Desktop dropdown panel -->
-<div
-  id="dropdown-panel"
-  class="fixed left-0 right-0 z-40 bg-white border-b border-gray-200 shadow-xl hidden lg:hidden opacity-0 -translate-y-2.5 transition-all duration-200"
-  style="top: var(--navbar-height, 80px); max-height: calc(100vh - var(--navbar-height, 80px) - 80px);"
->
-  <div class="container mx-auto max-w-7xl px-6 lg:px-8 py-8">
-    <div
-      id="dropdown-items-grid"
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
-    >
-      <!-- Items injected by JS -->
-    </div>
-    <div class="mt-8 pt-8 border-t border-gray-200">
-      <div class="flex items-center justify-between">
-        <div>
-          <h4 class="text-sm font-semibold text-gray-900 mb-1">
-            Butuh bantuan memilih?
-          </h4>
-          <p class="text-sm text-gray-600">Hubungi tim kami</p>
+<!-- ══════════════ MEGA DROPDOWN ══════════════ -->
+<div id="dd-overlay"></div>
+<div id="dd-panel" role="dialog" aria-label="Produk & Layanan menu">
+  <div class="dd-inner">
+    <div class="dd-grid" id="dd-grid">
+      <!-- Col 1: Isi Ulang -->
+      <div class="dd-col">
+        <div class="dd-col-label">Isi Ulang</div>
+        <div class="dd-col-items">
+          <a href="/products/topup/pulsa/" class="dd-item">Pulsa Reguler</a>
+          <a href="/products/topup/data/" class="dd-item">Paket Data Internet</a
+          >
+          <a href="/" class="dd-item">Topup E-Wallet</a>
+          <a href="/?tab=game" class="dd-item">Voucher Game Online</a>
+          <a href="/products/topup/plntoken/" class="dd-item">Token PLN</a>
         </div>
-        <a
-          href="/contact"
-          id="dropdown-contact-link"
-          class="text-sm font-medium text-indigo-600 hover:text-indigo-700"
-        >
-          Hubungi kami →
-        </a>
       </div>
+
+      <!-- Col 2: Tagihan -->
+      <div class="dd-col">
+        <div class="dd-col-label">Tagihan</div>
+        <div class="dd-col-items">
+          <a href="/tagihan/pln" class="dd-item">PLN</a>
+          <a href="/tagihan/pdam" class="dd-item">PDAM</a>
+          <a href="/tagihan/bpjs" class="dd-item">BPJS Kesehatan</a>
+          <a href="/tagihan/isp-wifi" class="dd-item">ISP/Wi-Fi</a>
+          <a href="/tagihan/tv-berbayar" class="dd-item">TV Berbayar</a>
+        </div>
+      </div>
+
+      <!-- Col 3: Lainnya -->
+      <div class="dd-col">
+        <div class="dd-col-label">Game</div>
+        <div class="dd-col-items">
+          <a href="/products/game/ml/" class="dd-item">Mobile Legends</a>
+          <a href="/products/game/ff" class="dd-item">Free Fire</a>
+          <a href="/products/game/pubgm" class="dd-item">PUBG Mobile</a>
+          <a href="/products/game/garena" class="dd-item">Garena</a>
+        </div>
+      </div>
+    </div>
+
+    <hr class="dd-divider" />
+
+    <div class="dd-footer-row">
+      <div class="dd-footer-help">Butuh Bantuan?</div>
     </div>
   </div>
 </div>
 
-<!-- Mobile menu fullscreen overlay -->
-<div
-  id="mobile-menu"
-  class="fixed inset-0 bg-white z-40 lg:hidden overflow-y-auto translate-x-full transition-transform duration-300 ease-in-out"
-  style="padding-top: var(--navbar-height, 64px);"
->
-  <div class="flex flex-col h-full">
-    <!-- User Info (if logged in) - hidden by default -->
-    <div
-      id="mobile-user-info"
-      class="hidden p-6 bg-gradient-to-br from-[#0066FF] to-[#0052CC] text-white"
-    >
-      <div class="flex items-center gap-3">
-        <div
-          id="mobile-user-avatar"
-          class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center font-semibold overflow-hidden"
-        >
+<!-- ══════════════ DROPDOWN: CEK HARGA ══════════════ -->
+<div id="dd-panel-harga" role="dialog" aria-label="Cek Harga menu">
+  <div class="dd-inner">
+    <div class="dd-grid dd-grid-2" id="dd-grid-harga">
+      <!-- Col 1: Cek Harga -->
+      <div class="dd-col">
+        <div class="dd-col-label">Cek Harga</div>
+        <div class="dd-col-items">
+          <a href="/prices?tab=pulsa" class="dd-item">Pulsa Reguler</a>
+          <a href="/prices?tab=data" class="dd-item">Paket Data Internet</a>
+          <a href="/prices?tab=ewallet" class="dd-item">Topup E-Wallet</a>
+          <a href="/prices?tab=token" class="dd-item">Token PLN</a>
         </div>
-        <div>
-          <p id="mobile-user-fullname" class="font-semibold"></p>
-          <p id="mobile-user-email" class="text-sm opacity-90"></p>
+      </div>
+
+      <!-- Col 2: Lainnya -->
+      <div class="dd-col">
+        <div class="dd-col-label">Lainnya</div>
+        <div class="dd-col-items">
+          <a href="/prices" class="dd-item"
+            >Perpanjang Masa Aktif Kartu</a
+          >
+          <a href="/prices?tab=game" class="dd-item">Voucher Game Online</a>
         </div>
       </div>
     </div>
 
-    <nav class="flex-1 px-6 py-8 space-y-1">
-      <a
-        href="/"
-        class="block py-4 text-2xl font-medium text-gray-900 border-b border-gray-200"
+    <hr class="dd-divider" />
+
+    <div class="dd-footer-row">
+      <div class="dd-footer-help">Butuh Bantuan?</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ MOBILE MENU ══════════════ -->
+<div id="mobile-menu">
+  <a href="/" class="mob-link mob-close">Beranda</a>
+
+  <!-- Produk & Layanan accordion -->
+  <button class="mob-acc-btn" id="mob-acc-produk">
+    Produk &amp; Layanan
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg
+    >
+  </button>
+  <div class="mob-sub-panel" id="mob-panel-produk">
+    <div style="padding: 0.5rem 0 1.25rem;">
+      <div class="mob-sub-label">Isi Ulang</div>
+      <a href="/products/topup/pulsa/" class="mob-sub-link mob-close"
+        >Pulsa Reguler</a
       >
-        Beranda
-      </a>
-
-      <!-- About accordion -->
-      <div class="border-b border-gray-200">
-        <button
-          class="mobile-accordion-btn flex items-center justify-between w-full py-4 text-2xl font-medium text-gray-900"
-          data-target="mobile-about"
-        >
-          Tentang Kami
-          <svg
-            class="accordion-chevron w-5 h-5 transition-transform duration-200"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </button>
-        <div
-          id="mobile-about"
-          class="overflow-hidden max-h-0 transition-all duration-200 opacity-0"
-        >
-          <div class="pb-4 space-y-2">
-            <a
-              href="/about/profile"
-              class="block py-2 pl-4 text-base text-gray-700 hover:text-indigo-600"
-              >Profil</a
-            >
-            <a
-              href="/about/vision"
-              class="block py-2 pl-4 text-base text-gray-700 hover:text-indigo-600"
-              >Visi & Misi</a
-            >
-            <a
-              href="/about/clients"
-              class="block py-2 pl-4 text-base text-gray-700 hover:text-indigo-600"
-              >Mitra Kami</a
-            >
-          </div>
-        </div>
-      </div>
-
-      <!-- Services accordion -->
-      <div class="border-b border-gray-200">
-        <button
-          class="mobile-accordion-btn flex items-center justify-between w-full py-4 text-2xl font-medium text-gray-900"
-          data-target="mobile-services"
-        >
-          Layanan
-          <svg
-            class="accordion-chevron w-5 h-5 transition-transform duration-200"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </button>
-        <div
-          id="mobile-services"
-          class="overflow-hidden max-h-0 transition-all duration-200 opacity-0"
-        >
-          <div class="pb-4 space-y-2">
-            <a
-              href="/services/web"
-              class="block py-2 pl-4 text-base text-gray-700 hover:text-indigo-600"
-              >Pengembangan Web</a
-            >
-            <a
-              href="/services/mobile"
-              class="block py-2 pl-4 text-base text-gray-700 hover:text-indigo-600"
-              >Pengembangan Aplikasi Mobile</a
-            >
-            <a
-              href="/services/ux"
-              class="block py-2 pl-4 text-base text-gray-700 hover:text-indigo-600"
-              >Desain UI/UX</a
-            >
-          </div>
-        </div>
-      </div>
-
-      <!-- Resources accordion -->
-      <div class="border-b border-gray-200">
-        <button
-          class="mobile-accordion-btn flex items-center justify-between w-full py-4 text-2xl font-medium text-gray-900"
-          data-target="mobile-resources"
-        >
-          Media
-          <svg
-            class="accordion-chevron w-5 h-5 transition-transform duration-200"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </button>
-        <div
-          id="mobile-resources"
-          class="overflow-hidden max-h-0 transition-all duration-200 opacity-0"
-        >
-          <div class="pb-4 space-y-2">
-            <a
-              href="/resources/articles"
-              class="block py-2 pl-4 text-base text-gray-700 hover:text-indigo-600"
-              >Artikel</a
-            >
-            <a
-              href="/resources/events"
-              class="block py-2 pl-4 text-base text-gray-700 hover:text-indigo-600"
-              >Acara</a
-            >
-            <a
-              href="/resources/gallery"
-              class="block py-2 pl-4 text-base text-gray-700 hover:text-indigo-600"
-              >Galeri Foto</a
-            >
-          </div>
-        </div>
-      </div>
-    </nav>
-
-    <!-- Mobile bottom CTA -->
-    <div class="p-6 border-t border-gray-200 space-y-3">
-      <a href="/contact">
-        <button
-          class="w-full h-12 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-base rounded-md transition-colors duration-200"
-        >
-          Kontak
-        </button>
-      </a>
+      <a href="/products/topup/data/" class="mob-sub-link mob-close"
+        >Paket Data Internet</a
+      >
+      <a href="/" class="mob-sub-link mob-close">Topup E-Wallet</a>
+      <a href="/?tab=game" class="mob-sub-link mob-close">Voucher Game Online</a
+      >
+      <a href="/products/topup/plntoken/" class="mob-sub-link mob-close"
+        >Token PLN</a
+      >
+      <div class="mob-sub-label" style="margin-top:1.25rem">Tagihan</div>
+      <a href="/tagihan/pln" class="mob-sub-link mob-close">PLN</a>
+      <a href="/tagihan/pdam" class="mob-sub-link mob-close">PDAM</a>
+      <a href="/tagihan/bpjs" class="mob-sub-link mob-close">BPJS Kesehatan</a>
+      <a href="/tagihan/isp-wifi" class="mob-sub-link mob-close">ISP/Wi-Fi</a>
+      <a href="/tagihan/tv-berbayar" class="mob-sub-link mob-close"
+        >TV Berbayar</a
+      >
+      <div class="mob-sub-label" style="margin-top:1.25rem">Game</div>
+      <a href="/products/game/ml/" class="mob-sub-link mob-close"
+        >Mobile Legends</a
+      >
+      <a href="/products/game/ff" class="mob-sub-link mob-close">Free Fire</a>
+      <a href="/products/game/pubgm" class="mob-sub-link mob-close"
+        >PUBG Mobile</a
+      >
+      <a href="/products/game/garena" class="mob-sub-link mob-close">Garena</a>
     </div>
   </div>
-</div>
 
-<style is:global>
-  :root {
-    --navbar-height: 80px;
-  }
-  @media (max-width: 1024px) {
-    :root {
-      --navbar-height: 64px;
-    }
-  }
-</style>
+  <!-- Harga accordion -->
+  <button class="mob-acc-btn" id="mob-acc-harga">
+    Cek Harga
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg
+    >
+  </button>
+  <div class="mob-sub-panel" id="mob-panel-harga">
+    <div style="padding: 0.5rem 0 1.25rem;">
+      <div class="mob-sub-label">Cek Harga</div>
+      <a href="/prices?tab=pulsa" class="mob-sub-link mob-close"
+        >Pulsa Reguler</a
+      >
+      <a href="/prices?tab=data" class="mob-sub-link mob-close"
+        >Paket Data Internet</a
+      >
+      <a href="/prices?tab=ewallet" class="mob-sub-link mob-close"
+        >Topup E-Wallet</a
+      >
+      <a href="/prices?tab=token" class="mob-sub-link mob-close">Token PLN</a>
+      <div class="mob-sub-label" style="margin-top:1.25rem">Lainnya</div>
+      <a href="/prices" class="mob-sub-link mob-close"
+        >Perpanjang Masa Aktif Kartu</a
+      >
+      <a href="/prices?tab=game" class="mob-sub-link mob-close"
+        >Voucher Game Online</a
+      >
+    </div>
+  </div>
+
+  <a href="/contact" class="mob-kontak mob-close">Kontak</a>
+</div>
 
 <script>
-  // =====================
-  // Menu data
-  // =====================
-  const menuItems: Record<
-    string,
-    { label: string; description: string; href: string }[]
-  > = {
-    about: [
-      {
-        label: "Profil",
-        description: "Mengenal kami lebih dekat",
-        href: "/about/profile",
-      },
-      {
-        label: "Visi & Misi",
-        description: "Aspirasi dan langkah nyata kami",
-        href: "/about/vision",
-      },
-      {
-        label: "Mitra Kami",
-        description: "Kolabrorasi sukses bersama mitra-mitra",
-        href: "/about/clients",
-      },
-    ],
-    services: [
-      {
-        label: "Pengembangan Web",
-        description: "Aplikasi web modern",
-        href: "/services/web",
-      },
-      {
-        label: "Pengembangan Aplikasi Mobile",
-        description: "Aplikasi iOS dan Android",
-        href: "/services/mobile",
-      },
-      {
-        label: "Desain UI/UX",
-        description: "Pengalaman pengguna yang indah",
-        href: "/services/ux",
-      },
-    ],
-    resources: [
-      {
-        label: "Artikel",
-        description: "Baca wawasan terbaru kami",
-        href: "/resources/articles",
-      },
-      {
-        label: "Acara",
-        description: "Ikuti acara mendatang kami",
-        href: "/resources/events",
-      },
-      {
-        label: "Galeri Foto",
-        description: "Jelajahi koleksi gambar kami",
-        href: "/resources/gallery",
-      },
-    ],
-  };
+  (function () {
+    const navbar = document.getElementById("navbar");
+    const overlay = document.getElementById("dd-overlay");
+    const panel = document.getElementById("dd-panel");
+    const ddGrid = document.getElementById("dd-grid");
+    const btnProduk = document.getElementById("btn-produk");
+    const btnHarga = document.getElementById("btn-harga");
+    const mobMenu = document.getElementById("mobile-menu");
+    const mobToggle = document.getElementById("mob-toggle");
 
-  // =====================
-  // Elements
-  // =====================
-  const navbar = document.getElementById("navbar")!;
-  const dropdownBackdrop = document.getElementById("dropdown-backdrop")!;
-  const dropdownPanel = document.getElementById("dropdown-panel")!;
-  const dropdownItemsGrid = document.getElementById("dropdown-items-grid")!;
-  const dropdownContactLink = document.getElementById("dropdown-contact-link")!;
-  const mobileMenuBtn = document.getElementById("mobile-menu-btn")!;
-  const mobileMenu = document.getElementById("mobile-menu")!;
-  const iconMenu = document.getElementById("icon-menu")!;
-  const iconClose = document.getElementById("icon-close")!;
-  const userMenuContainer = document.getElementById("user-menu-container")!;
-  const userMenuBtn = document.getElementById("user-menu-btn")!;
-  const userDropdown = document.getElementById("user-dropdown")!;
-  const userAvatar = document.getElementById("user-avatar")!;
-  const userFullname = document.getElementById("user-fullname")!;
-  const userEmail = document.getElementById("user-email")!;
-  const userRoleBadge = document.getElementById("user-role-badge")!;
-  const adminPanelLink = document.getElementById("admin-panel-link")!;
-  const logoutBtn = document.getElementById("logout-btn")!;
-  const mobileUserInfo = document.getElementById("mobile-user-info")!;
-  const mobileUserAvatar = document.getElementById("mobile-user-avatar")!;
-  const mobileUserFullname = document.getElementById("mobile-user-fullname")!;
-  const mobileUserEmail = document.getElementById("mobile-user-email")!;
+    // ── Scroll ──
+    window.addEventListener(
+      "scroll",
+      () => {
+        navbar.classList.toggle("scrolled", window.scrollY > 10);
+      },
+      { passive: true },
+    );
 
-  let activeDropdown: string | null = null;
-  let isMobileOpen = false;
-  let isUserMenuOpen = false;
+    // ── Desktop Dropdown ──
+    const panelHarga = document.getElementById("dd-panel-harga");
+    const ddGridHarga = document.getElementById("dd-grid-harga");
 
-  // =====================
-  // Scroll handler
-  // =====================
-  let ticking = false;
-  window.addEventListener(
-    "scroll",
-    () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          if (window.scrollY > 10) {
-            navbar.classList.add(
-              "bg-white/95",
-              "backdrop-blur-sm",
-              "shadow-sm",
-            );
-            navbar.classList.remove("bg-white");
-          } else {
-            navbar.classList.remove(
-              "bg-white/95",
-              "backdrop-blur-sm",
-              "shadow-sm",
-            );
-            navbar.classList.add("bg-white");
+    let activeBtn = null;
+    let panelOpen = false;
+
+    function getPanel(btn) {
+      return btn === btnHarga ? panelHarga : panel;
+    }
+    function getGrid(btn) {
+      return btn === btnHarga ? ddGridHarga : ddGrid;
+    }
+
+    function openPanel(btn) {
+      if (activeBtn && activeBtn !== btn) {
+        // Close the other panel immediately
+        const otherPanel = getPanel(activeBtn);
+        const otherGrid = getGrid(activeBtn);
+        otherPanel.classList.remove("visible");
+        otherPanel.style.display = "none";
+        otherGrid
+          .querySelectorAll(".dd-col")
+          .forEach((c) => c.classList.remove("show"));
+        activeBtn.classList.remove("active");
+        activeBtn.setAttribute("aria-expanded", "false");
+      }
+
+      activeBtn = btn;
+      btn.classList.add("active");
+      btn.setAttribute("aria-expanded", "true");
+
+      const activePanel = getPanel(btn);
+      const activeGrid = getGrid(btn);
+
+      activeGrid
+        .querySelectorAll(".dd-col")
+        .forEach((c) => c.classList.remove("show"));
+
+      overlay.style.display = "block";
+      activePanel.style.display = "block";
+      panelOpen = true;
+
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          activePanel.classList.add("visible");
+          activeGrid
+            .querySelectorAll(".dd-col")
+            .forEach((c) => c.classList.add("show"));
+        }),
+      );
+    }
+
+    function closePanel() {
+      if (activeBtn) {
+        const activePanel = getPanel(activeBtn);
+        const activeGrid = getGrid(activeBtn);
+        activePanel.classList.remove("visible");
+        activeBtn.classList.remove("active");
+        activeBtn.setAttribute("aria-expanded", "false");
+        activeBtn = null;
+
+        panelOpen = false;
+        setTimeout(() => {
+          if (!panelOpen) {
+            activePanel.style.display = "none";
+            overlay.style.display = "none";
+            activeGrid
+              .querySelectorAll(".dd-col")
+              .forEach((c) => c.classList.remove("show"));
           }
-          ticking = false;
-        });
-        ticking = true;
-      }
-    },
-    { passive: true },
-  );
-
-  // =====================
-  // Dropdown helpers
-  // =====================
-  function openDropdown(key: string) {
-    activeDropdown = key;
-
-    // Update button states
-    ["about", "services", "resources"].forEach((k) => {
-      const btn = document.getElementById(`dropdown-btn-${k}`)!;
-      const chevron = document.getElementById(`chevron-${k}`)!;
-      if (k === key) {
-        btn.classList.add("text-indigo-600");
-        btn.classList.remove("text-gray-700");
-        chevron.classList.add("rotate-180");
+        }, 230);
       } else {
-        btn.classList.remove("text-indigo-600");
-        btn.classList.add("text-gray-700");
-        chevron.classList.remove("rotate-180");
+        panelOpen = false;
+        panel.style.display = "none";
+        panelHarga.style.display = "none";
+        overlay.style.display = "none";
+      }
+    }
+
+    function togglePanel(btn) {
+      if (panelOpen && activeBtn === btn) {
+        closePanel();
+      } else {
+        openPanel(btn);
+      }
+    }
+
+    // ── Hover & Click trigger ──
+    let closeTimer = null;
+
+    function scheduleClose() {
+      closeTimer = setTimeout(() => {
+        closePanel();
+      }, 120); // small delay so mouse can travel to panel
+    }
+
+    function cancelClose() {
+      if (closeTimer) {
+        clearTimeout(closeTimer);
+        closeTimer = null;
+      }
+    }
+
+    // Hover on buttons
+    btnProduk.addEventListener("mouseenter", () => {
+      cancelClose();
+      openPanel(btnProduk);
+    });
+    btnHarga.addEventListener("mouseenter", () => {
+      cancelClose();
+      openPanel(btnHarga);
+    });
+
+    btnProduk.addEventListener("mouseleave", scheduleClose);
+    btnHarga.addEventListener("mouseleave", scheduleClose);
+
+    // Hover on panels — keep open while inside
+    panel.addEventListener("mouseenter", cancelClose);
+    panel.addEventListener("mouseleave", scheduleClose);
+    panelHarga.addEventListener("mouseenter", cancelClose);
+    panelHarga.addEventListener("mouseleave", scheduleClose);
+
+    // Click still works as toggle (for touch / keyboard users)
+    btnProduk.addEventListener("click", (e) => {
+      e.stopPropagation();
+      togglePanel(btnProduk);
+    });
+    btnHarga.addEventListener("click", (e) => {
+      e.stopPropagation();
+      togglePanel(btnHarga);
+    });
+
+    overlay.addEventListener("click", closePanel);
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && panelOpen) closePanel();
+    });
+
+    // Close if click outside
+    document.addEventListener("click", (e) => {
+      if (
+        panelOpen &&
+        !panel.contains(e.target) &&
+        !panelHarga.contains(e.target) &&
+        !btnProduk.contains(e.target) &&
+        !btnHarga.contains(e.target)
+      ) {
+        closePanel();
       }
     });
 
-    // Render items
-    const items = menuItems[key] || [];
-    dropdownItemsGrid.innerHTML = items
-      .map(
-        (item) => `
-        <a href="${item.href}" class="block p-4 rounded-lg hover:bg-gray-50 transition-colors group">
-          <h3 class="font-semibold text-gray-900 mb-1 group-hover:text-indigo-600 transition-colors">${item.label}</h3>
-          <p class="text-sm text-gray-600">${item.description}</p>
-        </a>`,
-      )
-      .join("");
-
-    // Show backdrop + panel
-    dropdownBackdrop.style.display = "block";
-    dropdownPanel.classList.remove("hidden");
-    dropdownPanel.classList.add("lg:block");
-    setTimeout(() => {
-      dropdownPanel.classList.remove("opacity-0", "-translate-y-2.5");
-      dropdownPanel.classList.add("opacity-100", "translate-y-0");
-    }, 10);
-
-    dropdownContactLink.addEventListener("click", closeDropdown, {
-      once: true,
-    });
-  }
-
-  function closeDropdown() {
-    activeDropdown = null;
-
-    ["about", "services", "resources"].forEach((k) => {
-      const btn = document.getElementById(`dropdown-btn-${k}`)!;
-      const chevron = document.getElementById(`chevron-${k}`)!;
-      btn.classList.remove("text-indigo-600");
-      btn.classList.add("text-gray-700");
-      chevron.classList.remove("rotate-180");
+    // ── Mobile Menu ──
+    mobToggle.addEventListener("click", () => {
+      const isOpen = mobMenu.classList.toggle("open");
+      mobToggle.classList.toggle("open", isOpen);
+      document.body.style.overflow = isOpen ? "hidden" : "";
     });
 
-    dropdownPanel.classList.add("opacity-0", "-translate-y-2.5");
-    dropdownPanel.classList.remove("opacity-100", "translate-y-0");
-    setTimeout(() => {
-      dropdownPanel.classList.add("hidden");
-      dropdownPanel.classList.remove("lg:block");
-      dropdownBackdrop.style.display = "none";
-    }, 200);
-  }
-
-  // Dropdown buttons
-  ["about", "services", "resources"].forEach((key) => {
-    document
-      .getElementById(`dropdown-btn-${key}`)!
-      .addEventListener("click", (e) => {
-        e.stopPropagation();
-        if (activeDropdown === key) {
-          closeDropdown();
-        } else {
-          openDropdown(key);
-        }
+    document.querySelectorAll(".mob-close").forEach((el) => {
+      el.addEventListener("click", () => {
+        mobMenu.classList.remove("open");
+        mobToggle.classList.remove("open");
+        document.body.style.overflow = "";
       });
-  });
-
-  // Close on backdrop click
-  dropdownBackdrop.addEventListener("click", closeDropdown);
-
-  // Close on click outside
-  document.addEventListener("click", () => {
-    if (activeDropdown) closeDropdown();
-  });
-
-  // =====================
-  // Mobile menu
-  // =====================
-  function openMobileMenu() {
-    isMobileOpen = true;
-    mobileMenu.classList.remove("translate-x-full");
-    mobileMenu.classList.add("translate-x-0");
-    iconMenu.classList.add("hidden");
-    iconClose.classList.remove("hidden");
-    document.body.style.overflow = "hidden";
-    mobileMenuBtn.setAttribute("aria-label", "Close menu");
-  }
-
-  function closeMobileMenu() {
-    isMobileOpen = false;
-    mobileMenu.classList.add("translate-x-full");
-    mobileMenu.classList.remove("translate-x-0");
-    iconMenu.classList.remove("hidden");
-    iconClose.classList.add("hidden");
-    document.body.style.overflow = "unset";
-    mobileMenuBtn.setAttribute("aria-label", "Open menu");
-  }
-
-  mobileMenuBtn.addEventListener("click", () => {
-    if (isMobileOpen) {
-      closeMobileMenu();
-    } else {
-      openMobileMenu();
-    }
-  });
-
-  // =====================
-  // Mobile accordion
-  // =====================
-  document.querySelectorAll(".mobile-accordion-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const targetId = btn.getAttribute("data-target")!;
-      const panel = document.getElementById(targetId)!;
-      const chevron = btn.querySelector(".accordion-chevron")!;
-      const isOpen = panel.style.maxHeight && panel.style.maxHeight !== "0px";
-
-      // Close all
-      document.querySelectorAll(".mobile-accordion-btn").forEach((b) => {
-        const tid = b.getAttribute("data-target")!;
-        const p = document.getElementById(tid)!;
-        const c = b.querySelector(".accordion-chevron")!;
-        p.style.maxHeight = "0px";
-        p.classList.add("opacity-0");
-        p.classList.remove("opacity-100");
-        c.classList.remove("rotate-180");
-      });
-
-      // Open target if it was closed
-      if (!isOpen) {
-        panel.style.maxHeight = panel.scrollHeight + "px";
-        panel.classList.remove("opacity-0");
-        panel.classList.add("opacity-100");
-        chevron.classList.add("rotate-180");
-      }
     });
-  });
 
-  // =====================
-  // Auth & User Menu
-  // =====================
-  function checkAuth() {
-    const token = localStorage.getItem("auth_token");
-    const userData = localStorage.getItem("user");
+    // Mobile Accordion
+    function setupAccordion(btnId, panelId) {
+      const btn = document.getElementById(btnId);
+      const pnl = document.getElementById(panelId);
+      let open = false;
 
-    if (token && userData) {
-      try {
-        const user = JSON.parse(userData);
-        renderUserMenu(user);
-      } catch (e) {
-        console.error("Error parsing user data:", e);
-        localStorage.removeItem("auth_token");
-        localStorage.removeItem("user");
-      }
-    }
-  }
-
-  function renderUserMenu(user: {
-    fullName: string;
-    email: string;
-    role: string;
-    avatar?: string;
-  }) {
-    // Desktop
-    userMenuContainer.classList.remove("hidden");
-    userFullname.textContent = user.fullName;
-    userEmail.textContent = user.email;
-
-    if (user.role && user.role !== "user") {
-      userRoleBadge.textContent = user.role;
-      userRoleBadge.classList.remove("hidden");
-    }
-
-    if (["admin", "super_admin", "editor"].includes(user.role)) {
-      adminPanelLink.classList.remove("hidden");
-    }
-
-    if (user.avatar) {
-      userAvatar.innerHTML = `<img src="${user.avatar}" alt="${user.fullName}" width="40" height="40" class="object-cover" />`;
-    } else {
-      userAvatar.textContent = user.fullName?.charAt(0).toUpperCase() || "";
-    }
-
-    // Mobile
-    mobileUserInfo.classList.remove("hidden");
-    mobileUserFullname.textContent = user.fullName;
-    mobileUserEmail.textContent = user.email;
-
-    if (user.avatar) {
-      mobileUserAvatar.innerHTML = `<img src="${user.avatar}" alt="${user.fullName}" width="48" height="48" class="object-cover rounded-full" />`;
-    } else {
-      mobileUserAvatar.textContent =
-        user.fullName?.charAt(0).toUpperCase() || "";
-    }
-  }
-
-  // User menu toggle
-  userMenuBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    isUserMenuOpen = !isUserMenuOpen;
-    const userChevron = document.getElementById("user-chevron")!;
-
-    if (isUserMenuOpen) {
-      userDropdown.classList.remove("hidden");
-      setTimeout(() => {
-        userDropdown.classList.remove("opacity-0", "-translate-y-2.5");
-        userDropdown.classList.add("opacity-100", "translate-y-0");
-      }, 10);
-      userChevron.classList.add("rotate-180");
-    } else {
-      userDropdown.classList.add("opacity-0", "-translate-y-2.5");
-      userDropdown.classList.remove("opacity-100", "translate-y-0");
-      userChevron.classList.remove("rotate-180");
-      setTimeout(() => userDropdown.classList.add("hidden"), 200);
-    }
-  });
-
-  document.addEventListener("click", () => {
-    if (isUserMenuOpen) {
-      isUserMenuOpen = false;
-      userDropdown.classList.add("opacity-0", "-translate-y-2.5");
-      userDropdown.classList.remove("opacity-100", "translate-y-0");
-      document.getElementById("user-chevron")!.classList.remove("rotate-180");
-      setTimeout(() => userDropdown.classList.add("hidden"), 200);
-    }
-  });
-
-  // Logout
-  logoutBtn.addEventListener("click", async () => {
-    try {
-      const token = localStorage.getItem("auth_token");
-      await fetch("/api/auth/logout", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
+      btn.addEventListener("click", () => {
+        open = !open;
+        btn.classList.toggle("open", open);
+        pnl.style.height = open ? pnl.scrollHeight + "px" : "0";
       });
-    } catch (e) {
-      console.error("Logout error:", e);
-    } finally {
-      localStorage.removeItem("auth_token");
-      localStorage.removeItem("user");
-      window.location.href = "/";
     }
-  });
 
-  // Listen for storage changes (e.g. login from another tab)
-  window.addEventListener("storage", checkAuth);
-  checkAuth();
+    setupAccordion("mob-acc-produk", "mob-panel-produk");
+    setupAccordion("mob-acc-harga", "mob-panel-harga");
+  })();
 </script>
