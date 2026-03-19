@@ -1138,7 +1138,7 @@ export const topupProducts = [
     title: 'OVO',
     // icon: wallet icon (homepage OVO)
     icon: '<path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"></path><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path><path d="M18 12a2 2 0 0 0 0 4h4v-4z"></path>',
-    inputLabel: 'Nomor HP / ID OVO',
+    inputLabel: 'Nomor HP Tujuan',
     inputType: 'tel',
     inputPrefix: '+62',
     packages: [
@@ -1247,7 +1247,7 @@ export const topupProducts = [
     title: 'Gojek Driver',
     // icon: motor/scooter icon (homepage Gojek Driver)
     icon: '<path d="M19 17H5v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2z"></path><circle cx="7.5" cy="17.5" r="1.5"></circle><circle cx="16.5" cy="17.5" r="1.5"></circle><path d="M5 17H3v-3l2-4h10l2 4v3h-2"></path>',
-    inputLabel: 'Nomor HP Driver',
+    inputLabel: 'Nomor HP Tujuan',
     inputType: 'tel',
     inputPrefix: '+62',
     packages: [
@@ -1277,7 +1277,7 @@ export const topupProducts = [
     title: 'Grab Driver',
     // icon: bicycle icon (homepage Grab Driver)
     icon: '<circle cx="5.5" cy="17.5" r="2.5"></circle><circle cx="18.5" cy="17.5" r="2.5"></circle><path d="M15 6h-2l-3 6H5l-2 2v3h2.5"></path><path d="M15 6l3 6h1.5v3H21l-3-9z"></path><path d="M8 17.5h7"></path>',
-    inputLabel: 'Nomor HP Driver',
+    inputLabel: 'Nomor HP Tujuan',
     inputType: 'tel',
     inputPrefix: '+62',
     packages: [
@@ -1312,7 +1312,7 @@ export const topupProducts = [
     // icon: lightning/bolt icon (homepage Token Listrik PLN)
     icon: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>',
     inputLabel: 'Nomor Meter PLN',
-    inputType: 'text',
+    inputType: 'number',
     inputPrefix: null,
     packages: [
       { code: 'PLN5',    name: '5.000',     desc: 'Token PLN 5.000 [lambat]',  price: 8100 },
@@ -1345,9 +1345,9 @@ export const topupProducts = [
     title: 'Wi-Fi ID',
     // icon: wifi signal icon (homepage Wi-Fi ID)
     icon: '<path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line>',
-    inputLabel: 'Username / Nomor HP',
-    inputType: 'text',
-    inputPrefix: null,
+    inputLabel: 'Nomor HP',
+    inputType: 'tel',
+    inputPrefix: '+62',
     packages: [
       { code: 'WIFI5',  name: '5.000',  desc: 'Wifi.ID 5.000 (12 Jam)',  price: 6150 },
       { code: 'WIFI10', name: '10.000', desc: 'Wifi.ID 10.000 (3 Hari)', price: 11200 },
@@ -1383,6 +1383,21 @@ export const gameProducts = [
       { code: 'ML74', name: '74 Diamonds', desc: 'Mobile Legend 74 Diamond', price: 21000 },
       { code: 'ML75', name: '75 Diamonds', desc: 'Mobile Legend 75 Diamond', price: 23000 },
       { code: 'ML85', name: '85 Diamonds', desc: 'Mobile Legend 85 Diamond', price: 24000 },
+      { code: 'ML86',  name: '86 Diamonds',  desc: 'Mobile Legend 86 Diamond',  price: 24350 },
+      { code: 'ML170', name: '170 Diamonds', desc: 'Mobile Legend 170 Diamond', price: 46100 },
+      { code: 'ML172', name: '172 Diamonds', desc: 'Mobile Legend 172 Diamond', price: 46350 },
+      { code: 'ML167', name: '167 Diamonds', desc: 'Mobile Legend 167 Diamond', price: 46850 },
+      { code: 'ML169', name: '169 Diamonds', desc: 'Mobile Legend 169 Diamond', price: 47050 },
+      { code: 'ML185', name: '185 Diamonds', desc: 'Mobile Legend 185 Diamond', price: 50100 },
+      { code: 'ML222', name: '222 Diamonds', desc: 'Mobile Legend 222 Diamond', price: 59450 },
+      { code: 'ML220', name: '220 Diamonds', desc: 'Mobile Legend 220 Diamond', price: 61250 },
+      { code: 'ML257', name: '257 Diamonds', desc: 'Mobile Legend 257 Diamond', price: 68300 },
+      { code: 'ML282', name: '282 Diamonds', desc: 'Mobile Legend 282 Diamond', price: 77350 },
+      { code: 'ML296', name: '296 Diamonds', desc: 'Mobile Legend 296 Diamond', price: 78300 },
+      { code: 'ML344', name: '344 Diamonds', desc: 'Mobile Legend 344 Diamond', price: 92250 },
+      { code: 'ML345', name: '345 Diamonds', desc: 'Mobile Legend 345 Diamond', price: 94550 },
+      { code: 'ML370', name: '370 Diamonds', desc: 'Mobile Legend 370 Diamond', price: 98150 },
+      { code: 'ML429', name: '429 Diamonds', desc: 'Mobile Legend 429 Diamond', price: 112550 },
     ],
   },
   {
@@ -1422,13 +1437,7 @@ export const gameProducts = [
       { code: 'PU125',  name: '120 UC',  desc: 'PUBG Mobile 120 UC',  price: 45000 },
       { code: 'PU210',  name: '210 UC',  desc: 'PUBG Mobile 210 UC',  price: 52200 },
       { code: 'PU250',  name: '200 UC',  desc: 'PUBG Mobile 200 UC',  price: 76600 },
-      { code: 'PU500',  name: '400 UC',  desc: 'PUBG Mobile 400 UC',  price: 122700 },
-      { code: 'PU700',  name: '700 UC',  desc: 'PUBG Mobile 700 UC',  price: 168500 },
-      { code: 'PU1250', name: '1000 UC', desc: 'PUBG Mobile 1000 UC', price: 269500 },
-      { code: 'PU1750', name: '1750 UC', desc: 'PUBG Mobile 1750 UC', price: 340500 },
-      { code: 'PU2500', name: '2000 UC', desc: 'PUBG Mobile 2000 UC', price: 567500 },
-      { code: 'PU3500', name: '3500 UC', desc: 'PUBG Mobile 3500 UC', price: 687500 },
-      { code: 'PU5000', name: '5000 UC', desc: 'PUBG Mobile 5000 UC', price: 1016000 },
+      { code: 'PU500',  name: '400 UC',  desc: 'PUBG Mobile 400 UC',  price: 122700 }
     ],
   },
   {

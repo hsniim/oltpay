@@ -1,0 +1,839 @@
+---
+import Navbar from "../../components/Navbar.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const waNumber = "6289501450667";
+const waDisplay = "+62 895-0145-0667";
+const email = "thehumiar@gmail.com";
+const telegram = "@oltpaychat";
+const telegramUrl = "https://t.me/oltpaychat";
+
+const jamOperasional = [
+  { hari: "Senin – Jumat", jam: "06.00 – 21.00 WIB" },
+  { hari: "Sabtu – Minggu", jam: "07.00 – 22.00 WIB" },
+];
+
+const faqs = [
+  {
+    q: "Berapa lama proses pengiriman produk?",
+    a: "Produk digital seperti pulsa, paket data inject, dan e-wallet biasanya terkirim dalam hitungan <strong>detik hingga 3 menit</strong> setelah pembayaran dikonfirmasi. Untuk voucher manual, kode SN dikirimkan via WhatsApp setelah dikonfirmasi admin.",
+  },
+  {
+    q: "Metode pembayaran apa saja yang tersedia?",
+    a: "Kami menerima berbagai metode pembayaran termasuk <strong>QRIS (disarankan)</strong>, transfer bank (BCA, Mandiri, BRI, BNI), dan semua e-wallet (GoPay, OVO, DANA). Konfirmasi pembayaran langsung via WhatsApp ke admin kami.",
+  },
+  {
+    q: "Apa yang harus dilakukan jika transaksi gagal?",
+    a: "Jangan khawatir — jika transaksi gagal setelah pembayaran, segera <strong>hubungi kami via WhatsApp</strong> dengan menyertakan bukti transfer dan nomor tujuan. Kami akan memproses ulang atau melakukan refund sepenuhnya.",
+  },
+  {
+    q: "Apakah harga bisa berubah sewaktu-waktu?",
+    a: "Harga dapat berubah mengikuti kebijakan operator dan supplier. Kami selalu berusaha menampilkan harga terkini di halaman Cek Harga. Pastikan Anda mengecek harga terbaru sebelum melakukan pemesanan.",
+  },
+];
+---
+
+<BaseLayout
+  title="Kontak | Oltpay"
+  description="Hubungi Oltpay via WhatsApp, Email, atau Telegram. Kami siap membantu Anda 7 hari seminggu."
+>
+  <Navbar />
+
+  <svg
+    aria-hidden="true"
+    style="display:none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <symbol id="icon-wa" viewBox="0 0 24 24" fill="currentColor">
+      <path
+        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"
+      ></path>
+      <path
+        d="M11.99 0C5.374 0 0 5.373 0 11.988c0 2.114.549 4.099 1.504 5.83L0 24l6.335-1.652A11.939 11.939 0 0 0 11.99 24C18.626 24 24 18.626 24 12.012 24 5.373 18.626 0 11.99 0zm0 21.785a9.796 9.796 0 0 1-4.994-1.365l-.357-.212-3.758.98.999-3.647-.233-.374A9.722 9.722 0 0 1 2.203 12c0-5.398 4.394-9.791 9.787-9.791 5.394 0 9.788 4.393 9.788 9.791 0 5.398-4.394 9.785-9.788 9.785z"
+      ></path>
+    </symbol>
+    <symbol
+      id="icon-mail"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path
+        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+      ></path>
+      <polyline points="22,6 12,13 2,6"></polyline>
+    </symbol>
+    <symbol id="icon-telegram" viewBox="0 0 24 24" fill="currentColor">
+      <path
+        d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L8.32 14.617l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.828.942z"
+      ></path>
+    </symbol>
+    <symbol
+      id="icon-clock"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle cx="12" cy="12" r="10"></circle>
+      <path d="M12 6v6l4 2"></path>
+    </symbol>
+    <symbol
+      id="icon-chevron"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </symbol>
+    <symbol
+      id="icon-chat"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+      ></path>
+    </symbol>
+  </svg>
+
+  <div class="page-wrapper">
+    <main>
+      <!-- HEADER -->
+      <section class="header-section">
+        <div class="page-title-row">
+          <div class="page-title-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"
+              ><use href="#icon-chat"></use></svg
+            >
+          </div>
+          <div>
+            <h1 class="page-title">Kontak</h1>
+            <p class="page-subtitle">Kami siap membantu Anda 7 hari seminggu</p>
+          </div>
+        </div>
+
+        <div class="info-banner">
+          <div class="info-banner__icon">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"
+              ><use href="#icon-clock"></use></svg
+            >
+          </div>
+          <div class="info-banner__body">
+            <p class="info-banner__title">Jam Operasional</p>
+            {
+              jamOperasional.map((j) => (
+                <div class="info-banner__row">
+                  <span class="info-banner__hari">{j.hari}</span>
+                  <span class="info-banner__jam">{j.jam}</span>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT CARDS -->
+      <section class="contacts-section">
+        <p class="section-label">Hubungi kami via</p>
+
+        <a
+          href={`https://wa.me/${waNumber}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="contact-card"
+          aria-label="Chat WhatsApp Oltpay"
+        >
+          <div class="contact-card__icon contact-card__icon--wa">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"
+              ><use href="#icon-wa"></use></svg
+            >
+          </div>
+          <div class="contact-card__body">
+            <p class="contact-card__label">WhatsApp</p>
+            <p class="contact-card__value">{waDisplay}</p>
+            <p class="contact-card__hint contact-card__hint--wa">
+              Respon tercepat · Direkomendasikan
+            </p>
+          </div>
+          <div class="contact-card__arrow" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              width="13"
+              height="13"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </div>
+        </a>
+
+        <a
+          href={telegramUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="contact-card"
+          aria-label="Chat Telegram Oltpay"
+        >
+          <div class="contact-card__icon contact-card__icon--tg">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"
+              ><use href="#icon-telegram"></use></svg
+            >
+          </div>
+          <div class="contact-card__body">
+            <p class="contact-card__label">Telegram</p>
+            <p class="contact-card__value">{telegram}</p>
+            <p class="contact-card__hint">Chat langsung via Telegram</p>
+          </div>
+          <div class="contact-card__arrow" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              width="13"
+              height="13"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </div>
+        </a>
+
+        <a
+          href={`mailto:${email}`}
+          class="contact-card"
+          aria-label="Email Oltpay"
+        >
+          <div class="contact-card__icon contact-card__icon--email">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"
+              ><use href="#icon-mail"></use></svg
+            >
+          </div>
+          <div class="contact-card__body">
+            <p class="contact-card__label">Email</p>
+            <p class="contact-card__value">{email}</p>
+            <p class="contact-card__hint">Pertanyaan &amp; kendala transaksi</p>
+          </div>
+          <div class="contact-card__arrow" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              width="13"
+              height="13"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </div>
+        </a>
+      </section>
+
+      <!-- FAQ -->
+      <section class="faq-section">
+        <p class="section-label">Pertanyaan umum</p>
+
+        <div class="faq-list" id="faq-list">
+          {
+            faqs.map((faq, i) => (
+              <div class="faq-item">
+                <button class="faq-btn" aria-expanded="false" data-index={i}>
+                  <span class="faq-btn__text">{faq.q}</span>
+                  <span class="faq-btn__icon" aria-hidden="true">
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="13"
+                      height="13"
+                      aria-hidden="true"
+                    >
+                      <use href="#icon-chevron" />
+                    </svg>
+                  </span>
+                </button>
+                <div class="faq-answer" role="region">
+                  <div class="faq-answer__inner">
+                    <p set:html={faq.a} />
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- FLOATING WA BUTTON -->
+  <div class="wa-fab-wrap" id="wa-fab-wrap">
+    <a
+      href={`https://wa.me/${waNumber}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="wa-fab"
+      id="wa-fab"
+      aria-label="Chat WhatsApp Admin"
+    >
+      <svg
+        class="wa-fab__icon"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"><use href="#icon-wa"></use></svg
+      >
+      <span class="wa-fab__label">Butuh bantuan?</span>
+    </a>
+  </div>
+</BaseLayout>
+
+<style>
+  main {
+    max-width: var(--content-max);
+    margin: 0 auto;
+    padding: 48px var(--content-px) 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* HEADER */
+  .header-section {
+    background: var(--color-bg);
+    border-radius: 20px;
+    padding: 28px 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .page-title-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .page-title-icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text);
+  }
+  .page-title-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .page-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--color-text);
+    margin: 0 0 3px;
+    letter-spacing: -0.3px;
+  }
+  .page-subtitle {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    margin: 0;
+  }
+
+  /* INFO BANNER */
+  .info-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: #f0f0f0;
+    border: 1.5px solid var(--color-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+  }
+
+  .info-banner__icon {
+    flex-shrink: 0;
+    color: var(--color-muted);
+    margin-top: 3px;
+  }
+
+  .info-banner__body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .info-banner__title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 8px;
+  }
+
+  .info-banner__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 5px 0;
+  }
+
+  .info-banner__row:not(:last-child) {
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 7px;
+    margin-bottom: 2px;
+  }
+
+  .info-banner__hari {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-muted);
+  }
+  .info-banner__jam {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    white-space: nowrap;
+  }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 12px;
+  }
+
+  /* CONTACTS */
+  .contacts-section {
+    background: var(--color-bg);
+    border-radius: 20px;
+    padding: 28px 28px 32px;
+  }
+
+  .contact-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border: 1.5px solid var(--color-border);
+    border-radius: 14px;
+    background: #f0f0f0;
+    text-decoration: none;
+    margin-bottom: 8px;
+    transition:
+      border-color 0.15s,
+      background 0.15s,
+      transform 0.12s,
+      box-shadow 0.15s;
+  }
+  .contact-card:last-child {
+    margin-bottom: 0;
+  }
+  .contact-card:hover {
+    border-color: var(--color-text);
+    background: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+  }
+  .contact-card:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+  .contact-card__icon {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .contact-card__icon--wa {
+    background: #25d366;
+    color: #fff;
+  }
+  .contact-card__icon--tg {
+    background: #229ed9;
+    color: #fff;
+  }
+  .contact-card__icon--email {
+    background: var(--color-text);
+    color: var(--color-bg);
+  }
+
+  .contact-card__body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .contact-card__label {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin: 0 0 2px;
+  }
+
+  .contact-card__value {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--color-text);
+    letter-spacing: -0.2px;
+    margin: 0 0 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .contact-card__hint {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--color-muted);
+    margin: 0;
+    line-height: 1.3;
+  }
+  .contact-card__hint--wa {
+    color: #22863a;
+    font-weight: 600;
+  }
+
+  .contact-card__arrow {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    background: var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-muted);
+    transition:
+      background 0.15s,
+      color 0.15s;
+  }
+  .contact-card:hover .contact-card__arrow {
+    background: var(--color-text);
+    color: var(--color-bg);
+  }
+
+  /* FAQ */
+  .faq-section {
+    background: var(--color-bg);
+    border-radius: 20px;
+    padding: 28px 28px 32px;
+  }
+
+  .faq-list {
+    border: 1.5px solid var(--color-border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--color-border);
+  }
+  .faq-item:last-child {
+    border-bottom: none;
+  }
+
+  .faq-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 15px 16px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s;
+  }
+  .faq-btn:hover {
+    background: #f8f8f8;
+  }
+  .faq-btn[aria-expanded="true"] {
+    background: #f0f0f0;
+  }
+
+  .faq-btn__text {
+    flex: 1;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.45;
+  }
+
+  .faq-btn__icon {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    border-radius: 6px;
+    border: 1.5px solid var(--color-border);
+    background: var(--color-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-muted);
+    transition:
+      transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+      background 0.15s,
+      border-color 0.15s,
+      color 0.15s;
+  }
+  .faq-btn[aria-expanded="true"] .faq-btn__icon {
+    transform: rotate(180deg);
+    background: var(--color-text);
+    border-color: var(--color-text);
+    color: var(--color-bg);
+  }
+
+  /* Accordion collapse — grid-template-rows trick */
+  .faq-answer {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    background: #f8f8f8;
+  }
+  .faq-answer.open {
+    grid-template-rows: 1fr;
+  }
+
+  /* Inner wrapper WAJIB ada agar overflow:hidden bekerja dengan grid trick */
+  .faq-answer__inner {
+    overflow: hidden;
+  }
+
+  .faq-answer__inner p {
+    font-size: 13px;
+    color: var(--color-muted);
+    line-height: 1.65;
+    margin: 0;
+    padding: 12px 16px 16px;
+  }
+  .faq-answer__inner p strong {
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  /* FLOATING WA */
+  .wa-fab-wrap {
+    position: fixed;
+    bottom: 28px;
+    right: 24px;
+    z-index: 900;
+    animation: fabIn 0.5s 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    touch-action: none;
+    user-select: none;
+    will-change: transform;
+  }
+
+  @keyframes fabIn {
+    from {
+      opacity: 0;
+      transform: translateY(16px) scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .wa-fab {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #25d366;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 50px;
+    padding: 13px 20px 13px 15px;
+    box-shadow:
+      0 4px 20px rgba(37, 211, 102, 0.4),
+      0 2px 8px rgba(0, 0, 0, 0.12);
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    transition:
+      background 0.2s ease,
+      box-shadow 0.2s ease,
+      border-radius 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+      padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .wa-fab:hover {
+    background: #1dba58;
+    box-shadow:
+      0 8px 28px rgba(37, 211, 102, 0.45),
+      0 4px 12px rgba(0, 0, 0, 0.14);
+  }
+  .wa-fab__icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+  .wa-fab__label {
+    display: inline-block;
+    max-width: 160px;
+    overflow: hidden;
+    opacity: 1;
+    transition:
+      max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.2s ease;
+    line-height: 1;
+  }
+  .wa-fab-wrap.collapsed .wa-fab {
+    border-radius: 50%;
+    padding: 15px;
+    gap: 0;
+  }
+  .wa-fab-wrap.collapsed .wa-fab__label {
+    max-width: 0;
+    opacity: 0;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    main {
+      padding: 20px 12px 80px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    main {
+      gap: 12px;
+    }
+    .header-section {
+      padding: 20px 16px 24px;
+      gap: 16px;
+    }
+    .contacts-section {
+      padding: 20px 16px 24px;
+    }
+    .faq-section {
+      padding: 20px 16px 24px;
+    }
+
+    .contact-card {
+      gap: 12px;
+      padding: 12px 14px;
+    }
+    .contact-card__icon {
+      width: 38px;
+      height: 38px;
+      min-width: 38px;
+      border-radius: 10px;
+    }
+    .contact-card__value {
+      font-size: 13.5px;
+    }
+    .contact-card__arrow {
+      width: 24px;
+      height: 24px;
+    }
+
+    .faq-btn {
+      padding: 13px 14px;
+      gap: 10px;
+    }
+    .faq-btn__text {
+      font-size: 13px;
+    }
+    .faq-answer__inner p {
+      padding: 10px 14px 14px;
+      font-size: 12.5px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .wa-fab-wrap {
+      bottom: 20px;
+      right: 16px;
+    }
+    .wa-fab {
+      width: 52px;
+      height: 52px;
+      padding: 0 !important;
+      border-radius: 50% !important;
+      justify-content: center;
+      gap: 0 !important;
+    }
+    .wa-fab__label {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  /* FAQ ACCORDION */
+  const faqList = document.getElementById("faq-list");
+  if (faqList) {
+    faqList.addEventListener("click", (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>(
+        ".faq-btn",
+      );
+      if (!btn) return;
+
+      const item = btn.closest<HTMLDivElement>(".faq-item")!;
+      const answer = item.querySelector<HTMLDivElement>(".faq-answer")!;
+      const isOpen = btn.getAttribute("aria-expanded") === "true";
+
+      // Tutup semua
+      faqList.querySelectorAll<HTMLButtonElement>(".faq-btn").forEach((b) => {
+        b.setAttribute("aria-expanded", "false");
+        b.closest<HTMLDivElement>(".faq-item")!
+          .querySelector<HTMLDivElement>(".faq-answer")!
+          .classList.remove("open");
+      });
+
+      // Buka jika sebelumnya tertutup
+      if (!isOpen) {
+        btn.setAttribute("aria-expanded", "true");
+        answer.classList.add("open");
+      }
+    });
+  }
+
+  /* FLOATING WA: collapse on scroll */
+  const wrapEl = document.getElementById("wa-fab-wrap") as HTMLElement;
+  let collapsed = false;
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (window.innerWidth <= 480) return;
+      const y = window.scrollY;
+      if (y > 80 && !collapsed) {
+        collapsed = true;
+        wrapEl.classList.add("collapsed");
+      } else if (y <= 80 && collapsed) {
+        collapsed = false;
+        wrapEl.classList.remove("collapsed");
+      }
+    },
+    { passive: true },
+  );
+</script>

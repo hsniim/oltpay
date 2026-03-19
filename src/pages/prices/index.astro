@@ -1664,27 +1664,20 @@ const configData = JSON.stringify({
           return;
         }
         show(prodWrap);
-        // Logo PLN pakai gambar
-        const plnLogoUrl = providerLogos["plntoken"];
+        // Logo PLN — langsung append, onerror fallback ke inisial
+        const plnLogoImg = document.createElement("img");
+        plnLogoImg.src = "/logos/plntoken_logo.svg";
+        plnLogoImg.alt = "PLN";
         phLogo.innerHTML = "";
-        if (plnLogoUrl) {
-          phLogo.style.cssText =
-            "background:transparent;border:none;border-radius:0";
-          const img = document.createElement("img");
-          img.src = plnLogoUrl;
-          img.alt = "PLN";
-          img.onerror = () => {
-            phLogo.innerHTML = "";
-            phLogo.textContent = "PLN";
-            phLogo.style.cssText =
-              "background:linear-gradient(135deg,#1e8c4a,#166038);border-radius:14px;border:none";
-          };
-          phLogo.appendChild(img);
-        } else {
+        phLogo.style.cssText =
+          "background:transparent;border:none;border-radius:0";
+        plnLogoImg.onerror = () => {
+          phLogo.innerHTML = "";
           phLogo.textContent = "PLN";
           phLogo.style.cssText =
             "background:linear-gradient(135deg,#1e8c4a,#166038);border-radius:14px;border:none";
-        }
+        };
+        phLogo.appendChild(plnLogoImg);
         phTitle.textContent = "Token Listrik PLN";
         phCount.textContent = `${filtered.length} produk`;
         let html = '<div class="nominals-grid">';
@@ -1731,27 +1724,20 @@ const configData = JSON.stringify({
       }
 
       show(prodWrap);
-      // Logo provider pakai gambar (sama seperti page paket data)
-      const logoUrl = providerLogos[prov.name];
+      // Logo provider — langsung append img, onerror fallback ke inisial berwarna
+      const logoImg = document.createElement("img");
+      logoImg.src = providerLogos[prov.name] ?? `/logos/${prov.name}_logo.svg`;
+      logoImg.alt = prov.title;
       phLogo.innerHTML = "";
-      if (logoUrl) {
-        phLogo.style.cssText =
-          "background:transparent;border:none;border-radius:0";
-        const img = document.createElement("img");
-        img.src = logoUrl;
-        img.alt = prov.title;
-        img.onerror = () => {
-          phLogo.innerHTML = "";
-          phLogo.textContent =
-            providerInitials[prov.name] ?? prov.title.slice(0, 2).toUpperCase();
-          phLogo.style.cssText = `background:${providerColors[prov.name] ?? "linear-gradient(135deg,#0a0a0a,#333)"};border-radius:14px;border:none`;
-        };
-        phLogo.appendChild(img);
-      } else {
+      phLogo.style.cssText =
+        "background:transparent;border:none;border-radius:0";
+      logoImg.onerror = () => {
+        phLogo.innerHTML = "";
         phLogo.textContent =
           providerInitials[prov.name] ?? prov.title.slice(0, 2).toUpperCase();
         phLogo.style.cssText = `background:${providerColors[prov.name] ?? "linear-gradient(135deg,#0a0a0a,#333)"};border-radius:14px;border:none`;
-      }
+      };
+      phLogo.appendChild(logoImg);
       phTitle.textContent = prov.title;
 
       if (activeCat === "data" && prov.subCategories?.length) {

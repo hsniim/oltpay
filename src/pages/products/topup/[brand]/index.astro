@@ -1306,8 +1306,34 @@ const configData = JSON.stringify({
     // Validasi final sebelum buka modal
     function isInputValid(raw: string) {
       if (isPhoneInput) return phoneStatus(raw) === "valid";
-      if (isNumericInput) return raw.trim().length >= 1;
-      return raw.trim().length >= 1;
+      return nonPhoneStatus(raw) === "valid";
+    }
+
+    // Status validasi bertahap untuk non-phone input
+    function nonPhoneStatus(
+      raw: string,
+    ): "empty" | "typing" | "invalid" | "valid" {
+      const val = raw.trim();
+      if (!val) return "empty";
+      if (isNumericInput) {
+        // PLN token: nomor meter 11–12 digit
+        // Maxim: ID driver minimal 5 digit
+        const minLen = cfg.name === "plntoken" ? 11 : 5;
+        const maxLen = cfg.name === "plntoken" ? 12 : 20;
+        if (!/^\d+$/.test(val)) return "invalid";
+        if (val.length < minLen) return "typing";
+        if (val.length > maxLen) return "invalid";
+        return "valid";
+      }
+      // Google Play gift card: format GPA.XXXX-XXXX-XXXX atau kode 15-20 karakter alfanumerik
+      if (cfg.name === "gplay") {
+        if (val.length < 15) return "typing";
+        if (val.length > 25) return "invalid";
+        return "valid";
+      }
+      // Teks bebas lainnya: minimal 4 karakter
+      if (val.length < 4) return "typing";
+      return "valid";
     }
 
     // ── RENDER (sekali saat load) ────────────────────────────────────────────
@@ -1413,21 +1439,46 @@ const configData = JSON.stringify({
         return;
       }
 
-      // Non-phone input (PLN, Maxim, Wi-Fi ID, dll)
-      if (!raw) {
+      // Non-phone input (PLN, Maxim, Google Play, dll)
+      const status = nonPhoneStatus(raw);
+      if (status === "empty") {
         inputHint.textContent = `Masukkan ${cfg.inputLabel.toLowerCase()} Anda`;
         inputHint.className = "input-hint";
         inputWrap.classList.remove("error");
         setMode("empty");
         return;
       }
-      if (!isInputValid(raw)) {
-        inputHint.textContent = "Lanjutkan mengisi data…";
+      if (status === "typing") {
+        // Pesan typing spesifik per brand
+        let hint = "Lanjutkan mengisi data…";
+        if (cfg.name === "plntoken") {
+          hint = `Nomor meter PLN harus 11–12 digit (sudah ${raw.trim().length} digit)`;
+        } else if (cfg.name === "maximdriv") {
+          hint = `ID Maxim harus minimal 5 digit (sudah ${raw.trim().length} digit)`;
+        } else if (cfg.name === "gplay") {
+          hint = `Kode Gift Card minimal 15 karakter (sudah ${raw.trim().length} karakter)`;
+        }
+        inputHint.textContent = hint;
         inputHint.className = "input-hint";
+        inputWrap.classList.remove("error");
         setMode("empty");
         return;
       }
-      inputHint.textContent = `✓ ${raw} siap di-top up`;
+      if (status === "invalid") {
+        let hint = "Format tidak valid — periksa kembali";
+        if (cfg.name === "plntoken") {
+          hint = `Nomor meter PLN harus 11–12 digit angka`;
+        } else if (cfg.name === "gplay") {
+          hint = "Kode Gift Card terlalu panjang — periksa kembali";
+        }
+        inputHint.textContent = hint;
+        inputHint.className = "input-hint error";
+        inputWrap.classList.add("error");
+        setMode("empty");
+        return;
+      }
+      // valid
+      inputHint.textContent = `✓ ${raw.trim()} siap di-top up`;
       inputHint.className = "input-hint success";
       inputWrap.classList.remove("error");
       setMode("products");
@@ -1497,7 +1548,7 @@ const configData = JSON.stringify({
     userInput.addEventListener("input", debouncedUpdate, { passive: true });
 
     // ── INPUT SANITIZATION ───────────────────────────────────────────────────
-    // Semua input nomor (HP, PLN, Maxim): hanya angka — blokir keypress & sanitasi paste
+    // Semua input nomor (HP termasuk wifidi, PLN, Maxim): hanya angka — blokir keypress & sanitasi paste
     if (isPhoneInput || isNumericInput) {
       // Blokir karakter non-angka saat mengetik
       userInput.addEventListener("keydown", (e) => {
