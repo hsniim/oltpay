@@ -53,6 +53,12 @@
     height: var(--navbar-height);
   }
 
+  @media (max-width: 1023px) {
+    :root {
+      --navbar-height: 60px;
+    }
+  }
+
   @media (max-width: 640px) {
     .nav-inner {
       padding: 0 20px;
@@ -556,9 +562,7 @@
       <div class="dd-col">
         <div class="dd-col-label">Lainnya</div>
         <div class="dd-col-items">
-          <a href="/prices" class="dd-item"
-            >Perpanjang Masa Aktif Kartu</a
-          >
+          <a href="/prices" class="dd-item">Perpanjang Masa Aktif Kartu</a>
           <a href="/prices?tab=game" class="dd-item">Voucher Game Online</a>
         </div>
       </div>
