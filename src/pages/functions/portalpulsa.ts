@@ -1,5 +1,15 @@
 import type { APIRoute } from 'astro';
 
+export const GET: APIRoute = async () => {
+  return new Response(JSON.stringify({
+    status: "ok",
+    message: "API portalpulsa aktif di /functions! Gunakan POST untuk harga/inquiry."
+  }), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' }
+  });
+};
+
 export const POST: APIRoute = async ({ request }) => {
   if (request.method !== 'POST') {
     return new Response('Method Not Allowed', { status: 405 });
@@ -39,15 +49,4 @@ export const POST: APIRoute = async ({ request }) => {
     console.error('PortalPulsa Error:', error);
     return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
   }
-};
-
-// Tambah GET untuk test cepat
-export const GET: APIRoute = async () => {
-  return new Response(JSON.stringify({
-    status: "ok",
-    message: "API route portalpulsa aktif di /functions! POST untuk harga/inquiry."
-  }), {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' }
-  });
 };
