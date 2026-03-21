@@ -1,9 +1,28 @@
 // src/pages/functions/portalpulsa.ts
 import type { APIRoute } from 'astro';
 
-// Optional: kalau ingin semua method (GET/POST/OPTIONS) di-handle
-export const all: APIRoute = async ({ request }) => {
-  // Hanya izinkan POST
+export const GET: APIRoute = async () => {
+  return new Response(JSON.stringify({
+    status: "ok",
+    message: "API route portalpulsa aktif! Gunakan POST dengan body {type: 'harga'} untuk test harga."
+  }), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' }
+  });
+};
+
+export const OPTIONS: APIRoute = async () => {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
+};
+
+export const POST: APIRoute = async ({ request }) => {
   if (request.method !== 'POST') {
     return new Response('Method Not Allowed', { status: 405 });
   }
@@ -42,15 +61,4 @@ export const all: APIRoute = async ({ request }) => {
     console.error('PortalPulsa Error:', error);
     return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
   }
-};
-
-// Export GET untuk test cepat di browser (optional, bisa dihapus nanti)
-export const GET: APIRoute = async () => {
-  return new Response(JSON.stringify({
-    status: 'ok',
-    message: 'API portalpulsa aktif! Gunakan POST dengan {type: "harga"} untuk harga live.'
-  }), {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' },
-  });
 };
