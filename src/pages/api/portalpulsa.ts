@@ -1,6 +1,16 @@
 // src/pages/api/portalpulsa.ts
 import type { APIRoute } from 'astro';
 
+export const GET: APIRoute = async () => {
+  return new Response(JSON.stringify({
+    status: "ok",
+    message: "API route portalpulsa aktif! Gunakan POST dengan body {type: 'harga'} untuk test harga."
+  }), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' }
+  });
+};
+
 export const POST: APIRoute = async ({ request }) => {
   if (request.method !== 'POST') {
     return new Response('Method Not Allowed', { status: 405 });
@@ -11,8 +21,8 @@ export const POST: APIRoute = async ({ request }) => {
     const { type, params = {} } = body;
 
     const form = new URLSearchParams();
-    form.append('key', import.meta.env.PORTALPULSA_KEY);
-    form.append('secret', import.meta.env.PORTALPULSA_SECRET);
+    form.append('key', import.meta.env.PORTALPULSA_KEY ?? '');
+    form.append('secret', import.meta.env.PORTALPULSA_SECRET ?? '');
     if (import.meta.env.PORTALPULSA_PIN) {
       form.append('pin', import.meta.env.PORTALPULSA_PIN);
     }
@@ -37,7 +47,7 @@ export const POST: APIRoute = async ({ request }) => {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.error(error);
-    return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
+    console.error('PortalPulsa API Error:', error);
+    return new Response(JSON.stringify({ error: 'Internal Server Error', details: error.message }), { status: 500 });
   }
 };
