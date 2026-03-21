@@ -1,15 +1,4 @@
-// src/pages/api/portalpulsa.ts
 import type { APIRoute } from 'astro';
-
-export const GET: APIRoute = async () => {
-  return new Response(JSON.stringify({
-    status: "ok",
-    message: "API route portalpulsa aktif! Gunakan POST dengan body {type: 'harga'} untuk test harga."
-  }), {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' }
-  });
-};
 
 export const POST: APIRoute = async ({ request }) => {
   if (request.method !== 'POST') {
@@ -47,7 +36,18 @@ export const POST: APIRoute = async ({ request }) => {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.error('PortalPulsa API Error:', error);
-    return new Response(JSON.stringify({ error: 'Internal Server Error', details: error.message }), { status: 500 });
+    console.error('PortalPulsa Error:', error);
+    return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
   }
+};
+
+// Tambah GET untuk test cepat
+export const GET: APIRoute = async () => {
+  return new Response(JSON.stringify({
+    status: "ok",
+    message: "API route portalpulsa aktif di /functions! POST untuk harga/inquiry."
+  }), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' }
+  });
 };
