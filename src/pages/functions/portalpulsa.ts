@@ -29,19 +29,18 @@ export const POST: APIRoute = async ({ request }) => {
 
   try {
     const body = await request.json();
-    const { type, params = {} } = body;
+    const { type = 'HARGA', code = '' } = body;
 
     const form = new URLSearchParams();
-    form.append('key', import.meta.env.PORTALPULSA_KEY ?? '');
-    form.append('secret', import.meta.env.PORTALPULSA_SECRET ?? '');
+    form.append('portal-userid', import.meta.env.PORTALPULSA_USERID ?? '');
+    form.append('portal-key', import.meta.env.PORTALPULSA_KEY ?? '');
+    form.append('portal-secret', import.meta.env.PORTALPULSA_SECRET ?? '');
     if (import.meta.env.PORTALPULSA_PIN) {
       form.append('pin', import.meta.env.PORTALPULSA_PIN);
     }
-    form.append('type', type);
+    form.append('inquiry', type);
 
-    Object.entries(params).forEach(([k, v]) => {
-      form.append(k, String(v));
-    });
+    if (code) form.append('code', code);
 
     const response = await fetch('https://portalpulsa.com/api/connect/', {
       method: 'POST',
