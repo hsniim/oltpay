@@ -1,0 +1,1836 @@
+---
+// src/pages/products/bill/[brand]/index.astro
+//
+// Static pages untuk tagihan pascabayar:
+//   /products/bill/plnpasca    → Listrik PLN Pascabayar
+//   /products/bill/pdam        → PDAM
+//   /products/bill/bpjs        → BPJS Kesehatan
+//   /products/bill/isp         → Internet/ISP
+//   /products/bill/tv          → TV Berbayar
+//   /products/bill/insurance   → Asuransi
+//   /products/bill/pulsapasca  → Pulsa Pascabayar
+
+import Navbar from "../../../../components/Navbar.astro";
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import { tagihanProducts } from "../../../../data/products.js";
+
+export function getStaticPaths() {
+  return tagihanProducts.map((item) => ({
+    params: { brand: item.name },
+    props: item,
+  }));
+}
+
+const {
+  name,
+  title,
+  icon, // SVG path string — sama persis dengan homepage tab Tagihan
+  inputLabel,
+  inputType,
+  inputMode, // 'numeric' | null — override inputmode attribute
+  inputPrefix, // '+62' | null
+  inputPlaceholder: rawInputPlaceholder,
+  inputMinLength,
+  inputMaxLength,
+  validationPattern, // RegExp string untuk validasi nomor pelanggan/ID
+  inputHint,
+  inputHintTyping, // Pesan saat user masih mengetik
+  inputHintInvalid, // Pesan saat format salah
+  skuCode,
+} = Astro.props;
+
+const waNumber = "6289501450667";
+const tgUsername = "oltpaychat"; // username Telegram CS (tanpa @)
+
+// Warna aksen per brand — konsisten dengan accentMap di topup
+const accentMap: Record<string, string> = {
+  plnpasca: "#00A0E3",
+  pdam: "#2B6CB0",
+  bpjs: "#00A651",
+  isp: "#553C9A",
+  tv: "#D97706",
+  insurance: "#276749",
+  pulsapasca: "#E53E3E",
+};
+
+const accent = accentMap[name] ?? "#0a0a0a";
+
+// Apakah input pakai format +62 (nomor HP)?
+const isPhoneInput = inputPrefix === "+62";
+
+// Input numerik: ditentukan oleh inputMode dari data produk, atau fallback nama brand
+const isNumericInput =
+  inputMode === "numeric" || ["plnpasca", "bpjs"].includes(name);
+
+// Placeholder — gunakan dari data produk jika tersedia, fallback ke generik
+const inputPlaceholder =
+  rawInputPlaceholder ??
+  (isPhoneInput ? "8xx xxxx xxxx" : `Masukkan ${inputLabel.toLowerCase()}`);
+
+const configData = JSON.stringify({
+  wa: waNumber,
+  tg: tgUsername,
+  name,
+  title,
+  inputLabel,
+  isPhoneInput,
+  isNumericInput,
+  inputMinLength,
+  inputMaxLength,
+  validationPattern: validationPattern ?? null,
+  inputHint: inputHint ?? null,
+  inputHintTyping: inputHintTyping ?? null,
+  inputHintInvalid: inputHintInvalid ?? null,
+  accent,
+  skuCode,
+});
+---
+
+<BaseLayout>
+  <Navbar />
+
+  <!-- ══ SVG SYMBOLS — identik dengan topup ══ -->
+  <svg
+    aria-hidden="true"
+    style="display:none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <symbol
+      id="icon-phone"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+      <line x1="12" y1="18" x2="12.01" y2="18"></line>
+    </symbol>
+    <symbol
+      id="icon-close"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </symbol>
+    <symbol
+      id="icon-clock"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle cx="12" cy="12" r="10"></circle>
+      <path d="M12 6v6l4 2"></path>
+    </symbol>
+    <symbol
+      id="icon-search"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </symbol>
+    <symbol id="icon-wa" viewBox="0 0 24 24" fill="currentColor">
+      <path
+        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"
+      ></path>
+      <path
+        d="M11.99 0C5.374 0 0 5.373 0 11.988c0 2.114.549 4.099 1.504 5.83L0 24l6.335-1.652A11.939 11.939 0 0 0 11.99 24C18.626 24 24 18.626 24 12.012 24 5.373 18.626 0 11.99 0zm0 21.785a9.796 9.796 0 0 1-4.994-1.365l-.357-.212-3.758.98.999-3.647-.233-.374A9.722 9.722 0 0 1 2.203 12c0-5.398 4.394-9.791 9.787-9.791 5.394 0 9.788 4.393 9.788 9.791 0 5.398-4.394 9.785-9.788 9.785z"
+      ></path>
+    </symbol>
+    <symbol id="icon-tg" viewBox="0 0 24 24" fill="currentColor">
+      <path
+        d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L8.32 13.617l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.828.942z"
+      ></path>
+    </symbol>
+  </svg>
+
+  <div class="page-wrapper">
+    <main>
+      <!-- ══ INPUT SECTION — identik dengan topup ══ -->
+      <section class="input-section">
+        <div class="page-title-row">
+          <div class="page-title-icon">
+            <!-- Icon sama persis dengan yang tampil di homepage tab Tagihan -->
+            <svg
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              set:html={icon}
+            />
+          </div>
+          <div>
+            <h1 class="page-title">Bayar {title}</h1>
+            <p class="page-subtitle">
+              Cek &amp; bayar tagihan {title}, instan proses cepat
+            </p>
+          </div>
+        </div>
+
+        <div class="input-card">
+          <label class="input-label" for="user-input">{inputLabel}</label>
+          <div class="input-row">
+            <div class="input-wrap" id="input-wrap">
+              {inputPrefix && <span class="input-prefix">{inputPrefix}</span>}
+              <input
+                type={inputType}
+                id="user-input"
+                placeholder={inputPlaceholder}
+                autocomplete={isPhoneInput ? "tel" : "off"}
+                inputmode={inputMode ?? (isPhoneInput ? "numeric" : undefined)}
+                maxlength={inputMaxLength}
+              />
+            </div>
+            <button class="btn-cek" id="btn-cek" disabled>
+              <svg
+                viewBox="0 0 24 24"
+                width="15"
+                height="15"
+                aria-hidden="true"
+              >
+                <use href="#icon-search"></use>
+              </svg>
+              Cek Tagihan
+            </button>
+          </div>
+          <p class="input-hint" id="input-hint">
+            {
+              isPhoneInput
+                ? `Masukkan nomor HP ${title} Anda`
+                : `Masukkan ${inputLabel.toLowerCase()} Anda`
+            }
+          </p>
+        </div>
+      </section>
+
+      <!-- ══ RESULT SECTION — pola sama dengan products-section topup ══ -->
+      <section class="products-section" id="result-section">
+        <!-- Empty state -->
+        <div class="state-wrap" id="empty-state">
+          <div class="state-icon">
+            <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
+              <use href="#icon-phone"></use>
+            </svg>
+          </div>
+          <p class="state-title">
+            {isPhoneInput ? "Masukkan nomor HP" : `Masukkan ${inputLabel}`}
+          </p>
+          <p class="state-desc">
+            Informasi tagihan akan muncul setelah {
+              isPhoneInput ? "nomor diisi" : "data diisi"
+            } dan dicek
+          </p>
+        </div>
+
+        <!-- CS Card — muncul setelah input valid & klik Cek Tagihan -->
+        <div class="hidden" id="cs-card">
+          <div class="cs-card__inner">
+            <!-- Header -->
+            <div class="cs-card__header">
+              <div class="cs-card__header-text">
+                <p class="cs-card__title">Konfirmasi via CS</p>
+                <p class="cs-card__desc">
+                  Kirim permintaan cek tagihan ke CS kami
+                </p>
+              </div>
+            </div>
+
+            <!-- Tab bar -->
+            <div class="cs-tab-bar">
+              <div class="cs-tab-bar__inner">
+                <button
+                  class="cs-tab-btn cs-tab-btn--active"
+                  id="tab-wa"
+                  data-channel="wa"
+                >
+                  WhatsApp
+                </button>
+                <button class="cs-tab-btn" id="tab-tg" data-channel="tg">
+                  Telegram
+                </button>
+              </div>
+            </div>
+
+            <!-- Info pelanggan -->
+            <div class="cs-card__info" id="cs-card-info"></div>
+
+            <!-- Preview pesan -->
+            <div class="cs-wa-preview" id="cs-wa-preview">
+              <div class="cs-wa-preview__header" id="cs-preview-header">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="#25d366"
+                  width="13"
+                  height="13"
+                  aria-hidden="true"
+                  id="cs-preview-icon"
+                >
+                  <use href="#icon-wa"></use>
+                </svg>
+                <span>Pesan yang akan dikirim</span>
+              </div>
+              <div class="cs-wa-preview__bubble" id="cs-wa-preview-text">—</div>
+            </div>
+
+            <!-- Tombol -->
+            <button class="cs-card__btn cs-card__btn--wa" id="btn-cs-channel">
+              <svg
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                width="17"
+                height="17"
+                aria-hidden="true"
+                id="cs-btn-icon"
+              >
+                <use href="#icon-wa"></use>
+              </svg>
+              <span id="cs-btn-label">Chat CS via WhatsApp</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script id="config" type="application/json" set:html={configData} />
+
+  <!-- ══ FLOATING WA BUTTON — identik dengan topup ══ -->
+  <div class="wa-fab-wrap" id="wa-fab-wrap">
+    <a
+      href={`https://wa.me/${waNumber}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="wa-fab"
+      id="wa-fab"
+      aria-label="Chat WhatsApp Admin"
+    >
+      <svg
+        class="wa-fab__icon"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <use href="#icon-wa"></use>
+      </svg>
+      <span class="wa-fab__label">Butuh bantuan?</span>
+    </a>
+  </div>
+</BaseLayout>
+
+<style>
+  /* ── Layout — identik dengan topup ── */
+  main {
+    max-width: var(--content-max);
+    margin: 0 auto;
+    padding: 48px var(--content-px) 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* ── Input Section — identik dengan topup ── */
+  .input-section {
+    background: var(--color-bg);
+    border-radius: 20px;
+    padding: 28px 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .page-title-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .page-title-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .page-title-icon svg {
+    width: 24px;
+    height: 24px;
+    color: var(--color-text);
+  }
+  .page-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--color-text);
+    margin: 0 0 3px;
+    letter-spacing: -0.3px;
+  }
+  .page-subtitle {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    margin: 0;
+  }
+  .input-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .input-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+  .input-row {
+    display: flex;
+    gap: 12px;
+    align-items: stretch;
+  }
+  .input-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    border: 1.5px solid var(--color-border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--color-bg);
+    transition: border-color 0.2s;
+  }
+  .input-wrap:focus-within {
+    border-color: var(--color-text);
+  }
+  .input-wrap.error {
+    border-color: #e53e3e;
+  }
+  .input-prefix {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-muted);
+    background: #f0f0f0;
+    padding: 0 16px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    border-right: 1.5px solid var(--color-border);
+    flex-shrink: 0;
+  }
+  .input-wrap input {
+    flex: 1;
+    height: 52px;
+    padding: 0 16px;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text);
+    background: transparent;
+    letter-spacing: 0.3px;
+  }
+  .input-wrap input::placeholder {
+    color: #c4c4c4;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+  .input-hint {
+    font-size: 12px;
+    color: #b0b0b0;
+    margin: 0;
+    transition: color 0.2s;
+  }
+  .input-hint.success {
+    color: #22863a;
+  }
+  .input-hint.error {
+    color: #e53e3e;
+  }
+
+  /* Tombol Cek — ukuran dan radius sama dengan btn-order topup */
+  .btn-cek {
+    height: 52px;
+    padding: 0 20px;
+    border-radius: 14px;
+    border: none;
+    background: var(--color-text);
+    color: var(--color-bg);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    transition:
+      opacity 0.2s,
+      transform 0.15s;
+  }
+  .btn-cek:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  .btn-cek:not(:disabled):hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+  }
+  .btn-cek:not(:disabled):active {
+    transform: translateY(0);
+  }
+
+  /* ── Result Section — identik dengan products-section topup ── */
+  .products-section {
+    background: var(--color-bg);
+    border-radius: 20px;
+    overflow: hidden;
+    min-height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    contain: layout style;
+  }
+  /* Saat cs-card aktif, hilangkan background/border container luar */
+  .products-section:has(#cs-card:not(.hidden)) {
+    background: transparent;
+    min-height: unset;
+  }
+  .state-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 56px 24px;
+    text-align: center;
+    gap: 10px;
+    width: 100%;
+  }
+  .state-icon {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+  }
+  .state-icon svg {
+    width: 26px;
+    height: 26px;
+    color: #000;
+  }
+  .state-icon--error svg {
+    color: #e53e3e;
+  }
+  .state-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+  }
+  .state-desc {
+    font-size: 13px;
+    color: var(--color-muted);
+    margin: 0;
+    max-width: 280px;
+    line-height: 1.5;
+  }
+
+  /* Spinner loading */
+  .spinner {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 3px solid var(--color-border);
+    border-top-color: var(--color-text);
+    animation: spin 0.7s linear infinite;
+    margin-bottom: 4px;
+  }
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Result container — identik dengan #products-container topup */
+  #result-container {
+    width: 100%;
+    padding: 28px 28px 32px;
+  }
+  .products-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 24px;
+  }
+  .products-header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .provider-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 900;
+    color: white;
+    flex-shrink: 0;
+    overflow: hidden;
+    background: transparent;
+  }
+  .provider-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .products-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 2px;
+  }
+  .products-count {
+    font-size: 12px;
+    color: var(--color-muted);
+    margin: 0;
+  }
+
+  /* Status badge */
+  .result-status {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 99px;
+    background: #fee2e2;
+    color: #dc2626;
+    flex-shrink: 0;
+  }
+  .result-status.paid {
+    background: #dcfce7;
+    color: #16a34a;
+  }
+
+  /* Detail card — via JS :global */
+  :global(.result-detail-card) {
+    background: #f0f0f0;
+    border: 1.5px solid var(--color-border);
+    border-radius: 16px;
+    overflow: hidden;
+    animation: cardIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  :global(.detail-row) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 18px;
+    gap: 16px;
+  }
+  :global(.detail-row:not(:last-child)) {
+    border-bottom: 1px solid var(--color-border);
+  }
+  :global(.detail-row--total) {
+    background: var(--color-bg);
+  }
+  :global(.detail-label) {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-muted);
+    flex-shrink: 0;
+  }
+  :global(.detail-label--total) {
+    font-weight: 700;
+    color: var(--color-text);
+  }
+  :global(.detail-value) {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text);
+    text-align: right;
+  }
+  :global(.detail-value--total) {
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+  }
+  :global(.btn-bayar) {
+    width: 100%;
+    height: 46px;
+    margin-top: 12px;
+    background: #25d366;
+    border: none;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    transition:
+      background 0.2s,
+      transform 0.15s;
+    letter-spacing: -0.1px;
+    animation: cardIn 0.22s 0.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  :global(.btn-bayar:hover) {
+    background: #1dba58;
+    transform: translateY(-1px);
+  }
+  :global(.btn-bayar:active) {
+    transform: translateY(0);
+  }
+
+  /* ── Modal — identik dengan topup ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 10, 10, 0.45);
+    backdrop-filter: blur(6px);
+    z-index: 1000;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    animation: fadeIn 0.2s ease;
+  }
+  .modal {
+    background: var(--color-bg);
+    width: 100%;
+    max-width: 440px;
+    border-radius: 24px 24px 0 0;
+    overflow: hidden;
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px 16px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .modal-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .modal-provider-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-border);
+    flex-shrink: 0;
+    transition: background 0.3s;
+  }
+  .modal-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+  }
+  .modal-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    border: 1.5px solid var(--color-border);
+    background: var(--color-bg);
+    color: var(--color-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+  }
+  .modal-close:hover {
+    background: var(--page-bg);
+  }
+  .modal-body {
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .modal-nominal-hero {
+    border-radius: 14px;
+    padding: 16px 18px;
+    background: #f0f0f0;
+    border: 1.5px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .modal-nominal-hero__label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .modal-nominal-hero__value {
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--color-text);
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+  .modal-nominal-hero__provider {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-muted);
+    margin-top: 2px;
+  }
+  .order-card {
+    border: 1.5px solid var(--color-border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .order-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 16px;
+    gap: 16px;
+  }
+  .order-row:not(:last-child) {
+    border-bottom: 1px solid var(--color-border);
+  }
+  .order-row--total {
+    background: #f0f0f0;
+  }
+  .order-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-muted);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .order-label--total {
+    font-weight: 700;
+    color: var(--color-text);
+  }
+  .order-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text);
+    text-align: right;
+  }
+  .order-value--desc {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-muted);
+  }
+  .order-value--phone {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .order-value--price {
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+  }
+  .wa-preview {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1.5px solid #d4f0d8;
+    background: #f0faf1;
+  }
+  .wa-preview__header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: #e4f7e6;
+    border-bottom: 1px solid #d4f0d8;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: #2d7a3a;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .wa-preview__bubble {
+    font-size: 12.5px;
+    color: #1a3a1f;
+    line-height: 1.65;
+    padding: 10px 14px;
+    white-space: pre-line;
+  }
+  .modal-footer {
+    padding: 12px 20px 20px;
+    display: flex;
+    gap: 8px;
+  }
+  .btn-cancel {
+    height: 46px;
+    padding: 0 18px;
+    border: 1.5px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-bg);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-muted);
+    cursor: pointer;
+    transition:
+      background 0.15s,
+      border-color 0.15s;
+    flex-shrink: 0;
+  }
+  .btn-cancel:hover {
+    background: var(--page-bg);
+    border-color: #c0c0c0;
+  }
+  .btn-order {
+    flex: 1;
+    height: 46px;
+    background: #25d366;
+    border: none;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    transition:
+      background 0.2s,
+      transform 0.15s;
+    letter-spacing: -0.1px;
+  }
+  .btn-order:hover {
+    background: #1dba58;
+    transform: translateY(-1px);
+  }
+  .btn-order:active {
+    transform: translateY(0);
+  }
+
+  /* ── FAB — identik dengan topup ── */
+  .wa-fab-wrap {
+    position: fixed;
+    bottom: 28px;
+    right: 24px;
+    z-index: 900;
+    animation: fabIn 0.5s 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    touch-action: none;
+    user-select: none;
+  }
+  .wa-fab {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #25d366;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 50px;
+    padding: 13px 20px 13px 15px;
+    box-shadow:
+      0 4px 20px rgba(37, 211, 102, 0.4),
+      0 2px 8px rgba(0, 0, 0, 0.12);
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    transition:
+      background 0.2s,
+      box-shadow 0.2s,
+      border-radius 0.35s,
+      padding 0.35s,
+      gap 0.35s;
+  }
+  .wa-fab:hover {
+    background: #1dba58;
+    box-shadow:
+      0 8px 28px rgba(37, 211, 102, 0.45),
+      0 4px 12px rgba(0, 0, 0, 0.14);
+  }
+  .wa-fab__icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+  .wa-fab__label {
+    display: inline-block;
+    max-width: 160px;
+    overflow: hidden;
+    opacity: 1;
+    transition:
+      max-width 0.35s,
+      opacity 0.2s,
+      margin 0.35s;
+    line-height: 1;
+  }
+  .wa-fab-wrap.collapsed .wa-fab {
+    border-radius: 50%;
+    padding: 15px;
+    gap: 0;
+  }
+  .wa-fab-wrap.collapsed .wa-fab__label {
+    max-width: 0;
+    opacity: 0;
+    margin: 0;
+  }
+  .wa-fab-wrap.dragging .wa-fab {
+    opacity: 0.9;
+    transform: scale(1.06);
+  }
+
+  /* ── Animations — identik dengan topup ── */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  @keyframes scaleIn {
+    from {
+      transform: scale(0.96);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  @keyframes cardIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes fabIn {
+    from {
+      opacity: 0;
+      transform: translateY(16px) scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* ── Responsive — identik dengan topup ── */
+  @media (min-width: 600px) {
+    .modal {
+      border-radius: 20px;
+      animation: scaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .modal-overlay {
+      align-items: center;
+      padding: 24px;
+    }
+  }
+  @media (max-width: 640px) {
+    main {
+      padding: 20px 12px 80px;
+    }
+  }
+  @media (max-width: 600px) {
+    main {
+      padding: 28px 16px 80px;
+      gap: 12px;
+    }
+    .input-section {
+      padding: 20px 16px 24px;
+      gap: 18px;
+    }
+    #result-container {
+      padding: 20px 16px 24px;
+    }
+    .products-header {
+      padding-bottom: 16px;
+      margin-bottom: 18px;
+    }
+    .input-row {
+      flex-direction: column;
+    }
+    .btn-cek {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  @media (max-width: 480px) {
+    .wa-fab-wrap {
+      bottom: 20px;
+      right: 16px;
+    }
+    .wa-fab {
+      width: 52px;
+      height: 52px;
+      padding: 0 !important;
+      border-radius: 50% !important;
+      justify-content: center;
+      gap: 0 !important;
+    }
+    .wa-fab__label {
+      display: none !important;
+    }
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* ── CS Card ── */
+  #cs-card {
+    width: 100%;
+    padding: 0;
+  }
+  .cs-card__inner {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-bg);
+    border: 1.5px solid #bbf7d0;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow:
+      0 4px 24px rgba(37, 211, 102, 0.09),
+      0 1px 4px rgba(0, 0, 0, 0.04);
+  }
+
+  .cs-card__header {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 18px 20px 16px;
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border-bottom: 1px solid #bbf7d0;
+  }
+  .cs-card__icon-wrap {
+    width: 44px;
+    height: 44px;
+    background: #25d366;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 3px 10px rgba(37, 211, 102, 0.4);
+  }
+  .cs-card__header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .cs-card__title {
+    font-size: 0.93rem;
+    font-weight: 800;
+    color: #14532d;
+    margin: 0;
+    letter-spacing: -0.15px;
+  }
+  .cs-card__desc {
+    font-size: 0.73rem;
+    color: #4b7a5a;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  /* ── Tab bar — pill style, sama dengan product-tab-bar ── */
+  .cs-tab-bar {
+    display: flex;
+    gap: 8px;
+    padding: 12px 16px;
+    background: var(--color-bg);
+    border-bottom: 1px solid #bbf7d0;
+  }
+  .cs-tab-bar__inner {
+    display: flex;
+    flex: 1;
+    gap: 0;
+    background: #f0f0f0;
+    border-radius: 12px;
+    padding: 4px;
+  }
+  .cs-tab-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 38px;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--color-muted);
+    cursor: pointer;
+    transition:
+      background 0.18s,
+      color 0.18s,
+      box-shadow 0.18s;
+    white-space: nowrap;
+  }
+  .cs-tab-btn svg {
+    flex-shrink: 0;
+  }
+  .cs-tab-btn--active {
+    background: var(--color-bg);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  }
+  /* Warna teks & icon tab aktif per channel */
+  .cs-tab-btn--active[data-channel="wa"] {
+    color: #16a34a;
+  }
+  .cs-tab-btn--active[data-channel="tg"] {
+    color: #0369a1;
+  }
+  .cs-tab-btn:hover:not(.cs-tab-btn--active) {
+    color: var(--color-text);
+  }
+
+  /* ── Warna card kontekstual (dioverride via JS class) ── */
+  /* Default = WA (hijau) */
+  .cs-card__inner {
+    border-color: #bbf7d0;
+  }
+  .cs-card__header {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border-bottom-color: #bbf7d0;
+  }
+  .cs-tab-bar {
+    border-bottom-color: #bbf7d0;
+  }
+  .cs-card__icon-wrap {
+    background: #25d366;
+    box-shadow: 0 3px 10px rgba(37, 211, 102, 0.4);
+  }
+  .cs-wa-preview {
+    border-color: #d4f0d8;
+    background: #f0faf1;
+  }
+  .cs-wa-preview__header {
+    background: #e4f7e6;
+    border-bottom-color: #d4f0d8;
+    color: #2d7a3a;
+  }
+  .cs-wa-preview__bubble {
+    color: #1a3a1f;
+  }
+  /* Telegram override */
+  .cs-card__inner.cs-channel--tg {
+    border-color: #bae6fd;
+  }
+  .cs-card__inner.cs-channel--tg .cs-card__header {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-bottom-color: #bae6fd;
+  }
+  .cs-card__inner.cs-channel--tg .cs-tab-bar {
+    border-bottom-color: #bae6fd;
+  }
+  .cs-card__inner.cs-channel--tg .cs-card__icon-wrap {
+    background: #229ed9;
+    box-shadow: 0 3px 10px rgba(34, 158, 217, 0.4);
+  }
+  .cs-card__inner.cs-channel--tg .cs-wa-preview {
+    border-color: #bae6fd;
+    background: #f0f9ff;
+  }
+  .cs-card__inner.cs-channel--tg .cs-wa-preview__header {
+    background: #e0f2fe;
+    border-bottom-color: #bae6fd;
+    color: #0369a1;
+  }
+  .cs-card__inner.cs-channel--tg .cs-wa-preview__bubble {
+    color: #0c2d48;
+  }
+  .cs-card__btn--tg {
+    background: #229ed9;
+  }
+  .cs-card__btn--tg:hover {
+    background: #1a8cc4;
+  }
+
+  /* Telegram variant for icon-wrap & button */
+  .cs-card__icon-wrap--tg {
+    background: #229ed9 !important;
+    box-shadow: 0 3px 10px rgba(34, 158, 217, 0.4) !important;
+  }
+
+  .cs-card__info {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    background: var(--color-bg);
+  }
+  :global(.cs-info-row) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f3f3f3;
+  }
+  :global(.cs-info-row:last-child) {
+    border-bottom: none;
+  }
+  :global(.cs-info-label) {
+    color: var(--color-muted);
+    font-weight: 500;
+    font-size: 12.5px;
+    white-space: nowrap;
+  }
+  :global(.cs-info-value) {
+    font-weight: 700;
+    color: var(--color-text);
+    text-align: right;
+    font-size: 13px;
+  }
+
+  .cs-wa-preview {
+    margin: 14px 16px 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1.5px solid #d4f0d8;
+    background: #f0faf1;
+  }
+  .cs-wa-preview__header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: #e4f7e6;
+    border-bottom: 1px solid #d4f0d8;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: #2d7a3a;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .cs-wa-preview__bubble {
+    font-size: 12.5px;
+    color: #1a3a1f;
+    line-height: 1.65;
+    padding: 10px 14px;
+    white-space: pre-line;
+  }
+
+  .cs-card__btn {
+    width: calc(100% - 32px);
+    margin: 14px 16px 16px;
+    height: 50px;
+    border-radius: 13px;
+    border: none;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition:
+      background 0.2s,
+      transform 0.15s;
+    letter-spacing: -0.1px;
+  }
+  .cs-card__btn:hover {
+    transform: translateY(-1px);
+  }
+  .cs-card__btn:active {
+    transform: translateY(0);
+  }
+  .cs-card__btn--wa {
+    background: #25d366;
+  }
+  .cs-card__btn--wa:hover {
+    background: #1dba58;
+  }
+  .cs-card__btn--tg {
+    background: #229ed9;
+  }
+  .cs-card__btn--tg:hover {
+    background: #1a8cc4;
+  }
+</style>
+
+<script>
+  (function () {
+    // ── CONFIG ──────────────────────────────────────────────────────────────
+    const cfg: {
+      wa: string;
+      name: string;
+      title: string;
+      inputLabel: string;
+      isPhoneInput: boolean;
+      isNumericInput: boolean;
+      inputMinLength: number;
+      inputMaxLength: number;
+      accent: string;
+      skuCode: string | null;
+    } = JSON.parse(
+      (document.getElementById("config") as HTMLScriptElement).textContent!,
+    );
+
+    const {
+      wa: waNumber,
+      tg: tgUsername,
+      title: brandTitle,
+      isPhoneInput,
+      isNumericInput,
+      inputMinLength,
+      inputMaxLength,
+    } = cfg;
+
+    // ── DOM REFS ────────────────────────────────────────────────────────────
+    const $ = (id: string) => document.getElementById(id)!;
+    const userInput = $("user-input") as HTMLInputElement;
+    const inputWrap = $("input-wrap");
+    const inputHint = $("input-hint");
+    const btnCek = $("btn-cek") as HTMLButtonElement;
+    const resultSection = $("result-section");
+    const emptyState = $("empty-state");
+    const csCard = $("cs-card");
+    const csCardInfo = $("cs-card-info");
+    const csWaPreviewText = $("cs-wa-preview-text");
+    const btnCsChannel = $("btn-cs-channel") as HTMLButtonElement;
+    const tabWa = $("tab-wa") as HTMLButtonElement;
+    const tabTg = $("tab-tg") as HTMLButtonElement;
+    const csPreviewIcon = $("cs-preview-icon");
+    const csBtnIcon = $("cs-btn-icon");
+    const csBtnLabel = $("cs-btn-label");
+
+    // ── TAB STATE ────────────────────────────────────────────────────────────
+    let activeChannel: "wa" | "tg" = "wa";
+    let currentMsg = "";
+    const csCardInner = csCard.querySelector(".cs-card__inner") as HTMLElement;
+
+    function setChannel(ch: "wa" | "tg") {
+      activeChannel = ch;
+      const isWa = ch === "wa";
+
+      // Tab active state
+      tabWa.classList.toggle("cs-tab-btn--active", isWa);
+      tabTg.classList.toggle("cs-tab-btn--active", !isWa);
+
+      // Card color theme
+      csCardInner.classList.toggle("cs-channel--tg", !isWa);
+
+      // Preview icon
+      csPreviewIcon
+        .querySelector("use")!
+        .setAttribute("href", isWa ? "#icon-wa" : "#icon-tg");
+      csPreviewIcon.style.fill = isWa ? "#25d366" : "#229ed9";
+
+      // Button
+      csBtnIcon
+        .querySelector("use")!
+        .setAttribute("href", isWa ? "#icon-wa" : "#icon-tg");
+      csBtnLabel.textContent = isWa
+        ? "Chat CS via WhatsApp"
+        : "Chat CS via Telegram";
+      btnCsChannel.className = `cs-card__btn cs-card__btn--${ch}`;
+
+      if (currentMsg) renderPreview();
+    }
+
+    function renderPreview() {
+      csWaPreviewText.textContent = currentMsg;
+      btnCsChannel.onclick = () => {
+        if (activeChannel === "wa") {
+          window.open(
+            `https://wa.me/${waNumber}?text=${encodeURIComponent(currentMsg)}`,
+            "_blank",
+          );
+        } else {
+          window.open(
+            `https://t.me/${tgUsername}?text=${encodeURIComponent(currentMsg)}`,
+            "_blank",
+          );
+        }
+      };
+    }
+
+    tabWa.addEventListener("click", () => setChannel("wa"));
+    tabTg.addEventListener("click", () => setChannel("tg"));
+
+    // ── HELPERS ─────────────────────────────────────────────────────────────
+    function normalizePhone(val: string) {
+      let n = val.replace(/\D/g, "");
+      if (n.startsWith("62")) n = "0" + n.slice(2);
+      if (n.startsWith("8")) n = "0" + n;
+      return n;
+    }
+
+    function getDisplayValue(raw: string) {
+      return isPhoneInput ? `+62 ${normalizePhone(raw).slice(1)}` : raw.trim();
+    }
+
+    function getCustomerNo(raw: string) {
+      return isPhoneInput ? normalizePhone(raw) : raw.trim();
+    }
+
+    function debounce<T extends (...a: unknown[]) => void>(fn: T, ms: number) {
+      let t: ReturnType<typeof setTimeout>;
+      return (...a: Parameters<T>) => {
+        clearTimeout(t);
+        t = setTimeout(() => fn(...a), ms);
+      };
+    }
+
+    // ── VALIDASI ─────────────────────────────────────────────────────────────
+    const VALID_PREFIXES = new Set([
+      "0811",
+      "0812",
+      "0813",
+      "0821",
+      "0822",
+      "0823",
+      "0851",
+      "0852",
+      "0853",
+      "0814",
+      "0815",
+      "0816",
+      "0855",
+      "0856",
+      "0857",
+      "0858",
+      "0817",
+      "0818",
+      "0819",
+      "0859",
+      "0877",
+      "0878",
+      "0831",
+      "0832",
+      "0833",
+      "0838",
+      "0895",
+      "0896",
+      "0897",
+      "0898",
+      "0899",
+      "0881",
+      "0882",
+      "0883",
+      "0884",
+      "0885",
+      "0886",
+      "0887",
+      "0888",
+      "0889",
+      "0820",
+      "0840",
+    ]);
+
+    function phoneStatus(
+      raw: string,
+    ): "empty" | "typing" | "invalid_prefix" | "valid" {
+      const n = normalizePhone(raw);
+      if (!n) return "empty";
+      if (n.length < 7) return "typing";
+      if (n.length >= 4 && !VALID_PREFIXES.has(n.slice(0, 4)))
+        return "invalid_prefix";
+      if (n.length < 10) return "typing";
+      return "valid";
+    }
+
+    function nonPhoneStatus(
+      raw: string,
+    ): "empty" | "typing" | "invalid" | "valid" {
+      const val = raw.trim();
+      if (!val) return "empty";
+
+      // Untuk input numerik: tolak karakter non-digit sejak awal
+      if (isNumericInput && !/^\d+$/.test(val)) return "invalid";
+
+      // Jika ada validationPattern dari config, gunakan sebagai validasi utama
+      if (cfg.validationPattern) {
+        const re = new RegExp(cfg.validationPattern);
+        // Masih mengetik: panjang belum mencapai minimum
+        if (val.length < inputMinLength) return "typing";
+        // Sudah di rentang panjang yang benar — uji regex penuh
+        if (re.test(val)) return "valid";
+        return "invalid";
+      }
+
+      // Fallback: validasi generik (tanpa pattern)
+      if (val.length < inputMinLength) return "typing";
+      if (val.length > inputMaxLength) return "invalid";
+      return "valid";
+    }
+
+    function isInputValid(raw: string) {
+      return isPhoneInput
+        ? phoneStatus(raw) === "valid"
+        : nonPhoneStatus(raw) === "valid";
+    }
+
+    // ── UI STATE ─────────────────────────────────────────────────────────────
+    function setMode(mode: "empty" | "cs") {
+      resultSection.style.alignItems = mode === "cs" ? "flex-start" : "center";
+      emptyState.classList.toggle("hidden", mode !== "empty");
+      csCard.classList.toggle("hidden", mode !== "cs");
+    }
+
+    // ── INPUT HANDLER ────────────────────────────────────────────────────────
+    function updateUI() {
+      const raw = userInput.value.trim();
+      inputWrap.classList.remove("error");
+
+      if (isPhoneInput) {
+        const s = phoneStatus(raw);
+        if (s === "empty") {
+          inputHint.textContent = `Masukkan nomor HP ${brandTitle} Anda`;
+          inputHint.className = "input-hint";
+          btnCek.disabled = true;
+        } else if (s === "typing") {
+          inputHint.textContent = "Lanjutkan mengetik nomor HP Anda…";
+          inputHint.className = "input-hint";
+          btnCek.disabled = true;
+        } else if (s === "invalid_prefix") {
+          inputHint.textContent =
+            "Nomor tidak dikenali — pastikan nomor HP Indonesia yang valid";
+          inputHint.className = "input-hint error";
+          inputWrap.classList.add("error");
+          btnCek.disabled = true;
+        } else {
+          inputHint.textContent = `✓ ${getDisplayValue(raw)} siap dicek`;
+          inputHint.className = "input-hint success";
+          btnCek.disabled = false;
+        }
+        // Sembunyikan cs-card saat input berubah
+        setMode("empty");
+        return;
+      }
+
+      const s = nonPhoneStatus(raw);
+      if (s === "empty") {
+        inputHint.textContent =
+          cfg.inputHint ?? `Masukkan ${cfg.inputLabel.toLowerCase()} Anda`;
+        inputHint.className = "input-hint";
+        btnCek.disabled = true;
+      } else if (s === "typing") {
+        inputHint.textContent =
+          cfg.inputHintTyping ??
+          `Lanjutkan mengisi… (${raw.trim().length}/${inputMinLength} karakter minimum)`;
+        inputHint.className = "input-hint";
+        btnCek.disabled = true;
+      } else if (s === "invalid") {
+        inputHint.textContent =
+          cfg.inputHintInvalid ?? "Format tidak valid — periksa kembali";
+        inputHint.className = "input-hint error";
+        inputWrap.classList.add("error");
+        btnCek.disabled = true;
+      } else {
+        inputHint.textContent = `✓ ${raw.trim()} siap dicek`;
+        inputHint.className = "input-hint success";
+        btnCek.disabled = false;
+      }
+      // Sembunyikan cs-card saat input berubah
+      setMode("empty");
+    }
+
+    // ── CEK TAGIHAN — tampilkan CS card langsung ─────────────────────────────
+    function cekTagihan() {
+      const raw = userInput.value.trim();
+      if (!isInputValid(raw)) return;
+
+      const display = getDisplayValue(raw);
+      const customerNo = getCustomerNo(raw);
+
+      // Isi info pelanggan di card
+      csCardInfo.innerHTML = `
+        <div class="cs-info-row">
+          <span class="cs-info-label">${cfg.inputLabel}</span>
+          <span class="cs-info-value">${display}</span>
+        </div>
+        <div class="cs-info-row">
+          <span class="cs-info-label">Layanan</span>
+          <span class="cs-info-value">${brandTitle}</span>
+        </div>`;
+
+      // Simpan pesan (sama untuk WA & Telegram)
+      currentMsg =
+        `Halo min! 👋\n\n` +
+        `Saya ingin cek & bayar tagihan *${brandTitle}*\n` +
+        `${cfg.inputLabel}: *${display}*\n\n` +
+        `Mohon dibantu dicek tagihan saya, terima kasih 🙏`;
+
+      renderPreview();
+      setMode("cs");
+    }
+
+    // ── INPUT SANITIZATION ───────────────────────────────────────────────────
+    if (isPhoneInput || isNumericInput) {
+      // Hanya izinkan digit untuk input numerik / nomor HP
+      userInput.addEventListener("keydown", (e) => {
+        const allowed = [
+          "Backspace",
+          "Delete",
+          "ArrowLeft",
+          "ArrowRight",
+          "ArrowUp",
+          "ArrowDown",
+          "Tab",
+          "Enter",
+          "Home",
+          "End",
+        ];
+        if (allowed.includes(e.key)) return;
+        if (!/^\d$/.test(e.key)) e.preventDefault();
+      });
+      userInput.addEventListener("paste", (e) => {
+        e.preventDefault();
+        const text =
+          (e.clipboardData ?? (window as any).clipboardData)?.getData("text") ??
+          "";
+        document.execCommand("insertText", false, text.replace(/\D/g, ""));
+      });
+    } else if (cfg.validationPattern) {
+      // Untuk input teks dengan pattern: strip karakter ilegal saat paste
+      userInput.addEventListener("paste", (e) => {
+        e.preventDefault();
+        const text =
+          (e.clipboardData ?? (window as any).clipboardData)?.getData("text") ??
+          "";
+        // Hapus spasi dan karakter kontrol, pertahankan karakter yang mungkin valid
+        const cleaned = text.replace(/[\s\x00-\x1F\x7F]/g, "");
+        document.execCommand(
+          "insertText",
+          false,
+          cleaned.slice(0, inputMaxLength),
+        );
+      });
+    }
+
+    // ── BOOT ─────────────────────────────────────────────────────────────────
+    setMode("empty");
+    const debouncedUpdate = debounce(updateUI, 120);
+    userInput.addEventListener("input", debouncedUpdate, { passive: true });
+    userInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !btnCek.disabled) cekTagihan();
+    });
+    btnCek.addEventListener("click", cekTagihan);
+  })();
+</script>
+
+<script>
+  /* ── FAB drag + collapse — identik dengan topup ── */
+  (function () {
+    const wrap = document.getElementById("wa-fab-wrap") as HTMLElement;
+    if (!wrap) return;
+    let isDragging = false,
+      didDrag = false;
+    let startX = 0,
+      startY = 0,
+      origLeft = 0,
+      origTop = 0,
+      collapsed = false;
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (window.innerWidth <= 480) return;
+        const y = window.scrollY;
+        if (y > 80 && !collapsed) {
+          collapsed = true;
+          wrap.classList.add("collapsed");
+        } else if (y <= 80 && collapsed) {
+          collapsed = false;
+          wrap.classList.remove("collapsed");
+        }
+      },
+      { passive: true },
+    );
+
+    function startDrag(cx: number, cy: number) {
+      isDragging = true;
+      didDrag = false;
+      const r = wrap.getBoundingClientRect();
+      origLeft = r.left;
+      origTop = r.top;
+      startX = cx;
+      startY = cy;
+      wrap.style.right = "auto";
+      wrap.style.bottom = "auto";
+      wrap.style.left = origLeft + "px";
+      wrap.style.top = origTop + "px";
+      wrap.classList.add("dragging");
+    }
+    function moveDrag(cx: number, cy: number) {
+      if (!isDragging) return;
+      const dx = cx - startX,
+        dy = cy - startY;
+      if (Math.abs(dx) > 3 || Math.abs(dy) > 3) didDrag = true;
+      wrap.style.left =
+        Math.max(
+          8,
+          Math.min(window.innerWidth - wrap.offsetWidth - 8, origLeft + dx),
+        ) + "px";
+      wrap.style.top =
+        Math.max(
+          8,
+          Math.min(window.innerHeight - wrap.offsetHeight - 8, origTop + dy),
+        ) + "px";
+    }
+    function endDrag(e: Event) {
+      if (!isDragging) return;
+      isDragging = false;
+      wrap.classList.remove("dragging");
+      if (!didDrag) return;
+      const r = wrap.getBoundingClientRect();
+      wrap.style.left = "auto";
+      wrap.style.right = "auto";
+      wrap.style.top = r.top + "px";
+      wrap.style.bottom = "auto";
+      wrap.style[
+        r.left + r.width / 2 < window.innerWidth / 2 ? "left" : "right"
+      ] = "20px";
+      e.preventDefault();
+    }
+
+    wrap.addEventListener("mousedown", (e) => startDrag(e.clientX, e.clientY));
+    window.addEventListener("mousemove", (e) => moveDrag(e.clientX, e.clientY));
+    window.addEventListener("mouseup", endDrag);
+    wrap.addEventListener(
+      "touchstart",
+      (e) => startDrag(e.touches[0].clientX, e.touches[0].clientY),
+      { passive: true },
+    );
+    window.addEventListener(
+      "touchmove",
+      (e) => moveDrag(e.touches[0].clientX, e.touches[0].clientY),
+      { passive: true },
+    );
+    window.addEventListener("touchend", endDrag);
+  })();
+</script>

@@ -1389,15 +1389,15 @@ const configData = JSON.stringify({
       "tri-data": "/logos/tri_logo.svg",
       "axis-data": "/logos/axis_logo.svg",
       "smartfren-data": "/logos/smartfren_logo.svg",
-      "gopay": "/logos/gopay_logo.svg",
-      "ovo": "/logos/ovo_logo.svg",
-      "dana": "/logos/dana_logo.svg",
-      "spay": "/logos/spay_logo.svg",
-      "linkaja": "/logos/linkaja_logo.svg",
-      "gojekdriv": "/logos/gojekdriv_logo.svg",
-      "grabdriv": "/logos/grabdriv_logo.svg",
-      "maximdriv": "/logos/maximdriv_logo.svg",
-      "plntoken": "/logos/plntoken_logo.svg",
+      gopay: "/logos/gopay_logo.svg",
+      ovo: "/logos/ovo_logo.svg",
+      dana: "/logos/dana_logo.svg",
+      spay: "/logos/spay_logo.svg",
+      linkaja: "/logos/linkaja_logo.svg",
+      gojekdriv: "/logos/gojekdriv_logo.svg",
+      grabdriv: "/logos/grabdriv_logo.svg",
+      maximdriv: "/logos/maximdriv_logo.svg",
+      plntoken: "/logos/plntoken_logo.svg",
     };
 
     const providerColors: Record<string, string> = {
@@ -1413,15 +1413,15 @@ const configData = JSON.stringify({
       "tri-data": "linear-gradient(135deg,#553c9a,#44337a)",
       "axis-data": "linear-gradient(135deg,#276749,#22543d)",
       "smartfren-data": "linear-gradient(135deg,#e53e3e,#805ad5)",
-      "gopay": "linear-gradient(135deg,#00aed6,#007ea0)",
-      "ovo": "linear-gradient(135deg,#4c3494,#3a2770)",
-      "dana": "linear-gradient(135deg,#1587c8,#0f6499)",
-      "spay": "linear-gradient(135deg,#e53e3e,#b83030)",
-      "linkaja": "linear-gradient(135deg,#e53e3e,#c53030)",
-      "gojekdriv": "linear-gradient(135deg,#276749,#1e5c3e)",
-      "grabdriv": "linear-gradient(135deg,#276749,#1e5c3e)",
-      "maximdriv": "linear-gradient(135deg,#e53e3e,#c53030)",
-      "plntoken": "linear-gradient(135deg,#1e8c4a,#166038)",
+      gopay: "linear-gradient(135deg,#00aed6,#007ea0)",
+      ovo: "linear-gradient(135deg,#4c3494,#3a2770)",
+      dana: "linear-gradient(135deg,#1587c8,#0f6499)",
+      spay: "linear-gradient(135deg,#e53e3e,#b83030)",
+      linkaja: "linear-gradient(135deg,#e53e3e,#c53030)",
+      gojekdriv: "linear-gradient(135deg,#276749,#1e5c3e)",
+      grabdriv: "linear-gradient(135deg,#276749,#1e5c3e)",
+      maximdriv: "linear-gradient(135deg,#e53e3e,#c53030)",
+      plntoken: "linear-gradient(135deg,#1e8c4a,#166038)",
     };
 
     const providerInitials: Record<string, string> = {
@@ -1437,12 +1437,12 @@ const configData = JSON.stringify({
       "tri-data": "3",
       "axis-data": "AX",
       "smartfren-data": "SF",
-      "gopay": "GP",
-      "ovo": "OVO",
-      "dana": "DNA",
-      "spay": "SP",
-      "linkaja": "LJA",
-      "plntoken": "PLN",
+      gopay: "GP",
+      ovo: "OVO",
+      dana: "DNA",
+      spay: "SP",
+      linkaja: "LJA",
+      plntoken: "PLN",
     };
 
     /* ── DOM ── */
@@ -1802,6 +1802,24 @@ const configData = JSON.stringify({
       );
     }
 
+    /* ── URL BUILDER untuk tombol "Lihat & Order" ── */
+    function buildOrderUrl(cat: CatKey, provName: string): string {
+      switch (cat) {
+        case "pulsa":
+          return `/products/topup/pulsa`;
+        case "data":
+          return `/products/topup/data`;
+        case "ewallet":
+          return `/products/topup/${provName}`;
+        case "token":
+          return `/products/topup/${provName}`;
+        case "game":
+          return `/products/game/${provName}`;
+        default:
+          return `/products/topup/${provName}`;
+      }
+    }
+
     /* ── MINI MODAL ── */
     function openModal(pkg: Pkg, prov: Provider) {
       selectedPkg = pkg;
@@ -1813,8 +1831,8 @@ const configData = JSON.stringify({
       mPrice.textContent = fmt(pkg.price);
       modalDot.style.background = colorMap[prov.name] ?? "#0a0a0a";
 
-      // Arahkan tombol "Lihat & Order" ke halaman order (pakai # sementara)
-      btnOrder.setAttribute("href", "#");
+      // Arahkan tombol "Lihat & Order" ke halaman produk yang sesuai
+      btnOrder.setAttribute("href", buildOrderUrl(activeCat, prov.name));
 
       show(modalOverlay);
       document.body.style.overflow = "hidden";
