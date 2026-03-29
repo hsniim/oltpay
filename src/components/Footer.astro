@@ -53,16 +53,19 @@ const links = [
           internet, dan isi pulsa&nbsp;&amp;&nbsp;data dengan harga terbaik.
         </p>
 
-        <!-- Sosial -->
-        <div class="footer__social">
+        <!-- Sosial — style inline sebagai fallback agar tidak hilang di production build -->
+        <div
+          class="footer__social"
+          style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px"
+        >
           <a
             href="https://wa.me/6289501450667"
             target="_blank"
             rel="noopener noreferrer"
             class="footer__social-btn"
+            style="display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:99px;border:1.5px solid #e8e8e8;font-size:12.5px;font-weight:600;color:#0a0a0a;text-decoration:none;white-space:nowrap"
             aria-label="WhatsApp Oltpay"
           >
-            <!-- WhatsApp -->
             <svg
               viewBox="0 0 24 24"
               fill="currentColor"
@@ -80,13 +83,13 @@ const links = [
             WhatsApp
           </a>
           <a
-            href="https://t.me/oltpaychatt"
+            href="https://t.me/oltpaychat"
             target="_blank"
             rel="noopener noreferrer"
             class="footer__social-btn"
+            style="display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:99px;border:1.5px solid #e8e8e8;font-size:12.5px;font-weight:600;color:#0a0a0a;text-decoration:none;white-space:nowrap"
             aria-label="Telegram Oltpay"
           >
-            <!-- Telegram -->
             <svg
               viewBox="0 0 24 24"
               fill="currentColor"
@@ -143,7 +146,7 @@ const links = [
         </div>
 
         <div class="footer__col">
-          <p class="footer__col-title">Perusahaan</p>
+          <p class="footer__col-title">Lainnya</p>
           <ul>
             {
               links.map((item) => (
